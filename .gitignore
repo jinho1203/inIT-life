@@ -6,6 +6,5 @@
 .classpath
 .factorypath
 /src/main/resources/application.properties
-src/main/java/egovframework
 src/main/resources/db
 .settings

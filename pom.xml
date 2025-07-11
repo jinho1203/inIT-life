@@ -149,7 +149,7 @@
 		</dependency>
 		
 		
-		<!-- jsp 설정 -->
+		<!-- jsp 설정 // jsp 사용안함
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-jasper</artifactId>
@@ -159,6 +159,7 @@
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
 		</dependency>		
+		-->
 		
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>

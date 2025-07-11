@@ -1,4 +1,4 @@
-package com.example.vo;
+package egovframework.example.vo;
 
 import lombok.Data;
 

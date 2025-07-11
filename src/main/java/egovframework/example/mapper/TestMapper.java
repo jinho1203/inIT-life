@@ -1,10 +1,10 @@
-package com.example.mapper;
+package egovframework.example.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.vo.TestVO;
+import egovframework.example.vo.TestVO;
 
 @Mapper
 public interface TestMapper {
