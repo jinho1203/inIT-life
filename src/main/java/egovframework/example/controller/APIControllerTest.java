@@ -15,16 +15,33 @@ public class APIControllerTest {
 	
 	@GetMapping("/api/test")
 	public String callApi() throws IOException{
-		StringBuilder urlBuilder = new StringBuilder("https://kosis.kr/openapi/Param/statisticsParameterData.do?");
 		
-		urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=ZGFlYjQxMTg4NTM0OTAxZDFjNzJiN2IxMDI5MjQwNjE="); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("returnType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*XML 또는 JSON*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
-        urlBuilder.append("&" + URLEncoder.encode("cond[country_nm::EQ]","UTF-8") + "=" + URLEncoder.encode("가나", "UTF-8")); /*한글 국가명*/
-        urlBuilder.append("&" + URLEncoder.encode("cond[country_iso_alp2::EQ]","UTF-8") + "=" + URLEncoder.encode("GH", "UTF-8")); /*ISO 2자리코드*/
+		StringBuilder urlBuilder = new StringBuilder("https://kosis.kr/openapi/Param/statisticsParameterData.do");
+		
+		urlBuilder.append("?" + URLEncoder.encode("method","UTF-8") + "=" + URLEncoder.encode("getList", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("apiKey","UTF-8") + "=ZGFlYjQxMTg4NTM0OTAxZDFjNzJiN2IxMDI5MjQwNjE="); 
+		
+		
+		String itmIdRaw = "T1+T2+";
+        urlBuilder.append("&" + URLEncoder.encode("itmId","UTF-8") + "=" + URLEncoder.encode(itmIdRaw, "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("objL1", "UTF-8") + "=" + URLEncoder.encode("ALL", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("objL2", "UTF-8") + "=" + URLEncoder.encode("ALL", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("objL3", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("objL4", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("objL5", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("objL6", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("objL7", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("objL8", "UTF-8") + "=");
+        urlBuilder.append("&" + URLEncoder.encode("format","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("jsonVD","UTF-8") + "=" + URLEncoder.encode("Y", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("prdSe","UTF-8") + "=" + URLEncoder.encode("Y", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("newEstPrdCnt","UTF-8") + "=" + URLEncoder.encode("3", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("orgId","UTF-8") + "=" + URLEncoder.encode("101", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("tblId","UTF-8") + "=" + URLEncoder.encode("INH_1C91", "UTF-8")); 
         
         URL url = new URL(urlBuilder.toString());
+        
+        System.out.println("url : " + url);
         
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         
@@ -33,7 +50,6 @@ public class APIControllerTest {
         conn.setRequestProperty("Content-type", "application/json");
         
         System.out.println("Response code: " + conn.getResponseCode());
-        
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
         	rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
