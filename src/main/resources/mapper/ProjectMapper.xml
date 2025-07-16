@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.mapper.ProjectMapper">
+	
+	<!-- 프로젝트 조회 -->
+	<select id="getAllList" resultType="egovframework.example.vo.ProjectVO">
+	    SELECT * FROM test.project
+	</select>
+	
+	<!-- 프로젝트 등록 -->
+	<insert id="insertProject" parameterType="egovframework.example.vo.ProjectVO">
+		INSERT INTO test.project
+			(projectName, projectExplain)
+		VALUES
+			(#{projectName}, #{projectExplain})
+	</insert>
+	
+	<!-- 프로젝트 삭제 -->
+	<update id="deleteProject" parameterType="egovframework.example.vo.ProjectVO">
+		UPDATE test.project
+		SET isDeleted = true
+		WHERE projectId = #{projectId}
+	</update>
+	
+</mapper>

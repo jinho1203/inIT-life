@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.mapper.SourceMapper">
+	
+	<!-- 소스 조회 -->
+	<select id="getAllList" resultType="egovframework.example.vo.SourceVO">
+		SELECT * FROM test.source
+	</select>
+	
+	<!-- 소스 입력 -->
+	<insert id="insertSource" parameterType="egovframework.example.vo.SourceVO">
+		INSERT INTO test.source
+			(sourceName, baseUrl, fullUrl)
+		VALUES
+			(#{sourceName}, #{baseUrl}, #{fullUrl})
+	</insert>
+	
+	<!-- 소스 삭제 -->
+	<update id="deleteSource" parameterType="egovframework.example.vo.SourceVO">
+		UPDATE test.source
+		SET isDeleted = true
+		WHERE sourceId = #{sourceId}
+	</update>
+	
+</mapper>
