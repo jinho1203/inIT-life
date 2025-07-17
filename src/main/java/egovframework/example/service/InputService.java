@@ -1,5 +1,9 @@
 package egovframework.example.service;
 
-public interface InputService {
+import egovframework.example.vo.InputVO;
 
+public interface InputService {
+	
+	int insertInput(InputVO inputVO);		// 입력항목 등록
+	
 }
