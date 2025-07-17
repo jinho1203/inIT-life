@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script src="/sweetalert2.all.js"></script>
+<link rel="stylesheet" href="/sweetalert2.css">
 </head>
 <body>
-	<h1>hello hihi</h1>
+	<h1>안녕하세요</h1>
+	<button onclick="showAlert()">알림 띄우기</button>
+	
+<script>
+function showAlert() {
+	Swal.fire({
+		title: '체크',
+		text: 'Alert 창은 앞으로 이렇게 가시죠!',
+		icon: 'success',
+		confirmButtonText: '확인'
+	});
+}
+ </script>
 </body>
 </html>
