@@ -372,14 +372,42 @@
         document.getElementById("popup").style.display = "none";
     }
 
-    function saveProject() {
-       Swal.fire({
-          title: '등록 성공',
-          text: '저장 완료되었습니다',
-          icon: 'success',
-          confirmButtonText: '확인'
-       });
-    }
+   function saveProject() {
+	const data = {
+			projectName: document.querySelector("#projectName").value,
+			description: documnet.querySelector("#description").value
+	};
+	
+	fetch("/main/project", {
+		method: "POST",
+		headers: {
+			"Content-type" : "application/json"
+		},
+		body: JSON.stringify(data)
+	})
+	.then(response => {
+		if(!response.ok) {
+			throw new Error("서버 응답 오류");
+		}
+		return response.text();
+	})
+	.then(result => {
+		Swal.fire({
+			title: '등록 성공',
+          	text: '저장 완료되었습니다',
+          	icon: 'success',
+          	confirmButtonText: '확인'
+		});
+	})
+	.cath(error => {
+		console.error("에러발생:", error);
+		Swal,fire({
+			title: '등록 실패',
+      		text: '저장 중 오류가 발생했습니다.',
+      		icon: 'error'
+			});		
+		});
+	}
     function switchTab(element, targetId) {
         // 메뉴 active 처리
         const sidebarItems = document.querySelectorAll(".sidebar li");
