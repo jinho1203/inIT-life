@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>공공 API 통합 관리</title>
 <script src="/sweetalert2.all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY0zS/fWznuaCG2lKT9I6oJkB4NpZ9+Yd0kMb4apORybbV0Q5iw0bbiA" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/sweetalert2.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         * { box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 0; }
 
         .header {
-            height: 60px;	
+            height: 60px;   
             background-color: wheat;
             display: flex;
             align-items: center;
@@ -171,14 +172,14 @@
     <img src="/images/inGovLogo.png" style=" width: 7%; margin-right: 20px;" alt="프로젝트로고">
     <h3>공공 API 통합 관리 및 데이터 시스템</h3>
 </div>
-	<div class="container">
-	    <div class="sidebar">
-	        <ul>
-			    <li class="active" onclick="switchTab(this, 'start')">시작하기</li>
-			    <li onclick="switchTab(this, 'config')">설정하기</li>
-			</ul>
-	    </div>
-	
+   <div class="container">
+       <div class="sidebar">
+           <ul>
+             <li class="active" onclick="switchTab(this, 'start')">시작하기</li>
+             <li onclick="switchTab(this, 'config')">설정하기</li>
+         </ul>
+       </div>
+   
 <div class="main-content">
     <!-- ✅ 시작하기 화면 -->
     <div class="section-wrapper active" id="start">
@@ -186,22 +187,22 @@
 
         <table>
             <thead>
-	            <tr>
-	                <th>프로젝트 ID</th>
-	                <th>프로젝트 명</th>
-	            </tr>
+               <tr>
+                   <th>프로젝트 ID</th>
+                   <th>프로젝트 명</th>
+               </tr>
             </thead>
             <tbody>
-            	<tr th:each="project : ${projectList}">
-            		<td th:text="${project.projectId}">ID</td>
-            		<td th:text="${project.projectName}">이름</td>
-				</tr>
+               <tr th:each="project : ${projectList}">
+                  <td th:text="${project.projectId}">ID</td>
+                  <td th:text="${project.projectName}">이름</td>
+            </tr>
             </tbody>
         </table>
 
         <div class="buttons">
             <button onclick="openPopup()">등록</button>
-            <button>삭제</button>
+            <button type="button" class="btn btn-danger">삭제</button>
     <!--        <img src="/images/popcat-pop.gif" style=" width: 30px;" alt="뻐끔뻐끔"> !-->
         </div>
     </div>
@@ -214,7 +215,7 @@
     <table style="width:100%;margin:0px;padding:0px;" border="0">
         <tbody>
             <tr>
-                <td class="tdContent">			
+                <td class="tdContent">         
                     <div id="divProjectPro">
                         <h3>프로젝트</h3>
                         <div>
@@ -361,8 +362,6 @@
         </div>
     </div>
 </div>
-</div>
-</div>
 
 <script>
     function openPopup() {
@@ -374,12 +373,12 @@
     }
 
     function saveProject() {
-    	Swal.fire({
-    		title: '등록 성공',
-    		text: '저장 완료되었습니다',
-    		icon: 'success',
-    		confirmButtonText: '확인'
-    	});
+       Swal.fire({
+          title: '등록 성공',
+          text: '저장 완료되었습니다',
+          icon: 'success',
+          confirmButtonText: '확인'
+       });
     }
     function switchTab(element, targetId) {
         // 메뉴 active 처리
