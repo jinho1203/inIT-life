@@ -16,10 +16,17 @@
 	</insert>
 	
 	<!-- 소스 삭제 -->
-	<update id="deleteSource" parameterType="egovframework.example.vo.SourceVO">
+	<update id="deleteSource" parameterType="long">
 		UPDATE test.source
 		SET isDeleted = true
 		WHERE sourceId = #{sourceId}
 	</update>
 	
+	<!-- baseUrl 불러오기 -->
+	<select id="findBasicUrl" parameterType="long" resultType="egovframework.example.vo.SourceVO">
+		SELECT * FROM test.source
+		WHERE sourceId = #{sourceId}
+	</select>
+	
+	<!--  -->
 </mapper>

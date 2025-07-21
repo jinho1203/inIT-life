@@ -13,5 +13,5 @@ public interface ProjectMapper {
 	
 	int insertProject(ProjectVO projectVO); 			// 프로젝트 등록
 	
-	int deleteProject(Long projectId);				// 프로젝트 삭제
+	int deleteProject(Long projectId);					// 프로젝트 삭제
 }
