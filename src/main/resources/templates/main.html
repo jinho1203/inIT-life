@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>공공 API 통합 관리</title>
@@ -186,15 +186,16 @@
 
         <table>
             <thead>
-            <tr>
-                <th>프로젝트 ID</th>
-                <th>프로젝트 명</th>
-            </tr>
+	            <tr>
+	                <th>프로젝트 ID</th>
+	                <th>프로젝트 명</th>
+	            </tr>
             </thead>
             <tbody>
-            <tr><td>P00001</td><td>통계청 API</td></tr>
-            <tr><td>P00002</td><td>관계청 API</td></tr>
-            <tr><td>P00003</td><td>기상청 API</td></tr>
+            	<tr th:each="project : ${projectList}">
+            		<td th:text="${project.projectId}">ID</td>
+            		<td th:text="${project.projectName}">이름</td>
+				</tr>
             </tbody>
         </table>
 

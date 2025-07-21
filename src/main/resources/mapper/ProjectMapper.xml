@@ -16,7 +16,7 @@
 	</insert>
 	
 	<!-- 프로젝트 삭제 -->
-	<update id="deleteProject" parameterType="egovframework.example.vo.ProjectVO">
+	<update id="deleteProject" parameterType="long">
 		UPDATE test.project
 		SET isDeleted = true
 		WHERE projectId = #{projectId}

@@ -54,4 +54,16 @@ public class SourceController {
 		}			
 	}
 	
+	@GetMapping("/{sourceId}")
+	public SourceVO findBasicUrl(@PathVariable Long sourceId) {
+			
+		return sourceService.findBasicUrl(sourceId);
+	}
+	/*
+	@GetMapping("")
+	public void updateFullUrl(SourceVO sourceVO) {
+		
+		sourceService.updateFullUrl(sourceVO);
+	}
+	*/
 }

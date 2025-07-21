@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.example.mapper.ProjectMapper">
+<mapper namespace="egovframework.example.mapper.InputMapper">
+	
+	<!-- 입력항목 조회 -->
+	<select id="getAllList" resultType="egovframework.example.vo.InputVO">
+		SELECT * FROM test.input
+	</select>
 	
 	<!-- 입력항목 등록 -->
 	<insert id="insertInput" parameterType="egovframework.example.vo.InputVO">
-		
+		INSERT INTO test.input
+			(inputName, inputExplain, inputKey, inputValue)
+		VALUES
+			(#{inputName}, #{inputExplain}, #{inputKey}, #{inputValue})
 	</insert>
+	
+	<!-- 입력항목 삭제 -->	
+	<update id="deleteInput" parameterType="long">
+		UPDATE test.input
+		SET isDeleted = true
+		WHERE inputId = #{inputId}
+	</update>
+		
+	<!-- Input 테이블 sourceId를 통해 파라미터를 가져온다.  -->
+	<select id="findBySourceId" resultType="egovframework.example.vo.InputVO">
+		SELECT * FROM test.input
+		WHERE sourceId = #{sourceId}
+	</select>
 	
 </mapper>
