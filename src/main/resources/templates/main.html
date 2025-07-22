@@ -67,8 +67,8 @@
           box-sizing: border-box;
           margin-bottom: 20px;
           padding: 20px;
-          width: 83%;
-          margin-left: 320px;
+          width: 67%;
+          margin-left: 510px;
           /* 필요하면 여기에 별도 스타일 추가 */
         }
 
@@ -205,25 +205,28 @@
         <!-- 시작하기 화면 -->
         <div id="start" class="section-wrapper start-section active">
             <div class="section-header">프로젝트</div>
-
             <table>
                 <thead>
                    <tr>
+                       <th style="width: 40px;"></th>
                        <th>프로젝트 ID</th>
                        <th>프로젝트 명</th>
                    </tr>
                 </thead>
                 <tbody>
-                   <tr th:each="project : ${projectList}">
-                      <td th:text="'P' + ${project.projectId}">ID</td>
-                      <td th:text="${project.projectName}">이름</td>
-                   </tr>
+                     <tr th:each="project : ${projectList}">
+				    <td>
+				      <input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)">
+				    </td>
+				    <td th:text="${project.projectId}">ID</td>
+				    <td th:text="${project.projectName}">이름</td>
+				    </tr>
                 </tbody>
             </table>
 
             <div class="buttons">
                 <button onclick="openPopup()">등록</button>
-                <button type="button" class="btn btn-danger">삭제</button>
+                <button type="button" class="btn btn-danger" onclick="deleteProject()">삭제</button>
             </div>
         </div>
 
@@ -390,13 +393,77 @@
 </div>
 
 <script>
-    function openPopup() {
-        document.getElementById("popup").style.display = "block";
+function openPopup() {
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+function saveProject() {
+    const data = {
+        projectName: document.querySelector("#projectName").value,
+        projectExplain: document.querySelector("#projectExplain").value
+    };
+
+    fetch("/main/project", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("서버 응답 오류");
+        }
+        return response.text();
+    })
+    .then(result => {
+        Swal.fire({
+            title: '등록 성공',
+            text: '저장 완료되었습니다',
+            icon: 'success',
+            confirmButtonText: '확인'
+        }).then(() => {
+            // 성공 시 팝업 닫기
+            closePopup();
+        });
+    })
+    .catch(error => {
+        console.error("에러발생:", error);
+        Swal.fire({
+            title: '등록 실패',
+            text: '저장 중 오류가 발생했습니다.',
+            icon: 'error'
+        });
+    });
+}
+
+function switchTab(element, targetId) {
+    // 메뉴 active 처리
+    const sidebarItems = document.querySelectorAll(".sidebar li");
+    sidebarItems.forEach(li => li.classList.remove("active"));
+    element.classList.add("active");
+
+    // 탭 내용 전환
+    const allSections = document.querySelectorAll(".section-wrapper");
+    allSections.forEach(section => {
+        section.style.display = "none";
+    });
+    document.getElementById(targetId).style.display = "block";
+}
+function deleteProject() {
+    // 체크된 항목 찾기
+    const checkboxes = document.querySelectorAll('input[name="projectCheckbox"]:checked');
+    if (checkboxes.length === 0) {
+        Swal.fire('알림', '삭제할 항목을 선택하세요.', 'warning');
+        return;
     }
 
-    function closePopup() {
-        document.getElementById("popup").style.display = "none";
-    }
+    // 선택된 프로젝트 ID 배열 만들기
+    const selectedIds = Array.from(checkboxes).map(cb => cb.value);
 
     function switchTab(element, targetId) {
         // 메뉴 active 처리
@@ -471,6 +538,41 @@
 	    document.getElementById(targetId).style.display = "block";
 	}
     
+    // 삭제 확인창
+    Swal.fire({
+        title: '삭제 확인',
+        text: '선택한 프로젝트를 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // 서버에 삭제 요청 보내기 (예: fetch API 사용)
+			   fetch('/main/project/delete', {
+			   method: 'POST',
+			   headers: {
+			     'Content-Type': 'application/json'
+			   },
+			   body: JSON.stringify(selectedIds)
+			})
+            .then(response => {
+                if (response.ok) {
+                    Swal.fire('삭제 완료', '선택한 프로젝트가 삭제되었습니다.', 'success')
+                        .then(() => {
+                            location.reload(); // 새로고침
+                        });
+                } else {
+                    Swal.fire('오류', '삭제 중 문제가 발생했습니다.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                Swal.fire('오류', '서버 요청 실패', 'error');
+            });
+        }
+    });
+}
 </script>
 </body>
 </html>
