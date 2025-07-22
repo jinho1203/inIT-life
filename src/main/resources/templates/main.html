@@ -215,7 +215,7 @@
                 </thead>
                 <tbody>
                    <tr th:each="project : ${projectList}">
-                      <td th:text="${project.projectId}">ID</td>
+                      <td th:text="'P' + ${project.projectId}">ID</td>
                       <td th:text="${project.projectName}">이름</td>
                    </tr>
                 </tbody>
@@ -371,15 +371,15 @@
         <table class="popup-table">
             <tr>
                 <td class="label">프로젝트ID<span style="color: red;">(*)</span></td>
-                <td><input type="text" value="테스트지롱" readonly /></td>
+                <td><input type="text" value="TEST_CHECK" readonly /></td>
             </tr>
             <tr>
                 <td class="label">프로젝트 명</td>
-                <td><input type="text" id="projectName" value="" /></td>
+                <td><input type="text" id="projectName"/></td>
             </tr>
             <tr>
                 <td class="label">설명</td>
-                <td><input type="text" id="projectExplain" value="" /></td>
+                <td><input type="text" id="projectExplain"/></td>
             </tr>
         </table>
         <div class="popup-buttons">
@@ -398,26 +398,29 @@
         document.getElementById("popup").style.display = "none";
     }
 
-    function saveProject() {
-       Swal.fire({
-          title: '등록 성공',
-          text: '저장 완료되었습니다',
-          icon: 'success',
-          confirmButtonText: '확인'
-       });
-    }
-
     function switchTab(element, targetId) {
         // 메뉴 active 처리
         const sidebarItems = document.querySelectorAll(".sidebar li");
         sidebarItems.forEach(li => li.classList.remove("active"));
         element.classList.add("active");
-
+    }
+    
 	function saveProject() {
-	
+		const name = document.querySelector("#projectName").value.trim();
+		const explain = document.querySelector("#projectExplain").value.trim();
+		
+		if(name === "") {
+			Swal.fire({
+				title : "입력 오류",
+				text : "프로젝트 명을 입력해주세요.",
+				icon : "warning"
+			});
+			return;
+		}
+			
 		const data = {
-			projectName: document.querySelector("#projectName").value,
-			projectExplain: document.querySelector("#projectExplain").value
+			projectName: name,
+			projectExplain: explain
 		};
 	
 		fetch("/main/project", {
@@ -439,6 +442,9 @@
 		         	text: '저장 완료되었습니다',
 		         	icon: 'success',
 		         	confirmButtonText: '확인'
+			}).then(() => {
+				closePopup();
+				location.reload();
 			});
 		})
 		.catch(error => {
@@ -450,6 +456,7 @@
 				});		
 			});
 	}
+	
 	function switchTab(element, targetId) {
 	    // 메뉴 active 처리
 	    const sidebarItems = document.querySelectorAll(".sidebar li");
@@ -463,6 +470,7 @@
 	    });
 	    document.getElementById(targetId).style.display = "block";
 	}
+    
 </script>
 </body>
 </html>
