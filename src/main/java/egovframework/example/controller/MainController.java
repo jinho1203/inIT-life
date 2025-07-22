@@ -42,13 +42,17 @@ public class MainController {
     	
     	return result > 0 ? "success" : "fail";
     }
-    
-    @DeleteMapping("/{projectId}")
-    public String deleteProject(@PathVariable Long projectId) {
-    	
-    	int result = projectService.deleteProject(projectId);
-    	
-    	return result > 0 ? "success" : "fail";
-    }
-    
-}
+    @PostMapping("/project/delete")
+    @ResponseBody
+    public String deleteProject(@RequestBody List<Long> projectIds) {
+        try {
+            for (Long id : projectIds) {
+                projectService.deleteProject(id); // soft delete 처리 함수
+            }
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+       }
+	  }
