@@ -29,6 +29,7 @@
 
         .sidebar {
             width: 166px;
+            margin-left: -550px;
             background-color: #f5f5f5;
             padding: 20px;
             border-right: 1px solid #ccc;
@@ -280,15 +281,14 @@
                 <tr>
                     <th>입력 ID</th>
                     <th>입력명</th>
-                    <th>설명</th>
                     <th>입력항목 키</th>
                     <th>입력값</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
             </tbody>
         </table>
         <div class="buttons">
@@ -305,34 +305,41 @@
                 <tr>
                     <th>출력 ID</th>
                     <th>출력명</th>
-                    <th>설명</th>
                     <th>출력항목 키</th>
                     <th>출력값</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
             </tbody>
         </table>
         <div class="buttons">
-            <button>등록</button>
-            <button>삭제</button>
+            <button>수정</button>
         </div>
     </div>
 
 </div>
 <!-- 총 URL 출력 영역 -->
+<!-- 총 URL 출력 영역 -->
 <div style="margin-top: 30px;">
-    <h3>총 URL</h3>
-    <textarea rows="4" style="width: 100%; resize: vertical;"></textarea>
+    <!-- Bootstrap 버튼 -->
+    <div class="mb-2">
+        <button type="button" class="btn btn-secondary" disabled>총 URL</button>
+    </div>
+
+    <!-- 텍스트 영역 -->
+    <div class="mb-3">
+        <textarea rows="4" style="width: 24%; resize: vertical;"></textarea>
+    </div>
+
+    <!-- 버튼 영역 -->
     <div class="buttons">
-        <button>정합하기</button>
-        <button>Excel 다운로드</button>
+        <button class="btn btn-success">Excel 다운로드</button>
     </div>
 </div>
-</div>
+
 
 <!-- ✅ 팝업 -->
 <div id="popup">
