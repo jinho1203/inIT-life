@@ -5,6 +5,7 @@
 	<!-- 프로젝트 조회 -->
 	<select id="getAllList" resultType="egovframework.example.vo.ProjectVO">
 	    SELECT * FROM test.project
+	    WHERE isDeleted = false
 	</select>
 	
 	<!-- 프로젝트 등록 -->

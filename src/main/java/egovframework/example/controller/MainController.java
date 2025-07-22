@@ -38,17 +38,18 @@ public class MainController {
     @ResponseBody
     public String insertProject(@RequestBody ProjectVO projectVO) {
         
-    	if (projectVO.getProjectName() == null || projectVO.getProjectName().trim().isEmpty()) {
-            return "fail";
-        }
-    	
-    	int result = projectService.insertProject(projectVO);
-    	
-    	return result > 0 ? "success" : "fail";
-    }
+        if (projectVO.getProjectName() == null || projectVO.getProjectName().trim().isEmpty()) {
+             return "fail";
+         }
+        
+        int result = projectService.insertProject(projectVO);
+        
+        return result > 0 ? "success" : "fail";
+     }
     
     
     @PostMapping("/project/delete")
+    @ResponseBody
     public String deleteProject(@RequestBody List<Long> projectId) {
     	for(Long id : projectId) {
     		projectService.deleteProject(id);

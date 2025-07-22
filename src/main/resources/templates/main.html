@@ -429,6 +429,7 @@ function saveProject() {
         }).then(() => {
             // 성공 시 팝업 닫기
             closePopup();
+            location.reload();
         });
     })
     .catch(error => {
@@ -454,6 +455,7 @@ function switchTab(element, targetId) {
     });
     document.getElementById(targetId).style.display = "block";
 }
+
 function deleteProject() {
     // 체크된 항목 찾기
     const checkboxes = document.querySelectorAll('input[name="projectCheckbox"]:checked');
@@ -472,58 +474,6 @@ function deleteProject() {
         element.classList.add("active");
     }
     
-	function saveProject() {
-		const name = document.querySelector("#projectName").value.trim();
-		const explain = document.querySelector("#projectExplain").value.trim();
-		
-		if(name === "") {
-			Swal.fire({
-				title : "입력 오류",
-				text : "프로젝트 명을 입력해주세요.",
-				icon : "warning"
-			});
-			return;
-		}
-			
-		const data = {
-			projectName: name,
-			projectExplain: explain
-		};
-	
-		fetch("/main/project", {
-			method: "POST",
-			headers: {
-				"Content-type" : "application/json"
-			},
-			body: JSON.stringify(data)
-		})
-		.then(response => {
-			if(!response.ok) {
-				throw new Error("서버 응답 오류");
-			}
-			return response.text();
-		})
-		.then(result => {
-			Swal.fire({
-				title: '등록 성공',
-		         	text: '저장 완료되었습니다',
-		         	icon: 'success',
-		         	confirmButtonText: '확인'
-			}).then(() => {
-				closePopup();
-				location.reload();
-			});
-		})
-		.catch(error => {
-			console.error("에러발생:", error);
-			Swal.fire({
-				title: '등록 실패',
-		     		text: '저장 중 오류가 발생했습니다.',
-		     		icon: 'error'
-				});		
-			});
-	}
-	
 	function switchTab(element, targetId) {
 	    // 메뉴 active 처리
 	    const sidebarItems = document.querySelectorAll(".sidebar li");
