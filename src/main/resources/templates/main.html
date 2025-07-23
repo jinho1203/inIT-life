@@ -8,115 +8,151 @@
     <link rel="stylesheet" href="/sweetalert2.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-       body {
-          font-family: 'Segoe UI', sans-serif;
-          background-color: #f8f9fa;
-          margin: 0;
-        }
-         .highlight {
-		   background-color: #ffff99 !important;
-		  }
-        .header {
-            height: 60px;   
-            background-color: wheat;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            font-weight: bold;
-        }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+  }
 
-        .container {
-            display: flex;
-            height: calc(100vh - 60px);
-        }
+  .highlight {
+    background-color: #ffff99 !important;
+  }
 
-        .sidebar {
-            width: 166px;
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin-lefT: -550px;
-            border-right: 1px solid #ccc;
-        }
+  .header {
+    height: 53px;
+    background-color: wheat;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-weight: bold;
+    justify-content: center;
+    
+  }
 
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li { margin: 10px 0; cursor: pointer; padding: 4px 0; }
-        .sidebar li.active { font-weight: bold; color: orange; }
-        .sidebar li + li { border-top: 1px solid #ddd; padding-top: 10px; }
+  .container {
+    display: flex;
+    height: calc(100vh - 60px);
+    min-height: 500px;
+  }
 
-        .main-content {
-          flex: 1;
-          padding: 30px;
-          overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-        }
+  .sidebar {
+    width: 200px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    flex-shrink: 0;
+    margin-left: -304px;
+  }
 
-        /* 공통 section-wrapper 스타일 */
-        .section-wrapper {
-          background-color: #fff;
-          border: 1px solid #ccc;
-          box-shadow: 0 0 4px rgba(0,0,0,0.1);
-          box-sizing: border-box;
-          margin-bottom: 20px;
-          padding: 20px;
-          width: 100%;
-        }
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-        /* 시작하기 섹션 전용 스타일 */
-        .start-section {
-          background-color: #fff;
-          border: 1px solid #ccc;
-          box-shadow: 0 0 4px rgba(0,0,0,0.1);
-          box-sizing: border-box;
-          margin-bottom: 20px;
-          padding: 20px;
-          width: 67%;
-          margin-left: 510px;
-          /* 필요하면 여기에 별도 스타일 추가 */
-        }
+  .sidebar li {
+    margin: 10px 0;
+    cursor: pointer;
+    padding: 4px 0;
+  }
 
-        /* 설정하기 섹션 전용 스타일 */
-        .config-section {
-          /* 필요하면 여기에 별도 스타일 추가 */
-        }
+  .sidebar li.active {
+    font-weight: bold;
+    color: orange;
+  }
 
-        .section-header {
-            background-color: #dcdcdc;
-            padding: 10px 15px;
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 15px;
-        }
+  .sidebar li + li {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 15px;
-        }
+  .main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+  }
 
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 6px 10px;
-            height: 32px;
-            line-height: 1.2;
-        }
+  .section-wrapper {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+  .section-header {
+    background-color: #dcdcdc;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+  }
 
-        .buttons {
-            padding: 15px 0 0 0;
-            display: flex;
-            gap: 8px;
-        }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
 
-        .buttons button {
-            padding: 6px 12px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    height: 32px;
+    line-height: 1.2;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .buttons {
+    padding: 15px 0 0 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .buttons button {
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .project-table tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+
+  .swal2-container {
+    z-index: 9999 !important;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .main-content {
+      padding: 15px;
+    }
+
+    .section-wrapper {
+      padding: 15px;
+    }
+  }
 
         /* 팝업 스타일 */
         #popup {
@@ -255,7 +291,7 @@
 <body>
 <div class="header">
     <img src="/images/inGovLogo.png" style="width: 7%; margin-right: 20px;" alt="프로젝트로고">
-    <h3>공공 API 통합 관리 및 데이터 시스템</h3>
+    <h4>공공 API 통합 관리 및 데이터 시스템</h4>
 </div>
 
 <div class="container">
@@ -416,7 +452,7 @@
 
                 <!-- 텍스트 영역 -->
                 <div class="mb-3">
-                    <textarea rows="4" style="width: 24%; resize: vertical;"></textarea>
+                    <textarea rows="4" style="width: 46%; resize: vertical;"></textarea>
                 </div>
 
                 <!-- 버튼 영역 -->
@@ -480,7 +516,7 @@
 
 	   <!-- 부트스트랩 버튼 -->
     <div class="popup2-buttons">
-      <button type="button" class="btn btn-secondary" onclick="confirmSelection()">선택</button>
+      <button type="button" class="btn btn-secondary" onclick="confirmSelection()">확인</button>
       <button type="button" class="btn btn-outline-secondary" onclick="closePopup2()">닫기</button>
     </div>
   </div>
