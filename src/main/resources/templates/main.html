@@ -153,17 +153,27 @@
       padding: 15px;
     }
   }
-	    .label-flex {
-		  display: flex;
-		  justify-content: space-between;
-		  align-items: center;
-		  width: 100%;
-		}
-		
-		.required-mark {
-		  color: red;
-		  margin-left: 4px;
-		}
+	 	td.label {
+  text-align: left;
+  padding-right: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  position: relative;
+}
+
+td.label.required {
+  padding-right: 20px; /* 여유 공간 확보 */
+}
+
+td.label .asterisk {
+  color: red;
+  position: absolute;
+  right: 8px; /* 오른쪽 정렬 */
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: normal;
+}
+	 	
         /* 팝업 스타일 */
         #popup {
             display: none;
@@ -497,7 +507,7 @@
     <div class="popup-body">
         <table class="popup-table">
             <tr>
-                <td class="label">프로젝트ID<span style="color: red;">(*)</span></td>
+                <td class="label required">프로젝트ID<span class="asterisk">(*)</span></td>
                 <td><input type="text" value="TEST_CHECK" readonly /></td>
             </tr>
             <tr>
@@ -553,21 +563,21 @@
     <div class="popup-body">
         <table class="popup-table">
            <tr>
-                <td class="label">프로젝트ID<span style="color: red;">(*)</span></td>
-                <td><input type="text" value="TEST_CHECK" readonly /></td>
-            </tr>
-            <tr>
-                <td class="label">소스ID<span style="color: red;">(*)</span></td>
-                <td><input type="text" id="projectName1"/></td>
-            </tr>
-            <tr>
-                <td class="label">소스명<span style="color: red;">(*)</span></td>
-                <td><input type="text" id="projectExplain"/></td>
-            </tr>
-             <tr>
-                <td class="label">소스</td>
-                <td><input type="text" id="projectExplain"/></td>
-            </tr>
+			  <td class="label required">프로젝트ID<span class="asterisk">(*)</span></td>
+			  <td><input type="text" value="TEST_CHECK" readonly /></td>
+			</tr>
+			<tr>
+			  <td class="label required">소스ID<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="projectName1" /></td>
+			</tr>
+			<tr>
+			  <td class="label required">소스명<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="projectExplain" /></td>
+			</tr>
+			<tr>
+			  <td class="label">소스</td>
+			  <td><input type="text" id="projectExplain" /></td>
+			</tr>
         </table>
         <div class="popup-buttons">
             <button> 저장</button>
