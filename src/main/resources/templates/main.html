@@ -218,8 +218,8 @@
 				    <td>
 				      <input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)">
 				    </td>
-				    <td th:text="${project.projectId}">ID</td>
-				    <td th:text="${project.projectName}">이름</td>
+				    <td th:text="'P' + ${project.projectId}"></td>
+				    <td th:text="${project.projectName}"></td>
 				    </tr>
                 </tbody>
             </table>
@@ -263,30 +263,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>S00001</td>
-                            <td>서울 본사에 대한 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThng</td>
-                        </tr>
-                        <tr>
-                            <td>S00002</td>
-                            <td>대전 남구 ~20에 의한 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngDetail</td>
-                        </tr>
-                        <tr>
-                            <td>S00003</td>
-                            <td>서울 중소기업 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngPPSSrch</td>
-                        </tr>
-                        <tr>
-                            <td>S00004</td>
-                            <td>작업실행 분석 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngChgHstry</td>
+                        <tr th:each="sourceList : ${sourceList}">
+                            <td th:text="'S' + ${source.sourceId}"></td>
+                            <td th:text="${source.sourceName}"></td>
+                            <td th:text="${source.baseUrl}"></td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="buttons">
-                    <button>등록</button>
+                    <button onclick="openPopup()">등록</button>
                     <button>삭제</button>
                 </div>
             </div>
@@ -365,37 +350,84 @@
 </div>
 
 <!-- 팝업 -->
-<div id="popup">
-    <div class="popup-header">
-        프로젝트 속성정보
-        <span class="popup-close" onclick="closePopup()">✖</span>
-    </div>
-    <div class="popup-body">
-        <table class="popup-table">
-            <tr>
-                <td class="label">프로젝트ID<span style="color: red;">(*)</span></td>
-                <td><input type="text" value="TEST_CHECK" readonly /></td>
-            </tr>
-            <tr>
-                <td class="label">프로젝트 명</td>
-                <td><input type="text" id="projectName"/></td>
-            </tr>
-            <tr>
-                <td class="label">설명</td>
-                <td><input type="text" id="projectExplain"/></td>
-            </tr>
-        </table>
-        <div class="popup-buttons">
-            <button onclick="saveProject()">저장</button>
-            <button onclick="closePopup()">취소</button>
-        </div>
-    </div>
-</div>
+<!-- <div id="popup"> -->
+<!--     <div class="popup-header"> -->
+<!--         프로젝트 속성정보 -->
+<!--         <span class="popup-close" onclick="closePopup()">✖</span> -->
+<!--     </div> -->
+<!--     <div class="popup-body"> -->
+<!--         <table class="popup-table"> -->
+<!--             <tr> -->
+<!--                 <td class="label">프로젝트ID<span style="color: red;">(*)</span></td> -->
+<!--                 <td><input type="text" value="TEST_CHECK" readonly /></td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td class="label">프로젝트 명</td> -->
+<!--                 <td><input type="text" id="projectName"/></td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td class="label">설명</td> -->
+<!--                 <td><input type="text" id="projectExplain"/></td> -->
+<!--             </tr> -->
+<!--         </table> -->
+<!--         <div class="popup-buttons"> -->
+<!--             <button onclick="saveProject()">저장</button> -->
+<!--             <button onclick="closePopup()">취소</button> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
 
+<!-- 공용 팝업 -->
+ <div id="popup">
+ 	<div class="popup-header">
+ 		<span id="popup-title">제 목</span>
+ 		<span id="popup-close" onclick="closePopup()">✖</span>
+ 	</div>
+ 	
+ 	<div class="popup-body" id="popup-body">
+ 	
+ 	</div>
+ 	<div class="popup-button">
+ 		<button id="popup-save-btn">저장</button>
+ 		<button onclick="closePopup()">취소</button>
+ 	</div>
+ </div>
+ 
+ 
 <script>
-function openPopup() {
-    document.getElementById("popup").style.display = "block";
+function openPopup(type){
+	const title = {
+			project : "프로젝트 등록",
+			source : "소스 등록",
+			input : "입력값 등록"
+	};
+	
+	const bodyTemplates = {
+			project :`
+				<tr><td>프로젝트 명</td><td><input type="text" id="projectName"></td></tr>
+				<tr><td>설명</td><td><input type="text" id="projectExplain"></td></tr>`,
+			
+			source :`
+				<tr><td>소스 명</td><td><input type="text" id="sourceName"></td></tr>
+				<tr><td>URL</td><td><input type="text" id="baseUrl"></td></tr>`
+	};
+	
+	document.getElementById("popup-title").innerText = title[type];
+	document.getElementById("popup-body").innerText = 
+		`<table class="popup-table">${bodyTemplates[type]}</table>`;
+		
+		const saveBtn = document.getElementById("popup-save-btn");
+		saveBtn.onclick = () => {
+			if(type === 'project') saveProject();
+			else if (type === 'source') saveSource();
+		};
+		
+		document.getElementById("popup").style.display = "block";
 }
+
+// function openPopup() {
+//     document.getElementById("popup").style.display = "block";
+// }
 
 function closePopup() {
     document.getElementById("popup").style.display = "none";

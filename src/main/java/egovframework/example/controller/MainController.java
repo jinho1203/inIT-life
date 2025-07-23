@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.service.ProjectService;
+import egovframework.example.service.SourceService;
 import egovframework.example.vo.ProjectVO;
+import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
@@ -19,15 +21,20 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 	
 	private final ProjectService projectService;
+	private final SourceService sourceService;
 	
     @GetMapping
     public String showMain(Model model) {
     	
     	/*
     	 * url : main 에서 프로젝트 List 출력
+    	 * Project / Source
     	 */
     	List<ProjectVO> projectList = projectService.getAllList();
+    	List<SourceVO> sourceList = sourceService.getAllList();
+    	
     	model.addAttribute("projectList", projectList);
+    	model.addAttribute("sourceList", sourceList);
     	
         return "main";  
     }
@@ -57,7 +64,6 @@ public class MainController {
     	
     	return "success";
     }
-    
     
     
 }
