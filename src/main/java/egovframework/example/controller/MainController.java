@@ -45,9 +45,6 @@ public class MainController {
     @ResponseBody
     public String insertProject(@RequestBody ProjectVO projectVO) {
         
-        System.out.println("받은 프로젝트명: " + projectVO.getProjectName());
-        System.out.println("받은 설명: " + projectVO.getProjectExplain());
-    	
         if (projectVO.getProjectName() == null || projectVO.getProjectName().trim().isEmpty()) {
              return "fail";
          }
@@ -68,5 +65,11 @@ public class MainController {
     	return "success";
     }
     
+    @PostMapping("/source")
+    @ResponseBody
+    public String insertSource(@RequestBody SourceVO sourceVO) {
+    	
+    	return null;
+    }
     
 }
