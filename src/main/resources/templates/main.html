@@ -153,7 +153,17 @@
       padding: 15px;
     }
   }
-
+	    .label-flex {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  width: 100%;
+		}
+		
+		.required-mark {
+		  color: red;
+		  margin-left: 4px;
+		}
         /* 팝업 스타일 */
         #popup {
             display: none;
@@ -282,6 +292,18 @@
           text-align: right;
           margin-top: 20px;
       }
+          /* 팝업 스타일 */
+        #popup3 {
+            display: none;
+            position: fixed;
+            top: 25%;
+            left: 25%;
+            width: 600px;
+            background: white;
+            border: 2px solid #ffbb33;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
       /* SweetAlert2 팝업이 항상 가장 위에 보이도록 설정 */
       .swal2-container {
         z-index: 9999 !important;
@@ -312,6 +334,7 @@
                        <th style="width: 40px;"></th>
                        <th>프로젝트 ID</th>
                        <th>프로젝트 명</th>
+                       <th>설명</th>
                    </tr>
                 </thead>
                 <tbody>
@@ -321,6 +344,7 @@
                 </td>
                 <td th:text="'P'+${project.projectId}"></td>
                 <td th:text="${project.projectName}"></td>
+                <td th:text="${project.projectExplain}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -386,7 +410,7 @@
                     </tbody>
                 </table>
                 <div class="buttons">
-                    <button>등록</button>
+                    <button onclick="openPopup3()">등록</button>
                     <button>삭제</button>
                 </div>
             </div>
@@ -513,7 +537,6 @@
       </tr>
       </tbody>
     </table>
-
       <!-- 부트스트랩 버튼 -->
     <div class="popup2-buttons">
       <button type="button" class="btn btn-secondary" onclick="confirmSelection()">확인</button>
@@ -521,7 +544,37 @@
     </div>
   </div>
 </div>
-
+<!-- 팝업 -->
+<div id="popup3">
+    <div class="popup-header">
+        소스 속성정보
+        <span class="popup-close" onclick="closePopup()"></span>
+    </div>
+    <div class="popup-body">
+        <table class="popup-table">
+           <tr>
+                <td class="label">프로젝트ID<span style="color: red;">(*)</span></td>
+                <td><input type="text" value="TEST_CHECK" readonly /></td>
+            </tr>
+            <tr>
+                <td class="label">소스ID<span style="color: red;">(*)</span></td>
+                <td><input type="text" id="projectName1"/></td>
+            </tr>
+            <tr>
+                <td class="label">소스명<span style="color: red;">(*)</span></td>
+                <td><input type="text" id="projectExplain"/></td>
+            </tr>
+             <tr>
+                <td class="label">소스</td>
+                <td><input type="text" id="projectExplain"/></td>
+            </tr>
+        </table>
+        <div class="popup-buttons">
+            <button> 저장</button>
+            <button onclick="closePopup3()">취소</button>
+        </div>
+    </div>
+</div>
 <script>
 function openPopup() {
     document.getElementById("popup").style.display = "block";
@@ -529,11 +582,16 @@ function openPopup() {
 function openPopup2() {
      document.getElementById("popup2").style.display = "block";
    }
+function openPopup3() {
+    document.getElementById("popup3").style.display = "block";
+  }
 
 function closePopup() {
     document.getElementById("popup").style.display = "none";
    }
-
+function closePopup3() {
+    document.getElementById("popup3").style.display = "none";
+   }
 function saveProject() {
     const name = document.querySelector("#projectName1").value.trim();
     const explain = document.querySelector("#projectExplain").value.trim();   
