@@ -283,7 +283,7 @@
 				    <td>
 				      <input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)">
 				    </td>
-				    <td th:text="${project.projectId}">ID</td>
+				    <td th:text="'P' + ${project.projectId}">ID</td>
 				    <td th:text="${project.projectName}">이름</td>
 				    </tr>
                 </tbody>
@@ -498,11 +498,22 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 	}
 
-
 function saveProject() {
+    const name = document.querySelector("#projectName").value.trim();
+    const explain = document.querySelector("#projectExplain").value.trim();	
+
+	if(name === "") {
+		Swal.fire({
+			title : "입력 오류",
+			text : "프로젝트 명을 입력해주세요.",
+			icon : "warning"
+		});
+		return;
+	}  
+	
     const data = {
-        projectName: document.querySelector("#projectName").value,
-        projectExplain: document.querySelector("#projectExplain").value
+		projectName: name,
+		projectExplain: explain
     };
 
     fetch("/main/project", {
@@ -519,16 +530,23 @@ function saveProject() {
         return response.text();
     })
     .then(result => {
-        Swal.fire({
-            title: '등록 성공',
-            text: '저장 완료되었습니다',
-            icon: 'success',
-            confirmButtonText: '확인'
-        }).then(() => {
-            // 성공 시 팝업 닫기
-            closePopup();
-            location.reload();
-        });
+        if (result === "success") {
+            Swal.fire({
+                title: '등록 성공',
+                text: '저장 완료되었습니다',
+                icon: 'success',
+                confirmButtonText: '확인'
+            }).then(() => {
+                closePopup();
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                title: '등록 실패',
+                text: '필수 항목을 입력해주세요.',
+                icon: 'warning'
+            });
+        }
     })
     .catch(error => {
         console.error("에러발생:", error);
