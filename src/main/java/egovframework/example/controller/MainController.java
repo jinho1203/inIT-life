@@ -56,6 +56,17 @@ public class MainController {
 
         return result > 0 ? "success" : "fail";
      }
+    // 프로젝트 추가 페이지 이동
+    @GetMapping("/projectAdd")
+    public String showProjectAddPage() {
+        return "main/projectAdd";  // templates/main/projectAdd.html
+    }
+
+    // 프로젝트 설정/실행 페이지 이동
+    @GetMapping("/projectConfig")
+    public String showProjectConfigPage() {
+        return "main/projectConfig";  // templates/main/projectConfig.html
+    }
     
     
     @PostMapping("/project/delete")
@@ -67,6 +78,5 @@ public class MainController {
     	
     	return "success";
     }
-    
     
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+      th:with="activePage='add'">
+
+<body>
+
+<div layout:fragment="content">
+
+<div class="main-content">
+    <!-- 프로젝트 리스트 -->
+    <div class="section-wrapper start-section active">
+        <div class="section-header">
+            <h2>프로젝트</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40px;"></th>
+                    <th>프로젝트 ID</th>
+                    <th>프로젝트 명</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" name="projectCheckbox" value="1"></td>
+                    <td>P1</td>
+                    <td>KOSIS</td>
+                    <td>KOSIS API</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="projectCheckbox" value="2"></td>
+                    <td>P2</td>
+                    <td>통계청</td>
+                    <td>통계청 API</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="projectCheckbox" value="3"></td>
+                    <td>P3</td>
+                    <td>조달청</td>
+                    <td>조달청 API</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="projectCheckbox" value="4"></td>
+                    <td>P9</td>
+                    <td>대전 통계청</td>
+                    <td>설명</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="buttons">
+            <button onclick="alert('등록 팝업 열기')">등록</button>
+            <button type="button" class="btn btn-danger" onclick="alert('선택된 프로젝트 삭제')">삭제</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,151 +1,143 @@
 @charset "UTF-8";
 
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-  }
+/* 기본 설정 */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+}
 
-  .highlight {
-    background-color: #ffff99 !important;
-  }
+.highlight {
+  background-color: #ffff99 !important;
+}
 
-  .header {
-    height: 53px;
-    background-color: wheat;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    font-weight: bold;
-    justify-content: center;
-    
-  }
+/* 헤더 */
+.header {
+  height: 53px;
+  background-color: wheat;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-weight: bold;
+  justify-content: center;
+}
 
-  .container {
-    display: flex;
-    height: calc(100vh - 60px);
-    min-height: 500px;
-  }
+/* 전체 레이아웃 */
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+  min-height: 500px;
+}
 
-  .sidebar {
-    width: 200px;
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-    flex-shrink: 0;
-    margin-left: -304px;
-  }
+/* ✅ 사이드바: 수정됨 */
+.sidebar {
+  width: 200px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  flex-shrink: 0;
 
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  /* ❌ 이 줄 삭제: 화면 밖으로 밀림 현상 발생 */
+  /* margin-left: -304px; */
+}
 
-  .sidebar li {
-    margin: 10px 0;
-    cursor: pointer;
-    padding: 4px 0;
-  }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .sidebar li.active {
-    font-weight: bold;
-    color: orange;
-  }
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: background-color 0.2s;
+}
 
-  .sidebar li + li {
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-  }
+.sidebar li:hover {
+  background-color: #e6e6e6;
+}
 
-  .main-content {
-    flex-grow: 1;
-    padding: 30px;
-    overflow-y: auto;
-  }
+.sidebar li.active {
+  font-weight: bold;
+  color: orange;
+}
 
-  .section-wrapper {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.sidebar li + li {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
 
-  .section-header {
-    background-color: #dcdcdc;
-    padding: 10px 15px;
-    font-weight: bold;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 15px;
-  }
+/* 본문 */
+.main-content,
+.content {
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+  background-color: #fff;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-  }
+/* section */
+.section-wrapper {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 0 auto 20px auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
 
-  table th,
-  table td {
-    border: 1px solid #ddd;
-    padding: 6px 10px;
-    height: 32px;
-    line-height: 1.2;
-  }
+.section-header {
+  background-color: #dcdcdc;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 15px;
+}
 
-  table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+/* 표 스타일 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
 
-  .buttons {
-    padding: 15px 0 0 0;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  height: 32px;
+  line-height: 1.2;
+}
 
-  .buttons button {
-    padding: 6px 12px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
 
-  .project-table tr:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
-  }
+.project-table tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
 
-  .swal2-container {
-    z-index: 9999 !important;
-  }
+/* 버튼 */
+.buttons {
+  padding: 15px 0 0 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-    }
+.buttons button {
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-    .sidebar {
-      width: 100%;
-      border-right: none;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .main-content {
-      padding: 15px;
-    }
-
-    .section-wrapper {
-      padding: 15px;
-    }
-  }
-	 	td.label {
+/* required 필드 표시 */
+td.label {
   text-align: left;
   padding-right: 10px;
   white-space: nowrap;
@@ -154,159 +146,167 @@
 }
 
 td.label.required {
-  padding-right: 20px; /* 여유 공간 확보 */
+  padding-right: 20px;
 }
 
 td.label .asterisk {
   color: red;
   position: absolute;
-  right: 8px; /* 오른쪽 정렬 */
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   font-weight: normal;
 }
-	 	
-        /* 팝업 스타일 */
-        #popup {
-            display: none;
-            position: fixed;
-            top: 25%;
-            left: 25%;
-            width: 600px;
-            background: white;
-            border: 2px solid #ffbb33;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
 
-        .popup-header {
-            background: #eee;
-            padding: 10px 15px;
-            font-weight: bold;
-            border-bottom: 1px solid #ccc;
-            position: relative;
-        }
+/* 팝업 1 */
+#popup {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 600px;
+  background: white;
+  border: 2px solid #ffbb33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
 
-        .popup-close {
-            position: absolute;
-            right: 10px;
-            top: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+.popup-header {
+  background: #eee;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
 
-        .popup-body {
-            padding: 34px;
-        }
+.popup-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-        .popup-table {
-            width: 420px;
-            margin: auto;
-            border-collapse: collapse;
-        }
+.popup-body {
+  padding: 34px;
+}
 
-        .popup-table td {
-            padding: 8px;
-            vertical-align: middle;
-        }
+.popup-table {
+  width: 420px;
+  margin: auto;
+  border-collapse: collapse;
+}
 
-        .popup-table .label {
-            width: 120px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
+.popup-table td {
+  padding: 8px;
+  vertical-align: middle;
+}
 
-        .popup-table input {
-            width: 280px;
-            padding: 4px 6px;
-        }
+.popup-table .label {
+  width: 120px;
+  font-weight: bold;
+  white-space: nowrap;
+}
 
-        .popup-buttons {
-            text-align: right;
-            margin-top: 15px;
-            width: 420px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.popup-table input {
+  width: 280px;
+  padding: 4px 6px;
+}
 
-        .popup-buttons button {
-            margin-left: 5px;
-            padding: 6px 12px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 28px;
-        }
-       #popup2 {
-          display: none;
-          position: fixed;
-          top: 20%;
-          left: 30%;
-          width: 520px;
-          background: #fff;
-          border: 2px solid #007bff;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-          z-index: 1100;
-          border-radius: 6px;
-          overflow: hidden;
-          font-family: 'Segoe UI', sans-serif;
-      }
-      
-      .popup2-header {
-          background-color: #f1f1f1;
-          padding: 12px 16px;
-          font-weight: bold;
-          font-size: 16px;
-          position: relative;
-      }
-      
-      .popup2-close {
-          position: absolute;
-          right: 12px;
-          top: 10px;
-          cursor: pointer;
-          font-size: 18px;
-          color: #555;
-      }
-      
-      .popup2-body {
-          padding: 20px;
-      }
-      
-      .project-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 14px;
-      }
-      
-      .project-table th, .project-table td {
-          border: 1px solid #ccc;
-          padding: 8px 10px;
-          text-align: left;
-      }
-      
-      .project-table tr:hover {
-          background-color: #f5f5f5;
-          cursor: pointer;
-      }
-      
-      .popup2-buttons {
-          text-align: right;
-          margin-top: 20px;
-      }
-          /* 팝업 스타일 */
-        #popup3 {
-            display: none;
-            position: fixed;
-            top: 25%;
-            left: 25%;
-            width: 600px;
-            background: white;
-            border: 2px solid #ffbb33;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-      /* SweetAlert2 팝업이 항상 가장 위에 보이도록 설정 */
-      .swal2-container {
-        z-index: 9999 !important;
-      }
+.popup-buttons {
+  text-align: right;
+  margin-top: 28px;
+  width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popup-buttons button {
+  margin-left: 5px;
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 팝업 2 */
+#popup2 {
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  width: 520px;
+  background: #fff;
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 1100;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.popup2-header {
+  background-color: #f1f1f1;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
+}
+
+.popup2-close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
+
+.popup2-body {
+  padding: 20px;
+}
+
+.popup2-buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+
+/* 팝업 3 */
+#popup3 {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 600px;
+  background: white;
+  border: 2px solid #ffbb33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* SweetAlert2 팝업 z-index */
+.swal2-container {
+  z-index: 9999 !important;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .main-content,
+  .content {
+    padding: 15px;
+  }
+
+  .section-wrapper {
+    padding: 15px;
+  }
+}
