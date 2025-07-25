@@ -19,10 +19,10 @@
 <div class="container">
     <div class="sidebar">
         <ul>
-          <li class="active" onclick="switchTab(this, 'start')">시작하기</li>
-          <li onclick="switchTab(this, 'config')">설정하기</li>
+          <li class="active" onclick="switchTab(this, 'start')">프로젝트 추가</li>
+          <li onclick="switchTab(this, 'config')">프로젝트 설정 / 실행</li>
         </ul>
-    </div>
+</div>
 
     <div class="main-content">
         <!-- 시작하기 화면 -->
@@ -77,20 +77,43 @@
             </table>
 
             <div style="margin-top: 20px;">
-                <h3>소스</h3>
+                <h3>API 목록</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>소스ID</th>
-                            <th>소스명</th>
-                            <th>소스</th>
+                            <th>No.</th>
+                            <th>API 이름</th>
+                            <th>요청 URL</th>
+                            <th>응답 형식 </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="source : ${sourceList}">
-                            <td th:text="'S'+${source.sourceId}"></td>
-                            <td th:text="${source.sourceName}"></td>
-                            <td th:text="${source.baseUrl}"></td>
+                        <tr>
+                            <td>S00001</td>
+                            <td>서울 본사에 대한 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThng</td>
+                            <td>JSON</td>
+                        </tr>
+                        <tr>
+                            <td>S00002</td>
+                            <td>대전 남구 ~20에 의한 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngDetail</td>
+                            <td>JSON</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>S00003</td>
+                            <td>서울 중소기업 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngPPSSrch</td>
+                            <td>JSON</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>S00004</td>
+                            <td>작업실행 분석 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngChgHstry</td>
+                            <td>JSON</td>
+                            
                         </tr>
                     </tbody>
                 </table>
@@ -225,41 +248,27 @@
     </div>
   </div>
 </div>
-<!-- 팝업 / 소스등록 팝업창-->
+<!-- 팝업 -->
 <div id="popup3">
     <div class="popup-header">
         소스 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
-	<div class="popup-body">
-    	<table class="popup-table">
-        	<tr>
-	        	<td class="label required">프로젝트ID<span class="asterisk">(*)</span></td>
-	           	<td id="display-projectId"></td>
-           	</tr>
-           	<tr style="display: none;">		
-    			<td colspan="2">
-        			<input type="hidden" id="realProjectId" name="projectId" /><!-- 전송용 "P1" 이 아닌 ID값을 1로 보냄-->
-    			</td>
+    <div class="popup-body">
+        <table class="popup-table">
+			<tr>
+			  <td class="label required">소스명<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="projectExplain" /></td>
 			</tr>
 			<tr>
-   				<td class="label required">소스ID<span class="asterisk">(*)</span></td>
-   				<td><input type="text" id="sourceId" /></td>
+			  <td class="label">소스</td>
+			  <td><input type="text" id="projectExplain" /></td>
 			</tr>
-			<tr>
-   				<td class="label required">소스명<span class="asterisk">(*)</span></td>
-   				<td><input type="text" id="sourceName" /></td>
- 			</tr>
- 			<tr>
-   				<td class="label">소스</td>
-   				<td><input type="text" id="baseUrl" /></td>
- 			</tr>
-		</table>
-		
-<div class="popup-buttons">
-    <button onclick="saveSource()"> 저장</button>
-<button onclick="closePopup3()">취소</button>
-</div>
+        </table>
+        <div class="popup-buttons">
+            <button> 저장</button>
+            <button onclick="closePopup3()">취소</button>
+        </div>
     </div>
 </div>
 <script>
@@ -269,23 +278,7 @@ function openPopup() {
 function openPopup2() {
      document.getElementById("popup2").style.display = "block";
    }
-   
 function openPopup3() {
-	const displayedId = document.getElementById("display-projectId").innerText.trim();
-	
-	if(!displayedId) {
-		Swal.fire({
-			title : "오류",
-			text : "프로젝트 ID를 선택해주세요.",
-			icon : "warning",
-			confirmButtonText : "확인"
-		});
-		return;
-	}
-	const realProjectId = displayedId.replace("P", ""); // "P1" → "1"
-	
-	document.getElementById("realProjectId").value = realProjectId;	// 전송용
-	
     document.getElementById("popup3").style.display = "block";
   }
 
@@ -298,6 +291,8 @@ function closePopup3() {
 function saveProject() {
     const name = document.querySelector("#projectName1").value.trim();
     const explain = document.querySelector("#projectExplain").value.trim();   
+
+   console.log("프로젝트명 입력값:", name);  // <-- 확인용
 
    if(name === "") {
       Swal.fire({
@@ -355,79 +350,19 @@ function saveProject() {
     });
 }
 
-function saveSource() {
-    const projectId = document.querySelector("#realProjectId").value.trim();   
-    const name = document.querySelector("#sourceName").value.trim();
-    const baseUrl = document.querySelector("#baseUrl").value.trim();   
-
-   if(name === "") {
-      Swal.fire({
-         title : "입력 오류",
-         text : "소스 명을 입력해주세요.",
-         icon : "warning"
-      });
-      return;
-   }  
-   
-    const data = {
-      projectId: projectId,
-      sourceName: name,
-      baseUrl: baseUrl
-    };
-
-    fetch("/main/source", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("서버 응답 오류");
-        }
-        return response.text();
-    })
-    .then(result => {
-        if (result === "success") {
-            Swal.fire({
-                title: '등록 성공',
-                text: '저장 완료되었습니다',
-                icon: 'success',
-                confirmButtonText: '확인'
-            }).then(() => {
-                closePopup();
-                location.reload();
-            });
-        } else {
-            Swal.fire({
-                title: '등록 실패',
-                text: '필수 항목을 입력해주세요.',
-                icon: 'warning'
-            });
-        }
-    })
-    .catch(error => {
-        console.error("에러발생:", error);
-        Swal.fire({
-            title: '등록 실패',
-            text: '저장 중 오류가 발생했습니다.',
-            icon: 'error'
-        });
-    });	
-}
-
 function switchTab(element, targetId) {
-    // 메뉴 active 처리
+    // 기존 active 클래스 제거
     const sidebarItems = document.querySelectorAll(".sidebar li");
-    sidebarItems.forEach(li => li.classList.remove("active"));
+    sidebarItems.forEach(item => item.classList.remove("active"));
+
+    // 클릭한 항목에 active 추가
     element.classList.add("active");
 
-    // 탭 내용 전환
-    const allSections = document.querySelectorAll(".section-wrapper");
-    allSections.forEach(section => {
-        section.style.display = "none";
-    });
+    // 모든 section 숨기기
+    const sections = document.querySelectorAll(".section-wrapper");
+    sections.forEach(section => section.style.display = "none");
+
+    // 선택한 섹션 보이기
     document.getElementById(targetId).style.display = "block";
 }
 
@@ -562,4 +497,4 @@ function closePopup2() {
 }
 </script>
 </body>
-</html> 
+</html>

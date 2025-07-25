@@ -45,6 +45,9 @@ public class MainController {
     @ResponseBody
     public String insertProject(@RequestBody ProjectVO projectVO) {
         
+        System.out.println("받은 프로젝트명: " + projectVO.getProjectName());
+        System.out.println("받은 설명: " + projectVO.getProjectExplain());
+    	
         if (projectVO.getProjectName() == null || projectVO.getProjectName().trim().isEmpty()) {
              return "fail";
          }
@@ -53,6 +56,17 @@ public class MainController {
 
         return result > 0 ? "success" : "fail";
      }
+    // 프로젝트 추가 페이지 이동
+    @GetMapping("/projectAdd")
+    public String showProjectAddPage() {
+        return "main/projectAdd";  // templates/main/projectAdd.html
+    }
+
+    // 프로젝트 설정/실행 페이지 이동
+    @GetMapping("/projectConfig")
+    public String showProjectConfigPage() {
+        return "main/projectConfig";  // templates/main/projectConfig.html
+    }
     
     
     @PostMapping("/project/delete")
@@ -63,20 +77,6 @@ public class MainController {
     	}
     	
     	return "success";
-    }
-    
-    @PostMapping("/source")
-    @ResponseBody
-    public String insertSource(@RequestBody SourceVO sourceVO) {
-    	
-    	if ((sourceVO.getSourceName() == null || sourceVO.getSourceName().trim().isEmpty()) ||
-    		    (sourceVO.getBaseUrl() == null || sourceVO.getBaseUrl().trim().isEmpty())) {
-    		    return "fail";
-    		}
-    	
-    	int result = sourceService.insertSource(sourceVO);
-    	
-    	return result > 0 ? "success" : "fail";
     }
     
 }

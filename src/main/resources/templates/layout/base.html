@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>공공 API 통합 관리</title>
+    <script src="/sweetalert2.all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/sweetalert2.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<!-- 상단 로고/헤더 -->
+<div class="header">
+    <img src="/images/inGovLogo.png" style="width: 7%; margin-right: 20px;" alt="프로젝트로고">
+    <h4>공공 API 통합 관리 및 데이터 시스템</h4>
+</div>
+
+<!-- 전체 레이아웃 묶음 -->
+<div class="container">
+    
+    <!-- ✅ 사이드바 먼저 -->
+    <div class="sidebar">
+        <ul>
+            <li th:classappend="${activePage} == 'add' ? 'active'" onclick="location.href='/main/projectAdd'">프로젝트 추가</li>
+            <li th:classappend="${activePage} == 'config' ? 'active'" onclick="location.href='/main/projectConfig'">프로젝트 설정 / 실행</li>
+        </ul>
+    </div>
+
+    <!-- ✅ 본문 삽입 위치 -->
+    <div class="content" layout:fragment="content"></div>
+</div>
+<script>
+
+function switchTab(element, targetId) {
+    // 메뉴 active 처리
+    const sidebarItems = document.querySelectorAll(".sidebar li");
+    sidebarItems.forEach(li => li.classList.remove("active"));
+    element.classList.add("active");
+
+    // 탭 내용 전환
+    const allSections = document.querySelectorAll(".section-wrapper");
+    allSections.forEach(section => {
+        section.style.display = "none";
+    });
+    document.getElementById(targetId).style.display = "block";
+}
+ 
+</script>
+
+</body>
+</html>
