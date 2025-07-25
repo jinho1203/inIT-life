@@ -69,7 +69,14 @@ public class MainController {
     @ResponseBody
     public String insertSource(@RequestBody SourceVO sourceVO) {
     	
-    	return null;
+    	if ((sourceVO.getSourceName() == null || sourceVO.getSourceName().trim().isEmpty()) ||
+    		    (sourceVO.getBaseUrl() == null || sourceVO.getBaseUrl().trim().isEmpty())) {
+    		    return "fail";
+    		}
+    	
+    	int result = sourceService.insertSource(sourceVO);
+    	
+    	return result > 0 ? "success" : "fail";
     }
     
 }

@@ -145,7 +145,7 @@
       padding: 15px;
     }
   }
-	 	td.label {
+       td.label {
   text-align: left;
   padding-right: 10px;
   white-space: nowrap;
@@ -165,7 +165,7 @@ td.label .asterisk {
   transform: translateY(-50%);
   font-weight: normal;
 }
-	 	
+       
         /* 팝업 스타일 */
         #popup {
             display: none;
