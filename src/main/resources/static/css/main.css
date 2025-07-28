@@ -10,7 +10,11 @@ body {
 .highlight {
   background-color: #ffff99 !important;
 }
-
+.bookmark.active, .bookmark2.active {
+    background: #007bff; /* 현재 페이지는 파란색으로 */
+    color: white;
+    font-weight: bold;
+}
 /* 헤더 */
 .header {
   height: 53px;
