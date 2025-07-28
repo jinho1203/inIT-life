@@ -11,16 +11,12 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/projectConfig")
-public class ProjectConfigController {
-	
-	private final ProjectService projectService;
-	private final SourceService sourceService;
-	private final InputService inputService;
+@RequestMapping("/projectStart")
+public class ProjectStartController {
 	
 	@GetMapping
 	public String ShowSourceList() {
 		
-		return "main/projectConfig";
+		return "main/projectStart";
 	}
 }
