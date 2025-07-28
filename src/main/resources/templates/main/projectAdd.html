@@ -22,24 +22,24 @@
                 </tr>
             </thead>
             <tbody>
-               <tr th:each="project : ${projectList}">
-                  <td onclick="event.stopPropagation()">
-                     <input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)" >
-                  </td>
-               <td th:text="'P'+${project.projectId}"></td>
-                   <td th:text="${project.projectName}"></td>
-                   <td th:text="${project.projectExplain}"></td>
+            	<tr th:each="project : ${projectList}">
+            		<td onclick="event.stopPropagation()">
+            			<input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)" >
+            		</td>
+					<td th:text="'P'+${project.projectId}"></td>
+                	<td th:text="${project.projectName}"></td>
+                	<td th:text="${project.projectExplain}"></td>
                 </tr>
             </tbody>
         </table>
 
-           <div class="buttons">
+	        <div class="buttons">
                 <button onclick="openPopup()">등록</button>
                 <button type="button" class="btn btn-danger" onclick="deleteProject()">삭제</button>
             </div>
-       </div>
-   </div>
-   
+	    </div>
+	</div>
+	
 <!-- 팝업 -->
 <div id="popup" style="display:none;margin-left: 278px;">
     <div class="popup-header">
@@ -58,11 +58,11 @@
             </tr>
         </table>
             <div class="popup-buttons">
-               <button onclick="saveProject()">저장</button>
-               <button onclick="closePopup()">취소</button>
-           </div>
-       </div>
-   </div>
+	            <button onclick="saveProject()">저장</button>
+	            <button onclick="closePopup()">취소</button>
+        	</div>
+    	</div>
+	</div>
 </div>
 
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
@@ -80,23 +80,22 @@ function saveProject() {
     const name = document.querySelector("#projectName").value.trim();
     const explain = document.querySelector("#projectExplain").value.trim();   
 
-   console.log("프로젝트명 입력값:", name);  // <-- 확인용
-
-   if(name === "") {
-      Swal.fire({
-         title : "입력 오류",
-         text : "프로젝트 명을 입력해주세요.",
-         icon : "warning"
-      });
-      return;
-   }  
+	console.log("프로젝트명 입력값:", name);  // <-- 확인용
+	if(name === "") {
+	   Swal.fire({
+	      title : "입력 오류",
+	      text : "프로젝트 명을 입력해주세요.",
+	      icon : "warning"
+	   });
+	   return;
+	} 
    
-   const data = {
-     projectName: name,
-     projectExplain: explain
-   };
+	const data = {
+	  projectName: name,
+	  projectExplain: explain
+	};
 
-   fetch("/projectAdd", {
+	fetch("/projectAdd", {
         method: "POST",
         headers: {
             "Content-type": "application/json"
@@ -143,7 +142,7 @@ function deleteProject() {
   if (checkboxes.length === 0) {
       Swal.fire('알림', '삭제할 항목을 선택하세요.', 'warning');
       return;
-   }
+	}
 
   // 선택된 projectId만 추출
   const ids = Array.from(checkboxes).map(cb => cb.value);
@@ -172,15 +171,12 @@ function deleteProject() {
   });
 }
 
-// 선택된 프로젝트 ID 배열 만들기
-const selectedIds = Array.from(checkboxes).map(cb => cb.value);
-
 function switchTab(element, targetId) {
       // 메뉴 active 처리
       const sidebarItems = document.querySelectorAll(".sidebar li");
       sidebarItems.forEach(li => li.classList.remove("active"));
       element.classList.add("active");
-   }
+	}
 
 // 테이블 행 클릭 시
    let selectedProject = null;
@@ -190,26 +186,26 @@ function switchTab(element, targetId) {
      const rows = projectTable.querySelectorAll("tbody tr");
 
      rows.forEach(row => {
-         row.addEventListener("click", function () {
-           // 기존 선택 제거
-           rows.forEach(r => r.classList.remove("highlight"));
+    	  row.addEventListener("click", function () {
+    	    // 기존 선택 제거
+    	    rows.forEach(r => r.classList.remove("highlight"));
 
-           // 현재 선택한 행에 하이라이트
-           this.classList.add("highlight");
+    	    // 현재 선택한 행에 하이라이트
+    	    this.classList.add("highlight");
 
-           // 선택된 프로젝트 값 저장
-           const cells = this.getElementsByTagName("td");
-           const projectId = cells[1].innerText.trim(); // 프로젝트 ID는 두 번째 <td>
+    	    // 선택된 프로젝트 값 저장
+    	    const cells = this.getElementsByTagName("td");
+    	    const projectId = cells[1].innerText.trim(); // 프로젝트 ID는 두 번째 <td>
 
-           selectedProject = {
-             projectId: projectId,
-             projectName: cells[2].innerText.trim()
-           };
+    	    selectedProject = {
+    	      projectId: projectId,
+    	      projectName: cells[2].innerText.trim()
+    	    };
 
-           // ✅ 클릭 후 이동
-           window.location.href = `/main/projectConfig?projectId=${encodeURIComponent(projectId)}`;
-         });
-       });
+    	    // ✅ 클릭 후 이동
+    	    window.location.href = `/projectConfig?projectId=${encodeURIComponent(projectId)}`;
+    	  });
+    	});
      });
 
 // 선택 버튼 클릭 시
@@ -241,4 +237,5 @@ function confirmSelection() {
 </script>
 </th:block>
 </body>
-</html> 
+</html>
+
