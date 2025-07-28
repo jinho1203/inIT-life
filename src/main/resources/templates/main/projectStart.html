@@ -7,9 +7,9 @@
 
 <body>
 <div layout:fragment="content">
-   <div class="config-wrapper" style="position: relative;">
-       <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
-      <div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
+	<div class="config-wrapper" style="position: relative;">
+    <div class="bookmark" onclick="location.href='/main/projectConfig'">설정</div>
+		<div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/main/projectStart'">실행</div>
         <!-- 설정하기 화면 -->
         <div id="config" class="section-wrapper config-section">
         
@@ -99,8 +99,7 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <button>등록</button>
-                        <button>삭제</button>
+                        <button>수정</button>
                     </div>
                 </div>
 
@@ -152,8 +151,15 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
 
+    if (path.includes("projectConfig")) {
+        document.querySelector(".bookmark").classList.add("active");
+    } else if (path.includes("projectStart")) {
+        document.querySelector(".bookmark2").classList.add("active");
+    }
+});
 </script>
-
 </body>
 </html>

@@ -21,6 +21,30 @@ body {
   font-weight: bold;
   justify-content: center;
 }
+.bookmark {
+    position: absolute;
+    top: 0;
+    right: 151px; /* 오른쪽 바깥으로 빼기 */
+    background: #F0F8FF;
+    padding: 0.6em;
+    border-left: inset;
+    border-radius: 0 15px 15px 0;
+    writing-mode: horizontal-tb; /* 글자를 세로로 돌리고 싶으면 사용 */
+    text-align: center;
+/*    font-weight: bold; */
+}
+.bookmark2 {
+    position: absolute;
+    top: 0;
+    right: 151px; /* 오른쪽 바깥으로 빼기 */
+    background: #D8EFFB;
+    padding: 0.6em;
+    border-left: inset;
+    border-radius: 0 15px 15px 0;
+    writing-mode: horizontal-tb; /* 글자를 세로로 돌리고 싶으면 사용 */
+    text-align: center;
+/*    font-weight: bold; */
+}
 
 /* 전체 레이아웃 */
 .container {
@@ -310,3 +334,4 @@ td.label .asterisk {
     padding: 15px;
   }
 }
+ 

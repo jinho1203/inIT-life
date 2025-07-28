@@ -29,8 +29,8 @@
     <!-- 사이드바 -->
     <div class="sidebar">
         <ul>
-            <li th:classappend="${activePage} == 'add' ? 'active'" onclick="location.href='/main/projectAdd'">프로젝트 추가</li>
-            <li th:classappend="${activePage} == 'config' ? 'active'" onclick="location.href='/main/projectConfig'">프로젝트 설정 / 실행</li>
+            <li th:classappend="${activePage} == 'add' ? 'active'" onclick="location.href='/projectAdd'">프로젝트 추가</li>
+            <li th:classappend="${activePage} == 'config' ? 'active'" onclick="location.href='/projectConfig'">프로젝트 설정 / 실행</li>
         </ul>
     </div>
 
@@ -52,3 +52,4 @@ function switchTab(element, targetId) {
 
 </body>
 </html>
+ 

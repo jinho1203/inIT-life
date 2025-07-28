@@ -10,5 +10,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/projectConfig")
 public class ProjectConfigController {
-
+	
 }
