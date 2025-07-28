@@ -42,31 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>S00001</td>
-                            <td>서울 본사에 대한 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThng</td>
-                            <td>JSON</td>
-                        </tr>
-                        <tr>
-                            <td>S00002</td>
-                            <td>대전 남구 ~20에 의한 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngDetail</td>
-                            <td>JSON</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>S00003</td>
-                            <td>서울 중소기업 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngPPSSrch</td>
-                            <td>JSON</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>S00004</td>
-                            <td>작업실행 분석 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngChgHstry</td>
-                            <td>JSON</td>
+                        <tr th:each="source : ${sourceList}">
                             
                         </tr>
                     </tbody>
