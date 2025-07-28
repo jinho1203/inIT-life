@@ -23,7 +23,9 @@
             </thead>
             <tbody>
             	<tr th:each="project : ${projectList}">
-            		<td><input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)"></td>
+            		<td onclick="event.stopPropagation()">
+            			<input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)" >
+            		</td>
 					<td th:text="'P'+${project.projectId}"></td>
                 	<td th:text="${project.projectName}"></td>
                 	<td th:text="${project.projectExplain}"></td>
@@ -37,6 +39,7 @@
             </div>
 	    </div>
 	</div>
+	
 <!-- 팝업 -->
 <div id="popup" style="display:none;margin-left: 278px;">
     <div class="popup-header">
@@ -91,7 +94,7 @@ function saveProject() {
 	  projectExplain: explain
 	};
 
-	fetch("/main/projectAdd", {
+	fetch("/projectAdd", {
         method: "POST",
         headers: {
             "Content-type": "application/json"
@@ -140,6 +143,33 @@ function deleteProject() {
       return;
 	}
 
+  // 선택된 projectId만 추출
+  const ids = Array.from(checkboxes).map(cb => cb.value);
+
+  // 백엔드에 삭제 요청
+  fetch('/projectAdd', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(ids)
+  })
+  .then(response => response.text())
+  .then(result => {
+    if (result === 'success') {
+      Swal.fire('완료', '삭제되었습니다.', 'success').then(() => {
+        location.reload(); // 새로고침하여 반영
+      });
+    } else {
+      Swal.fire('실패', '삭제에 실패했습니다.', 'error');
+    }
+  })
+  .catch(error => {
+    console.error('삭제 오류:', error);
+    Swal.fire('오류', '서버 오류가 발생했습니다.', 'error');
+  });
+}
+
 // 선택된 프로젝트 ID 배열 만들기
 const selectedIds = Array.from(checkboxes).map(cb => cb.value);
 
@@ -149,7 +179,6 @@ function switchTab(element, targetId) {
       sidebarItems.forEach(li => li.classList.remove("active"));
       element.classList.add("active");
 	}
-} 
 
 // 테이블 행 클릭 시
    let selectedProject = null;
