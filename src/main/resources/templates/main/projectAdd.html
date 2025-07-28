@@ -25,29 +25,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox" name="projectCheckbox" value="1"></td>
-                    <td>P1</td>
-                    <td>KOSIS</td>
-                    <td>KOSIS API</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="projectCheckbox" value="2"></td>
-                    <td>P2</td>
-                    <td>통계청</td>
-                    <td>통계청 API</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="projectCheckbox" value="3"></td>
-                    <td>P3</td>
-                    <td>조달청</td>
-                    <td>조달청 API</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="projectCheckbox" value="4"></td>
-                    <td>P9</td>
-                    <td>대전 통계청</td>
-                    <td>설명</td>
+            	<tr th:each="project : ${projectList}">
+            		<td><input type="checkbox" name="projectCheckbox" th:value="${project.projectId}" onchange="highlightRow(this)"></td>
+					<td th:text="'P'+${project.projectId}"></td>
+                	<td th:text="${project.projectName}"></td>
+                	<td th:text="${project.projectExplain}"></td>
                 </tr>
             </tbody>
         </table>
