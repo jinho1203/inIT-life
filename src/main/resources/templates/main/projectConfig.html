@@ -7,9 +7,143 @@
 
 <body>
 <div layout:fragment="content">
-    <div class="container">
-       	
+        <!-- 설정하기 화면 -->
+        <div id="config" class="section-wrapper config-section">
+     <table style="width:100%;margin:0;padding:0;" border="0">
+                <tbody>
+                    <tr>
+                        <td class="tdContent">         
+                            <div id="divProjectPro">
+                                <h3>프로젝트</h3>
+                                <div>
+                                    <span class="inputLabel">프로젝트ID</span>
+                                    <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" disabled>
+                                    <input id="projectName" type="text" class="text" style="width:250px;margin-left:5px;" disabled>
+                                    <button type="button" class="btn btn-secondary" onclick="openPopup2()" style="width: 3%;">...</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 20px;">
+                <h3>API 목록</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>API 이름</th>
+                            <th>요청 URL</th>
+                            <th>응답 형식 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>S00001</td>
+                            <td>서울 본사에 대한 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThng</td>
+                            <td>JSON</td>
+                        </tr>
+                        <tr>
+                            <td>S00002</td>
+                            <td>대전 남구 ~20에 의한 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngDetail</td>
+                            <td>JSON</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>S00003</td>
+                            <td>서울 중소기업 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngPPSSrch</td>
+                            <td>JSON</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>S00004</td>
+                            <td>작업실행 분석 조회</td>
+                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngChgHstry</td>
+                            <td>JSON</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <button onclick="openPopup3()">등록</button>
+                    <button>삭제</button>
+                </div>
+            </div>
+
+            <!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
+            <div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
+            
+                <!-- 입력 항목 -->
+                <div style="flex: 1;">
+                    <h3>입력 항목</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>입력 ID</th>
+                                <th>입력명</th>
+                                <th>입력항목 키</th>
+                                <th>입력값</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button>등록</button>
+                        <button>삭제</button>
+                    </div>
+                </div>
+
+                <!-- 출력 항목 -->
+                <div style="flex: 1;">
+                    <h3>출력 항목</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>출력 ID</th>
+                                <th>출력명</th>
+                                <th>출력항목 키</th>
+                                <th>출력값</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr><td></td><td></td><td></td><td></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button>수정</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 총 URL 출력 영역 -->
+            <div style="margin-top: 30px;">
+                <!-- Bootstrap 버튼 -->
+                <div class="mb-2">
+                    <button type="button" class="btn btn-secondary" disabled>총 URL</button>
+                </div>
+
+                <!-- 텍스트 영역 -->
+                <div class="mb-3">
+                    <textarea rows="4" style="width: 46%; resize: vertical;"></textarea>
+                </div>
+
+                <!-- 버튼 영역 -->
+                <div class="buttons">
+                    <button class="btn btn-success" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>

@@ -5,10 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>공공 API 통합 관리</title>
+    
+    <!-- 공통 스크립트 & 스타일 -->
     <script src="/sweetalert2.all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/sweetalert2.css">
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    
+    <!-- 개별 페이지에서 스크립트 주입할 자리 -->
+    <th:block layout:fragment="pageScript"></th:block>
 </head>
 <body>
 
@@ -21,7 +26,7 @@
 <!-- 전체 레이아웃 묶음 -->
 <div class="container">
     
-    <!-- ✅ 사이드바 먼저 -->
+    <!-- 사이드바 -->
     <div class="sidebar">
         <ul>
             <li th:classappend="${activePage} == 'add' ? 'active'" onclick="location.href='/main/projectAdd'">프로젝트 추가</li>
@@ -29,25 +34,20 @@
         </ul>
     </div>
 
-    <!-- ✅ 본문 삽입 위치 -->
+    <!-- 본문 삽입 위치 -->
     <div class="content" layout:fragment="content"></div>
 </div>
-<script>
 
+<script>
 function switchTab(element, targetId) {
-    // 메뉴 active 처리
     const sidebarItems = document.querySelectorAll(".sidebar li");
     sidebarItems.forEach(li => li.classList.remove("active"));
     element.classList.add("active");
 
-    // 탭 내용 전환
     const allSections = document.querySelectorAll(".section-wrapper");
-    allSections.forEach(section => {
-        section.style.display = "none";
-    });
+    allSections.forEach(section => section.style.display = "none");
     document.getElementById(targetId).style.display = "block";
 }
- 
 </script>
 
 </body>
