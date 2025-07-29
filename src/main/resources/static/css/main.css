@@ -319,6 +319,18 @@ td.label .asterisk {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   z-index: 1000;
 }
+/* 팝업 3 */
+#popup4 {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 600px;
+  background: white;
+  border: 2px solid #ffbb33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
 
 /* SweetAlert2 팝업 z-index */
 .swal2-container {
