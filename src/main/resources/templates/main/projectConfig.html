@@ -31,7 +31,7 @@
             </table>
 
             <div style="margin-top: 20px;">
-                <h3>API 목록</h3>
+                <h3 class="h3-project">API 목록</h3>
                 <table>
                     <thead>
                         <tr>
@@ -43,7 +43,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>S000012</td>
+                            <td>S00001</td>
                             <td>서울 본사에 대한 조회</td>
                             <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThng</td>
                             <td>JSON</td>
@@ -51,7 +51,7 @@
                         <tr>
                             <td>S00002</td>
                             <td>대전 남구 ~20에 의한 조회</td>
-                            <td>http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoListThngDetail</td>
+                            <td>http://apis.data.go.kr/getCntrctInfoListThngDetail</td>
                             <td>JSON</td>
                             
                         </tr>
@@ -72,8 +72,8 @@
                     </tbody>
                 </table>
                 <div class="buttons">
-                    <button onclick="openPopup3()">등록</button>
-                    <button>삭제</button>
+                     <button type="button" class="btn btn-outline-primary" onclick="openPopup()">등록</button>
+                	 <button type="button" class="btn btn-outline-warning" onclick="deleteProject()">삭제</button>
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
             
                 <!-- 입력 항목 -->
                 <div style="flex: 1;">
-                    <h3>입력 항목</h3>
+                    <h3 class="h3-project">입력 항목</h3>
                     <table>
                         <thead>
                             <tr>
@@ -99,14 +99,14 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <button>등록</button>
-                        <button>삭제</button>
+                         <button type="button" class="btn btn-outline-primary" onclick="openPopup()">등록</button>
+                         <button type="button" class="btn btn-outline-warning" onclick="deleteProject()">삭제</button>
                     </div>
                 </div>
 
                 <!-- 출력 항목 -->
                 <div style="flex: 1;">
-                    <h3>출력 항목</h3>
+                    <h3 class="h3-project">출력 항목</h3>
                     <table>
                         <thead>
                             <tr>
@@ -130,7 +130,7 @@
             <div style="margin-top: 30px;">
                 <!-- Bootstrap 버튼 -->
                 <div class="mb-2">
-                    <button type="button" class="btn btn-secondary" disabled>총 URL</button>
+                    <button type="button" class="btn btn-outline-dark" disabled>총 URL</button>
                 </div>
 
                 <!-- 텍스트 영역 -->
@@ -140,7 +140,7 @@
 
                 <!-- 버튼 영역 -->
                 <div class="buttons">
-                    <button class="btn btn-success" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
+                    <button type="button" class="btn btn-warning" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
                 </div>
             </div>
         </div>

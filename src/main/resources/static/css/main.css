@@ -1,6 +1,10 @@
 @charset "UTF-8";
 
 /* 기본 설정 */
+h3-project{
+  margin-bottom: 10px;  /* h3와 테이블 사이 */
+  margin-top: 30px;  /* 위 요소와 h3 사이 */
+} 
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
@@ -28,7 +32,7 @@ body {
 .bookmark {
     position: absolute;
     top: 0;
-    right: 151px; /* 오른쪽 바깥으로 빼기 */
+    right: 10px; /* 오른쪽 바깥으로 빼기 */
     background: #F0F8FF;
     padding: 0.6em;
     border-left: inset;
@@ -40,7 +44,7 @@ body {
 .bookmark2 {
     position: absolute;
     top: 0;
-    right: 151px; /* 오른쪽 바깥으로 빼기 */
+    right: 10px; /* 오른쪽 바깥으로 빼기 */
     background: #D8EFFB;
     padding: 0.6em;
     border-left: inset;
@@ -64,9 +68,8 @@ body {
   padding: 20px;
   border-right: 1px solid #ccc;
   flex-shrink: 0;
-
   /* ❌ 이 줄 삭제: 화면 밖으로 밀림 현상 발생 */
-  /* margin-left: -304px; */
+  margin-left: -304px; 
 }
 
 .sidebar ul {
