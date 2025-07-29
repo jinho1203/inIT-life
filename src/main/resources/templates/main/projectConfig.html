@@ -18,7 +18,7 @@
                     <tr>
                         <td class="tdContent">         
                             <div id="divProjectPro">
-                                <h3>프로젝트</h3>                                
+                                <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>                                
                                 <div>
                                     <span class="inputLabel">프로젝트ID</span>
                                     <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" th:value="${param.projectId}" disabled>
@@ -33,7 +33,7 @@
             </table>
 
             <div style="margin-top: 20px;">
-                <h3>API 목록</h3>
+                <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
                 <table>
                     <thead>
                         <tr>
@@ -87,7 +87,7 @@
             
                 <!-- 입력 항목 -->
                 <div style="flex: 1;">
-                    <h3>입력 항목</h3>
+                    <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
                     <table>
                         <thead>
                             <tr>
@@ -104,14 +104,14 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                        <button>등록</button>
-                        <button>삭제</button>
+                         <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">등록</button>
+                         <button type="button" class="btn btn-outline-warning" onclick="deleteProject()">삭제</button>
                     </div>
                 </div>
 
                 <!-- 출력 항목 -->
                 <div style="flex: 1;">
-                    <h3>출력 항목</h3>
+                    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
                     <table>
                         <thead>
                             <tr>
@@ -135,7 +135,7 @@
             <div style="margin-top: 30px;">
                 <!-- Bootstrap 버튼 -->
                 <div class="mb-2">
-                    <button type="button" class="btn btn-secondary" disabled>총 URL</button>
+                    <button type="button" class="btn btn-outline-dark" disabled>총 URL</button>
                 </div>
 
                 <!-- 텍스트 영역 -->
@@ -145,12 +145,72 @@
 
                 <!-- 버튼 영역 -->
                 <div class="buttons">
-                    <button class="btn btn-success" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
+                    <button type="button" class="btn btn-warning" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
                 </div>
             </div>
         </div>
     </div>
+<!-- 팝업3 -->
+	<div id="popup3">
+	    <div class="popup-header">
+	        소스 속성정보
+	        <span class="popup-close" onclick="closePopup()"></span>
+	    </div>
+	    <div class="popup-body">
+	        <table class="popup-table">
+				<tr>
+				  <td class="label required">API 이름<span class="asterisk">(*)</span></td>
+				  <td><input type="text" id="projectExplain" /></td>
+				</tr>
+				<tr>
+				  <td class="label">요청URL</td>
+				  <td><input type="text" id="projectExplain" /></td>
+				</tr>
+				 <tr>
+					  <td class="label">응답형식</td>
+					  <td>
+					    <select id="projectExplain" name="responseFormat">
+					      <option value="" disabled selected>--선택해주세요--</option>
+					      <option value="json">JSON</option>
+					      <option value="xml">XML</option>
+					    </select>
+					  </td>
+					</tr>
+	        </table>
+	        <div class="popup-buttons">
+	            <button type="button" class="btn btn-outline-success">저장</button>
+	            <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">취소</button>
+	        </div>
+	    </div>
+	</div>
+<!-- 팝업4 -->	
+<div id="popup4">
+    <div class="popup-header">입력 속성정보
+        <span class="popup-close" onclick="closePopup()"></span>
+    </div>
+    <div class="popup-body">
+        <table class="popup-table">
+			<tr>
+			  <td class="label required">입력명<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="projectExplain" /></td>
+			</tr>
+			<tr>
+			   <td class="label required">입력항목<span class="asterisk">(*)</span></td>
+			   <td><input type="text" id="projectExplain" /></td>
+			</tr>
+			<tr>
+			  <td class="label">입력값</td>
+			  <td><input type="text" id="projectExplain" /></td>
+			</tr>
+        </table>
+        <div class="popup-buttons">
+            <button type="button" class="btn btn-outline-success">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">취소</button>
+        </div>
+    </div>
 </div>
+</div>
+
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>

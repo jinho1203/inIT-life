@@ -1,0 +1,44 @@
+
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+<title>오류페이지</title>
+<style type="text/css">
+body,html {margin:0; height:100%;}
+img {max-width:100%}
+.error {display:table; width:100%; height:100%; background:#fff; text-align:center;}
+.error .box {display:table-cell; padding:0 10px 100px 10px; vertical-align:middle;}
+.error .box .btn {padding-top:20px;}
+</style>
+</head>
+<body>
+
+<!-- 에러페이지 -->
+<div class="error">
+    <div class="box">
+        <div class="cont">
+            <img src="/images/img_error.png" alt="요청하신 페이지를 찾을 수 없습니다." />
+        </div>
+        <div class="btn">
+            <a href="#" onclick="location.href='/projectAdd'; return false;">
+                <img src="/images/bt_home.png" alt="홈으로 이동" />
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 결제 에러페이지 -->
+<div class="error" style='display:none'>
+    <div class="box">
+        <div class="cont"><img src="/images/img_error.png" alt="죄송합니다. 페이지 호출 오류 입니다. 아래를 참고하세요." /></div>
+        <div class="btn"><a href="javascript:close();"><img src="/images/common/bt_close.png" alt="닫기" /></a></div>
+    </div>
+</div>
+</body>
+<script>
+  var m = '';
+  if(m != '')  alert(decodeURIComponent(m));
+</script>
+</html>
