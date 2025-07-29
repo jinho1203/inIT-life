@@ -52,39 +52,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="buttons">
-                    <button onclick="openSourcePopup()">등록</button>
-					<button type="button" class="btn btn-danger" onclick="deleteSource()">삭제</button>
-                </div>
-            </div>
-			
-			<!-- 소스 등록 팝업 -->
-			<div id="sourcePopup" style="display:none;margin-left: 278px;">
-				<div class="popup-header">
-					API 속성 정보
-					<span class="popup-close" onclick="closeSourcePopup()"></span>
+            		 <div style="margin-top: 15px;">
+						  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">등록</button>
+						  <button type="button" class="btn btn-outline-warning" onclick="deleteSource()">삭제</button>
+					</div>
 				</div>
-				<div class="popup-body">
-					<table class="popup-body">
-						<tr>
-							<td class="label">API 명</td>
-							<td><input type="text" id="sourceName" /></td>
-						</tr>
-						<tr>
-							<td class="label">요청 URL</td>
-							<td><input type="text" id="baseUrl" /></td>
-						</tr>
-					</table>
-						<div class="popup-buttons">
-							<button onclick="saveSource()">저장</button>
-	            			<button onclick="closeSourcePopup()">취소</button>
-						</div>
-				</div>
-			</div>
-			
             <!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
             <div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
-            
+          
                 <!-- 입력 항목 -->
                 <div style="flex: 1;">
                     <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
@@ -104,8 +79,8 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                         <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">등록</button>
-                         <button type="button" class="btn btn-outline-warning" onclick="deleteProject()">삭제</button>
+                         <button type="button" class="btn btn-outline-primary" onclick="saveSource()">등록</button>
+                         <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">삭제</button>
                     </div>
                 </div>
 
@@ -128,28 +103,22 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
             <!-- 총 URL 출력 영역 -->
             <div style="margin-top: 30px;">
-                <!-- Bootstrap 버튼 -->
                 <div class="mb-2">
                     <button type="button" class="btn btn-outline-dark" disabled>총 URL</button>
                 </div>
-
-                <!-- 텍스트 영역 -->
                 <div class="mb-3">
                     <textarea rows="4" style="width: 46%; resize: vertical;"></textarea>
                 </div>
-
-                <!-- 버튼 영역 -->
                 <div class="buttons">
-                    <button type="button" class="btn btn-warning" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
+                    <button type="button" class="btn btn-success" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
                 </div>
             </div>
         </div>
     </div>
+    
 <!-- 팝업3 -->
 	<div id="popup3">
 	    <div class="popup-header">
@@ -160,11 +129,11 @@
 	        <table class="popup-table">
 				<tr>
 				  <td class="label required">API 이름<span class="asterisk">(*)</span></td>
-				  <td><input type="text" id="projectExplain" /></td>
+				  <td><input type="text" id="sourceName" /></td>
 				</tr>
 				<tr>
 				  <td class="label">요청URL</td>
-				  <td><input type="text" id="projectExplain" /></td>
+				  <td><input type="text" id="baseUrl" /></td>
 				</tr>
 				 <tr>
 					  <td class="label">응답형식</td>
@@ -178,8 +147,8 @@
 					</tr>
 	        </table>
 	        <div class="popup-buttons">
-	            <button type="button" class="btn btn-outline-success">저장</button>
-	            <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">취소</button>
+            <button type="button" class="btn btn-outline-success" onclick="saveSource()">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">취소</button>
 	        </div>
 	    </div>
 	</div>
@@ -204,8 +173,8 @@
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">취소</button>
+            <button type="button" class="btn btn-outline-success">저장</button>>
+            <button type="button" class="btn btn-outline-warning">취소</button>
         </div>
     </div>
 </div>
@@ -217,9 +186,16 @@
 function openSourcePopup() {
 	document.getElementById("sourcePopup").style.display = "block";
 }
+
 function closeSourcePopup() {
     document.getElementById("sourcePopup").style.display = "none";
 }
+function openPopup3() {
+    document.getElementById("popup3").style.display = "block";
+  }
+function closePopup3() {
+    document.getElementById("popup3").style.display = "none";
+   }
 
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
@@ -266,7 +242,7 @@ function saveSource() {
 				icon: 'success', 
                 confirmButtonText: '확인'
             }).then(() => {
-                closeSourcePopup();
+            	closePopup3();
                 location.reload();					
 			});
 		} else {
