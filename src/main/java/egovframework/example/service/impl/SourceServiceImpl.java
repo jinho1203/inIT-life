@@ -19,8 +19,8 @@ public class SourceServiceImpl implements SourceService {
 	private final InputMapper inputMapper;
 	
 	@Override
-	public List<SourceVO> getAllList() {
-		return sourceMapper.getAllList();
+	public List<SourceVO> getAllList(Long projectId) {
+		return sourceMapper.getAllList(projectId);
 	}
 
 	@Override

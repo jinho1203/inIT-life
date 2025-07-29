@@ -6,7 +6,7 @@ import egovframework.example.vo.SourceVO;
 
 public interface SourceService {
 	
-	List<SourceVO> getAllList();							// 전체 소스 불러오기
+	List<SourceVO> getAllList(Long projectId);							// 전체 소스 불러오기
 	
 	int insertSource(SourceVO sourceVO);					// 소스 등록
 	

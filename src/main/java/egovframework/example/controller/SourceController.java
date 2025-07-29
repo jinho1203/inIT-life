@@ -25,9 +25,9 @@ public class SourceController {
 	private final SourceService sourceService;
 	
 	@GetMapping
-	public List<SourceVO> getAllList(){
+	public List<SourceVO> getAllList(Long projectId){
 		
-		return sourceService.getAllList();
+		return sourceService.getAllList(projectId);
 	}
 	
 	@PostMapping

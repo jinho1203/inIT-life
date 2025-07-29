@@ -14,5 +14,5 @@ public class SourceVO {
 	private LocalDate createdAt;		// 생성일자
 	private boolean isDeleted;			// 삭제
 	
-	private int projectId;
+	private Long projectId;
 }

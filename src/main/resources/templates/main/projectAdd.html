@@ -74,7 +74,7 @@ function openPopup() {
 }
 function closePopup() {
     document.getElementById("popup").style.display = "none";
-   }
+}
   
 function saveProject() {
     const name = document.querySelector("#projectName").value.trim();
@@ -195,15 +195,18 @@ function switchTab(element, targetId) {
 
     	    // 선택된 프로젝트 값 저장
     	    const cells = this.getElementsByTagName("td");
-    	    const projectId = cells[1].innerText.trim(); // 프로젝트 ID는 두 번째 <td>
+    	    const rawProjectId = cells[1].innerText.trim();  // "P4"
+    	    const numericProjectId = rawProjectId.replace(/\D/g, '');  // "4" (숫자만)
+    	    const projectName = cells[2].innerText.trim(); // 세 번째 칸: 프로젝트 이름
+    	    
 
     	    selectedProject = {
-    	      projectId: projectId,
+    	      projectId: numericProjectId,
     	      projectName: cells[2].innerText.trim()
     	    };
 
     	    // ✅ 클릭 후 이동
-    	    window.location.href = `/projectConfig?projectId=${encodeURIComponent(projectId)}`;
+    	    window.location.href = `/projectConfig?projectId=${encodeURIComponent(numericProjectId)}&projectName=${encodeURIComponent(projectName)}`;
     	  });
     	});
      });

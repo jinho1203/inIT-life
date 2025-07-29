@@ -31,13 +31,14 @@ public class MainController {
     	 * Project / Source
     	 */
     	List<ProjectVO> projectList = projectService.getAllList();
-    	List<SourceVO> sourceList = sourceService.getAllList();
+//    	List<SourceVO> sourceList = sourceService.getAllList();
     	
     	model.addAttribute("projectList", projectList);
-    	model.addAttribute("sourceList", sourceList);
+//    	model.addAttribute("sourceList", sourceList);
     	
         return "main";  
     }
+	
     /*
      * Project 분류 및 등록
      */

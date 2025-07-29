@@ -3,8 +3,9 @@
 <mapper namespace="egovframework.example.mapper.SourceMapper">
 	
 	<!-- 소스 조회 -->
-	<select id="getAllList" resultType="egovframework.example.vo.SourceVO">
+	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.SourceVO">
 		SELECT * FROM test.source
+		WHERE projectId = #{projectId}
 	</select>
 	
 	<!-- 소스 입력 -->
