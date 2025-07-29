@@ -21,15 +21,19 @@ import lombok.RequiredArgsConstructor;
 public class ProjectConfigController {
 	
 	private final SourceService sourceService;
-	
 	@GetMapping
-	public String ShowSourceList(@RequestParam Long projectId, Model model) {
-		
-		List<SourceVO> sourceList = sourceService.getAllList(projectId);
-		model.addAttribute("sourceList", sourceList);
-		model.addAttribute("paramProjectId", projectId);
-		
-		return "main/projectConfig";
+	public String ShowSourceList(@RequestParam(required = false) Long projectId, Model model) {
+	    
+	    if (projectId != null) {
+	        List<SourceVO> sourceList = sourceService.getAllList(projectId);
+	        model.addAttribute("sourceList", sourceList);
+	        model.addAttribute("paramProjectId", projectId);
+	    } else {
+	        model.addAttribute("sourceList", List.of()); // 빈 리스트 처리
+	        model.addAttribute("paramProjectId", null);  // null 처리
+	    }
+
+	    return "main/projectConfig";
 	}
 	
 	@PostMapping
