@@ -4,7 +4,12 @@
 h3-project{
   margin-bottom: 10px;  /* h3와 테이블 사이 */
   margin-top: 30px;  /* 위 요소와 h3 사이 */
+  font-size: 20px; 
 } 
+table {
+  margin-bottom: -7px; /* 테이블과 버튼 사이 */
+}
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
