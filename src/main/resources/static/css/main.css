@@ -175,7 +175,7 @@ table tr:nth-child(even) {
 /* required 필드 표시 */
 td.label {
   text-align: left;
-  padding-right: 10px;
+  padding-right: 40px;
   white-space: nowrap;
   font-weight: bold;
   position: relative;

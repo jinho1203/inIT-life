@@ -41,6 +41,7 @@
                             <th>API 이름</th>
                             <th>요청 URL</th>
                             <th>응답 형식 </th>
+                            <th>테스트 </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,12 +49,13 @@
                          	<td th:text="'S'+${source.sourceId}"></td>
 		                	<td th:text="${source.sourceName}"></td>
 		                	<td th:text="${source.baseUrl}"></td>
-		                	<td>JSON</td>   
+		                	<td>JSON</td> 
+		                	<td></td>
                         </tr>
                     </tbody>
                 </table>
             		 <div style="margin-top: 15px;">
-						  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">등록</button>
+						  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">추가</button>
 						  <button type="button" class="btn btn-outline-warning" onclick="deleteSource()">삭제</button>
 					</div>
 				</div>
@@ -79,7 +81,7 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                         <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">등록</button>
+                         <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
                          <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
                     </div>
                 </div>
@@ -104,20 +106,6 @@
                     </table>
                 </div>
             </div>
-            <!-- 총 URL 출력 영역 -->
-            <div style="margin-top: 30px;">
-                <div class="mb-2">
-                    <button type="button" class="btn btn-outline-dark" disabled>총 URL</button>
-                </div>
-                <div class="mb-3">
-                    <textarea rows="4" style="width: 46%; resize: vertical;"></textarea>
-                </div>
-                <div class="buttons">
-                    <button type="button" class="btn btn-success" style="margin-top: -27px; margin-left:0px">Excel 다운로드</button>
-                </div>
-            </div>
-        </div>
-    </div>
     
 <!-- 팝업3 -->
 	<div id="popup3">
@@ -158,36 +146,27 @@
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
-        <table class="popup-table2">
-			<tr>
-			  <td class="label required">입력명<span class="asterisk">(*)</span></td>
+        <table class="popup-table">
+        	<tr>
+			  <td class="label required">인증키<span class="asterisk">(*)</span></td>
 			  <td><input type="text" id="projectExplain" /></td>
+			</tr>	
+			<tr>
+			   <td class="label required">입력명<span class="asterisk">(*)</span></td>
+  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
 			</tr>
 			<tr>
-			   <td class="label">입력항목키</td>
-			   <td>
-			     <div class="checkbox-grid">
-			       <label><input type="checkbox" value="기관코드"> 예시</label>
-			       <label><input type="checkbox" value="통계표ID"> 통계표ID</label>
-			       <label><input type="checkbox" value="통계표명"> 통계표명</label>
-			       <label><input type="checkbox" value="분류값 ID"> 분류값 ID</label>
-			       <label><input type="checkbox" value="분류명"> 분류명</label>
-			       <label><input type="checkbox" value="분류 영문명"> 분류 영문명</label>
-			       <label><input type="checkbox" value="분류값 명"> 분류값 명</label>
-			       <label><input type="checkbox" value="항목 ID"> 항목 ID</label>
-			       <label><input type="checkbox" value="항목명"> 항목명</label>
-			       <label><input type="checkbox" value="단위명"> 단위명</label>
-			     </div>
-			   </td>
+			  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="projectExplain" placeholder="Ex) obj1, obj2" /></td>
 			</tr>
 			<tr>
 			  <td class="label">입력값</td>
-			  <td><input type="text" id="projectExplain" /></td>
+			  <td><input type="text" id="projectExplain" placeholder="Ex) 대전"/></td>
 			</tr>
         </table>
         <div class="popup-buttons">
             <button type="button" class="btn btn-outline-success">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">취소</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
         </div>
     </div>
 </div>
