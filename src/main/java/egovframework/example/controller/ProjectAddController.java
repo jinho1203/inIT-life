@@ -48,11 +48,10 @@ public class ProjectAddController {
 	@DeleteMapping
 	@ResponseBody
 	public String deleteProject(@RequestBody List<Long> projectId) {
-    	
+	
 		for(Long id : projectId) {
     		projectService.deleteProject(id);
     	}
-    	
     	return "success";
 	}
 }
