@@ -161,7 +161,7 @@
         <table class="popup-table2">
 			<tr>
 			  <td class="label required">입력명<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="projectExplain" /></td>
+			  <td><input type="text" id="inputName" /></td>
 			</tr>
 			<tr>
 			   <td class="label">입력항목키</td>
@@ -182,11 +182,11 @@
 			</tr>
 			<tr>
 			  <td class="label">입력값</td>
-			  <td><input type="text" id="projectExplain" /></td>
+			  <td><input type="text" id="inputValue" /></td>
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success">저장</button>
+            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
             <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">취소</button>
         </div>
     </div>
@@ -202,19 +202,19 @@ function openSourcePopup() {
 
 function closeSourcePopup() {
     document.getElementById("sourcePopup").style.display = "none";
-}
+	}
 function openPopup3() {
     document.getElementById("popup3").style.display = "block";
-  }
+	}
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
-   }
+	}
 function openPopup4() {
     document.getElementById("popup4").style.display = "block";
-  }
+	}
 function closePopup4() {
     document.getElementById("popup4").style.display = "none";
-   }
+	}
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
 	const baseUrl = document.querySelector("#baseUrl").value.trim();
@@ -279,6 +279,11 @@ function saveSource() {
             icon: 'error'
         });
     });	
+
+function saveInput() {
+	const name = document.querySelector("#inputName").value.trim();
+	const value = document.querySelector("#inputValue").value.trim();
+	}
 }
 </script>
 </body>

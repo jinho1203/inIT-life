@@ -10,9 +10,9 @@
 	<!-- 입력항목 등록 -->
 	<insert id="insertInput" parameterType="egovframework.example.vo.InputVO">
 		INSERT INTO test.input
-			(inputName, inputExplain, inputKey, inputValue)
+			(inputName, inputKey, inputValue, apiKey)
 		VALUES
-			(#{inputName}, #{inputExplain}, #{inputKey}, #{inputValue})
+			(#{inputName}, #{inputKey}, #{inputValue}, #{apiKey})
 	</insert>
 	
 	<!-- 입력항목 삭제 -->	
