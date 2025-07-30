@@ -24,7 +24,7 @@
                                     <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" th:value="${param.projectId}" disabled>
                                     <!-- 서버로 전송될 숨겨진 필드 -->
                                     <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-                                    <input id="projectName" type="text" class="text" style="width:250px;margin-left:5px;" th:value="${param.projectName}" disabled>
+                                    <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>
                                 </div>
                             </div>
                         </td>
@@ -80,7 +80,7 @@
                     </table>
                     <div class="buttons">
                          <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">등록</button>
-                         <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">삭제</button>
+                         <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
                     </div>
                 </div>
 
@@ -158,14 +158,27 @@
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
-        <table class="popup-table">
+        <table class="popup-table2">
 			<tr>
 			  <td class="label required">입력명<span class="asterisk">(*)</span></td>
 			  <td><input type="text" id="projectExplain" /></td>
 			</tr>
 			<tr>
-			   <td class="label required">입력항목<span class="asterisk">(*)</span></td>
-			   <td><input type="text" id="projectExplain" /></td>
+			   <td class="label">입력항목키</td>
+			   <td>
+			     <div class="checkbox-grid">
+			       <label><input type="checkbox" value="기관코드"> 예시</label>
+			       <label><input type="checkbox" value="통계표ID"> 통계표ID</label>
+			       <label><input type="checkbox" value="통계표명"> 통계표명</label>
+			       <label><input type="checkbox" value="분류값 ID"> 분류값 ID</label>
+			       <label><input type="checkbox" value="분류명"> 분류명</label>
+			       <label><input type="checkbox" value="분류 영문명"> 분류 영문명</label>
+			       <label><input type="checkbox" value="분류값 명"> 분류값 명</label>
+			       <label><input type="checkbox" value="항목 ID"> 항목 ID</label>
+			       <label><input type="checkbox" value="항목명"> 항목명</label>
+			       <label><input type="checkbox" value="단위명"> 단위명</label>
+			     </div>
+			   </td>
 			</tr>
 			<tr>
 			  <td class="label">입력값</td>
@@ -173,8 +186,8 @@
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success">저장</button>>
-            <button type="button" class="btn btn-outline-warning">취소</button>
+            <button type="button" class="btn btn-outline-success">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">취소</button>
         </div>
     </div>
 </div>
@@ -196,7 +209,12 @@ function openPopup3() {
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
    }
-
+function openPopup4() {
+    document.getElementById("popup4").style.display = "block";
+  }
+function closePopup4() {
+    document.getElementById("popup4").style.display = "none";
+   }
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
 	const baseUrl = document.querySelector("#baseUrl").value.trim();
