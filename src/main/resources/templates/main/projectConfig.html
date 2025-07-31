@@ -34,7 +34,7 @@
       <!-- API 리스트 -->
             <div style="margin-top: 20px;">
                 <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
-                <table>
+                <table id="projectTable">
                     <thead>
                         <tr>
                              <th style="width:86px;">No.</th>
@@ -284,6 +284,37 @@ function testConnection(button) {
         alert("연결에 실패하였습니다.");
     }
 }
+
+//테이블 행 클릭 시
+let selectedProject = null;
+
+document.addEventListener("DOMContentLoaded", function () {
+  const projectTable = document.getElementById("projectTable");
+  const rows = projectTable.querySelectorAll("tbody tr");
+
+  rows.forEach(row => {
+ 	  row.addEventListener("click", function () {
+ 	    // 기존 선택 제거
+ 	    rows.forEach(r => r.classList.remove("highlight"));
+
+ 	    // 현재 선택한 행에 하이라이트
+ 	    this.classList.add("highlight");
+
+ 	    // 선택된 프로젝트 값 저장
+ 	    const cells = this.getElementsByTagName("td");
+ 	    const rawProjectId = cells[1].innerText.trim();  // "P4"
+ 	    const numericProjectId = rawProjectId.replace(/\D/g, '');  // "4" (숫자만)
+ 	    const projectName = cells[2].innerText.trim(); // 세 번째 칸: 프로젝트 이름
+ 	    
+
+ 	    selectedProject = {
+ 	      projectId: numericProjectId,
+ 	      projectName: cells[2].innerText.trim()
+ 	    };
+ 	  });
+ 	});
+  });
+
 </script>
 </body>
 </html>
