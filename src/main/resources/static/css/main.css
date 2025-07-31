@@ -126,7 +126,7 @@ body {
   margin: 0 auto 20px auto;
   padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1215px;
 }
 
 .section-header {
@@ -148,7 +148,7 @@ table th,
 table td {
   border: 1px solid #ddd;
   padding: 6px 10px;
-  height: 32px;
+  height: 37px;
   line-height: 1.2;
 }
 
@@ -325,6 +325,19 @@ td.label .asterisk {
 }
 /* 팝업 4 */
 #popup4 {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 600px; /* ✅ 기존 너비 유지 */
+  background: white;
+  border: 2px solid #ffbb33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow: hidden; /* ✅ 내부 넘침 방지 */
+}
+/* 팝업 5 */
+#popup5 {
   display: none;
   position: fixed;
   top: 25%;
