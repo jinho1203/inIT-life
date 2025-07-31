@@ -140,33 +140,51 @@
 	        </div>
 	    </div>
 	</div>
-	<!-- 팝업4/ 입력항목 -->	
-	<div id="popup4">
-	    <div class="popup-header">입력 속성정보
-	        <span class="popup-close" onclick="closePopup()"></span>
-	    </div>
-	    <div class="popup-body">
-	        <table class="popup-table">
-				<tr>
-				   <td class="label required">입력명<span class="asterisk">(*)</span></td>
-	  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
-				</tr>
-				<tr>
-				  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
-				  <td><input type="text" id="inputKey" placeholder="Ex) obj1, obj2" /></td>
-				</tr>
-				<tr>
-				  <td class="label">입력값</td>
-				  <td><input type="text" id="inputValue" placeholder="Ex) 대전"/></td>
-				</tr>
-	        </table>
-	        <div class="popup-buttons">
-	            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
-	            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
-	        </div>
-	    </div>
-	</div>
-	</div>
+
+<!-- 팝업4 -->	
+<div id="popup4">
+    <div class="popup-header">입력 속성정보
+        <span class="popup-close" onclick="closePopup()"></span>
+    </div>
+    <div class="popup-body">
+        <table class="popup-table">
+			<tr>
+			   <td class="label required">입력명<span class="asterisk">(*)</span></td>
+  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
+			</tr>
+			<tr>
+			  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
+			  <td>
+			    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+			      <input type="text" id="inputKey" placeholder="Ex) obj1" style="flex: 1;" />
+			      <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; white-space: nowrap;">
+			        <span>필수 여부</span>
+			        <input type="checkbox" id="isRequired" style="width: 16px; height: 16px;" />
+			      </label>
+			    </div>
+			  </td>
+			</tr>
+			<tr>
+			  <td class="label">입력값</td>
+			  <td>
+			    <input type="text" id="inputValue" placeholder="Ex) 대전" style="width: 100%;" />
+			
+			    <!-- select box 추가 -->
+			    <select id="valueType" style="margin-top: 6px; width: 100%; padding: 4px 6px;">
+			      <option value="">입력값 유형 선택</option>
+			      <option value="string">문자형</option>
+			      <option value="number">숫자형</option>
+			    </select>
+			  </td>
+			</tr>
+        </table>
+        <div class="popup-buttons">
+            <button type="button" class="btn btn-outline-success">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
