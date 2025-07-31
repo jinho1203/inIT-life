@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.service.SourceService;
+import egovframework.example.vo.InputVO;
 import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +37,7 @@ public class ProjectConfigController {
 	    return "main/projectConfig";
 	}
 	
-	@PostMapping
+	@PostMapping("/source")
 	@ResponseBody
 	public String insertSource(@RequestBody SourceVO sourceVO) {
 		
@@ -52,6 +53,17 @@ public class ProjectConfigController {
 		sourceService.insertSource(sourceVO);
 			
 		return "success";
+	}
+	
+	@PostMapping("/input")
+	@ResponseBody
+	public String insertInput(@RequestBody InputVO inputVO) {
+		
+		System.out.println("받은 입력명: " + inputVO.getInputName());
+		System.out.println("받은 항목키: " + inputVO.getInputKey());
+		System.out.println("받은 입력값: " + inputVO.getInputValue());
+		
+		return null;
 	}
 	
 }

@@ -7,13 +7,13 @@
 
 <body>
 <div layout:fragment="content">
-   <div class="config-wrapper" style="position: relative;">
-       <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
+	<div class="config-wrapper" style="position: relative;">
+      <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
       <div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
         <!-- 설정하기 화면 -->
         <div id="config" class="section-wrapper config-section">
         
-     <table style="width:100%;margin:0;padding:0;" border="0">
+     		<table style="width:100%;margin:0;padding:0;" border="0">
                 <tbody>
                     <tr>
                         <td class="tdContent">         
@@ -106,8 +106,8 @@
                     </table>
                 </div>
             </div>
-    
-<!-- 팝업3 /API 등록-->
+    	</div>
+	<!-- 팝업3 /API 등록-->
 	<div id="popup3">
 	    <div class="popup-header">
 	        소스 속성정보
@@ -140,45 +140,40 @@
 	        </div>
 	    </div>
 	</div>
-<!-- 팝업4/ 입력항목 -->	
-<div id="popup4">
-    <div class="popup-header">입력 속성정보
-        <span class="popup-close" onclick="closePopup()"></span>
-    </div>
-    <div class="popup-body">
-        <table class="popup-table">
-        	<tr>
-			  <td class="label required">인증키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="projectExplain" /></td>
-			</tr>	
-			<tr>
-			   <td class="label required">입력명<span class="asterisk">(*)</span></td>
-  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
-			</tr>
-			<tr>
-			  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="projectExplain" placeholder="Ex) obj1, obj2" /></td>
-			</tr>
-			<tr>
-			  <td class="label">입력값</td>
-			  <td><input type="text" id="projectExplain" placeholder="Ex) 대전"/></td>
-			</tr>
-        </table>
-        <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
-        </div>
-    </div>
+	<!-- 팝업4/ 입력항목 -->	
+	<div id="popup4">
+	    <div class="popup-header">입력 속성정보
+	        <span class="popup-close" onclick="closePopup()"></span>
+	    </div>
+	    <div class="popup-body">
+	        <table class="popup-table">
+				<tr>
+				   <td class="label required">입력명<span class="asterisk">(*)</span></td>
+	  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
+				</tr>
+				<tr>
+				  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
+				  <td><input type="text" id="inputKey" placeholder="Ex) obj1, obj2" /></td>
+				</tr>
+				<tr>
+				  <td class="label">입력값</td>
+				  <td><input type="text" id="inputValue" placeholder="Ex) 대전"/></td>
+				</tr>
+	        </table>
+	        <div class="popup-buttons">
+	            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
+	            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+	        </div>
+	    </div>
+	</div>
+	</div>
 </div>
-</div>
-
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
 function openSourcePopup() {
 	document.getElementById("sourcePopup").style.display = "block";
 }
-
 function closeSourcePopup() {
     document.getElementById("sourcePopup").style.display = "none";
 	}
@@ -218,7 +213,7 @@ function saveSource() {
 			projectId: Number(projectIdNumber)  // 숫자로 보냄
 	};
 	
-	fetch("/projectConfig", {
+	fetch("/projectConfig/source", {
 		method : "POST",
 		headers : {
 			"Content-type": "application/json"
@@ -258,11 +253,70 @@ function saveSource() {
             icon: 'error'
         });
     });	
-
+}
 function saveInput() {
 	const name = document.querySelector("#inputName").value.trim();
 	const value = document.querySelector("#inputValue").value.trim();
-	}
+	const key = document.querySelector("#inputKey").value.trim();
+	
+	console.log("inputName 입력값:", name);
+	console.log("inputValue 입력값:", value);
+	console.log("inputKey 입력값:", key);
+	
+	if(name === "") {
+		Swal.fire({
+			title : "입력 오류",
+			text : "입력명을 작성해주세요.",
+			icon : "warning"
+		});
+		return;
+	}	
+	const data = {
+			inputName : name,
+			inputValue : value,
+			inputKey : key
+	};
+
+	fetch("/projectConfig/input", {
+		method : "POST",
+		headers : {
+			"Content-type": "application/json"
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("서버 응답 오류");
+		}
+		return response.text();
+	})
+	.then(result => {
+		if(result === "success") {
+			Swal.fire({
+				title : '등록 성공',
+				text : '저장 완료되었습니다',
+				icon: 'success', 
+                confirmButtonText: '확인'
+            }).then(() => {
+            	closePopup3();
+                location.reload();					
+			});
+		} else {
+			Swal.fire({
+				title: '등록 실패',
+                text: '필수 항목을 입력해주세요.',
+                icon: 'warning'
+			});
+		}
+	})
+    .catch(error => {
+        console.error("에러발생:", error);
+        Swal.fire({
+            title: '등록 실패',
+            text: '저장 중 오류가 발생했습니다.',
+            icon: 'error'
+        });
+    });	
 }
 </script>
 </body>
