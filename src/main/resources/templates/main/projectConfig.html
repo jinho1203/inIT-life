@@ -45,7 +45,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="source : ${sourceList}">
+                        <tr th:each="source : ${sourceList}" 
+                        	th:attr="data-sourceid=${source.sourceId}"
+                        	onclick="setSelectedSourceId(this)">
                          	<td th:text="'S'+${source.sourceId}"></td>
 		                	<td th:text="${source.sourceName}"></td>
 		                	<td th:text="${source.baseUrl}"></td>
@@ -75,9 +77,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td></td><td></td><td></td><td></td></tr>
-                            <tr><td></td><td></td><td></td><td></td></tr>
-                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr th:each="input : ${inputList}">
+                            	<td th:text="'I' + ${input.inputId}"></td>
+                            	<td th:text="${input.inputName}"></td>
+                            	<td th:text="${input.inputKey}"></td>
+                            	<td th:text="${input.inputValue}"></td>
+                        	</tr>
                         </tbody>
                     </table>
                     <div class="buttons">
@@ -147,6 +152,9 @@
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
+      	<!-- sourceId값 받아오기 -->
+       	<input type="hidden" id="popup4-sourceId" />
+       	
         <table class="popup-table">
 			<tr>
 			   <td class="label required">입력명<span class="asterisk">(*)</span></td>
@@ -179,7 +187,7 @@
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success">저장</button>
+            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
             <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
         </div>
     </div>
@@ -201,12 +209,39 @@ function openPopup3() {
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
 	}
-function openPopup4() {
+function openPopup4(row) {
+	// sourceId 저장
+    document.getElementById("popup4-sourceId").value = selectedSourceId;
+	
+    // 팝업 열기
     document.getElementById("popup4").style.display = "block";
 	}
 function closePopup4() {
     document.getElementById("popup4").style.display = "none";
 	}
+	
+<!-- sourceId를 저장용-->
+let selectedSourceId = null;
+
+function setSelectedSourceId(row) {
+    const sourceId = row.getAttribute("data-sourceid");
+	
+    console.log("sourceId 값 : ",sourceId)
+    
+    // 기존 URL에서 projectId, projectName 유지
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get("projectId");
+    const projectName = urlParams.get("projectName");
+
+    // sourceId를 포함한 새 URL로 이동	
+	//window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
+    
+	//  sourceId 보려고 일부러 딜레이 건거임.
+    setTimeout(() => {
+        window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
+    }, 2000); // 2초 후 이동
+}
+	
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
 	const baseUrl = document.querySelector("#baseUrl").value.trim();
@@ -276,10 +311,20 @@ function saveInput() {
 	const name = document.querySelector("#inputName").value.trim();
 	const value = document.querySelector("#inputValue").value.trim();
 	const key = document.querySelector("#inputKey").value.trim();
+	const isChecked = document.querySelector("#isRequired").checked;
+	const reqParam = isChecked ? "Y" : "N";
+	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
+	const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
+	const sourceId = document.getElementById("popup4-sourceId").value;
+	
 	
 	console.log("inputName 입력값:", name);
 	console.log("inputValue 입력값:", value);
 	console.log("inputKey 입력값:", key);
+	console.log("reqParam 입력값:", reqParam);
+	console.log("projectIdNumber 입력값:", projectIdNumber);
+	console.log("sourceId 입력값:", sourceId);
+	
 	
 	if(name === "") {
 		Swal.fire({
@@ -292,7 +337,10 @@ function saveInput() {
 	const data = {
 			inputName : name,
 			inputValue : value,
-			inputKey : key
+			inputKey : key,
+			reqParam : reqParam,
+			projectId: Number(projectIdNumber),  // 숫자로 보냄
+			sourceId: Number(sourceId)
 	};
 
 	fetch("/projectConfig/input", {
@@ -316,7 +364,7 @@ function saveInput() {
 				icon: 'success', 
                 confirmButtonText: '확인'
             }).then(() => {
-            	closePopup3();
+            	closePopup4();
                 location.reload();					
 			});
 		} else {

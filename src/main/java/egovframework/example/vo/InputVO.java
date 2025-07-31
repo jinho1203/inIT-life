@@ -14,6 +14,7 @@ public class InputVO {
 	private LocalDate createdAt;		// 생성일자
 	private boolean isDeleted;			// 삭제
 	
-	private int projectId;
-	private int sourceId;
+	private Long projectId;
+	private Long sourceId;
+	private String reqParam;
 }

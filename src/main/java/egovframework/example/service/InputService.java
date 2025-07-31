@@ -6,7 +6,7 @@ import egovframework.example.vo.InputVO;
 
 public interface InputService {
 	
-	List<InputVO> getAllList();				// 프로젝트 전체 조회
+	List<InputVO> getAllList(Long sourceId);				// 프로젝트 전체 조회
 	
 	int insertInput(InputVO inputVO);		// 입력항목 등록
 	

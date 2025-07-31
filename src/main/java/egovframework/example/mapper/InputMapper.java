@@ -9,7 +9,7 @@ import egovframework.example.vo.InputVO;
 @Mapper
 public interface InputMapper {
 	
-	List<InputVO> getAllList();
+	List<InputVO> getAllList(Long sourceId);
 	
 	int insertInput(InputVO inputVO);
 

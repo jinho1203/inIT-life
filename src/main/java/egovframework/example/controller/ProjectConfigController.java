@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.example.service.InputService;
 import egovframework.example.service.SourceService;
 import egovframework.example.vo.InputVO;
 import egovframework.example.vo.SourceVO;
@@ -22,8 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class ProjectConfigController {
 	
 	private final SourceService sourceService;
+	private final InputService inputService;
+	
 	@GetMapping
-	public String ShowSourceList(@RequestParam(required = false) Long projectId, Model model) {
+	public String showConfigList(Model model, 
+								@RequestParam(required = false) Long projectId,
+								@RequestParam(required = false) Long sourceId) {
 	    
 	    if (projectId != null) {
 	        List<SourceVO> sourceList = sourceService.getAllList(projectId);
@@ -32,6 +37,15 @@ public class ProjectConfigController {
 	    } else {
 	        model.addAttribute("sourceList", List.of()); // 빈 리스트 처리
 	        model.addAttribute("paramProjectId", null);  // null 처리
+	    }
+	    
+	    if(sourceId != null) {
+	    	List<InputVO> inputList = inputService.getAllList(sourceId);
+	    	model.addAttribute("inputList", inputList);
+	    	model.addAttribute("paramSourceId", sourceId);
+	    } else {
+	    	model.addAttribute("inputList", List.of()); // 빈 리스트 처리
+	        model.addAttribute("paramSourceId", null);  // null 처리
 	    }
 
 	    return "main/projectConfig";
@@ -62,8 +76,18 @@ public class ProjectConfigController {
 		System.out.println("받은 입력명: " + inputVO.getInputName());
 		System.out.println("받은 항목키: " + inputVO.getInputKey());
 		System.out.println("받은 입력값: " + inputVO.getInputValue());
+		System.out.println("필수 조건 여부: " + inputVO.getReqParam());
+		System.out.println("sourceId NUM : " + inputVO.getSourceId());
 		
-		return null;
+		if(inputVO.getInputName() == null || inputVO.getInputName().trim().isEmpty()
+				|| inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()
+				|| inputVO.getInputValue() == null || inputVO.getInputValue().trim().isEmpty()) {
+			return "fail";
+		}
+		
+		inputService.insertInput(inputVO);
+		
+		return "success";
 	}
 	
 }

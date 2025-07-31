@@ -22,11 +22,11 @@ public class InputController {
 	
 	private final InputService inputService;
 	
-	@GetMapping
-	public List<InputVO> getAllList(){
-		
-		return inputService.getAllList();
-	}
+//	@GetMapping
+//	public List<InputVO> getAllList(){
+//		
+//		return inputService.getAllList();
+//	}
 	
 	@PostMapping
 	public void insertInput(@RequestBody InputVO inputVO) {

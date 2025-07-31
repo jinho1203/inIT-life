@@ -3,16 +3,17 @@
 <mapper namespace="egovframework.example.mapper.InputMapper">
 	
 	<!-- 입력항목 조회 -->
-	<select id="getAllList" resultType="egovframework.example.vo.InputVO">
+	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.InputVO">
 		SELECT * FROM test.input
+		WHERE sourceId = #{sourceId}
 	</select>
 	
 	<!-- 입력항목 등록 -->
 	<insert id="insertInput" parameterType="egovframework.example.vo.InputVO">
 		INSERT INTO test.input
-			(inputName, inputKey, inputValue, apiKey)
+			(inputName, inputKey, inputValue, projectId, sourceId, reqParam)
 		VALUES
-			(#{inputName}, #{inputKey}, #{inputValue}, #{apiKey})
+			(#{inputName}, #{inputKey}, #{inputValue}, #{projectId}, #{sourceId}, #{reqParam})
 	</insert>
 	
 	<!-- 입력항목 삭제 -->	

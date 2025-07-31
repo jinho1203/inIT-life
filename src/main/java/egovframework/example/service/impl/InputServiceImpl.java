@@ -16,8 +16,8 @@ public class InputServiceImpl implements InputService {
 	private final InputMapper inputMapper;
 	
 	@Override
-	public List<InputVO> getAllList() {
-		return inputMapper.getAllList();
+	public List<InputVO> getAllList(Long sourceId) {
+		return inputMapper.getAllList(sourceId);
 	}
 	
 	@Override
