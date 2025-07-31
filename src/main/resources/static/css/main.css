@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
 /* 기본 설정 */
 h3-project{
   margin-bottom: 10px;  /* h3와 테이블 사이 */
