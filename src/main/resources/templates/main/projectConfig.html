@@ -31,17 +31,17 @@
                     </tr>
                 </tbody>
             </table>
-
+      <!-- API 리스트 -->
             <div style="margin-top: 20px;">
                 <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>API 이름</th>
-                            <th>요청 URL</th>
-                            <th>응답 형식 </th>
-                            <th>테스트 </th>
+                             <th style="width:86px;">No.</th>
+						     <th style="text-align:center;">API 이름</th>
+						     <th style="text-align:center;">요청 URL</th>
+						     <th style="text-align:center;">응답 형식</th>
+						     <th style="text-align:center;">테스트</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,8 +49,9 @@
                          	<td th:text="'S'+${source.sourceId}"></td>
 		                	<td th:text="${source.sourceName}"></td>
 		                	<td th:text="${source.baseUrl}"></td>
-		                	<td>JSON</td> 
-		                	<td></td>
+		                	<td style="text-align: center;">JSON</td> 
+		                	<td style="text-align: center;"><button type="button" onclick="testConnection(this)" class="btn btn-outline-primary" style="font-size: 13px;">테스트 연결</button>
+		                	</td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,10 +69,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>입력 ID</th>
-                                <th>입력명</th>
-                                <th>입력항목 키</th>
-                                <th>입력값</th>
+                                <th style="text-align:center;">입력 ID</th>
+                                <th style="text-align:center;">입력명</th>
+                                <th style="text-align:center;">입력항목 키</th>
+                                <th style="text-align:center;">입력값</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,10 +93,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>출력 ID</th>
-                                <th>출력명</th>
-                                <th>출력항목 키</th>
-                                <th>출력값</th>
+                                <th style="text-align:center;">출력 ID</th>
+                                <th style="text-align:center;">출력명</th>
+                                <th style="text-align:center;">출력항목 키</th>
+                                <th style="text-align:center;">출력값</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -272,6 +273,16 @@ function saveSource() {
             icon: 'error'
         });
     });	
+}
+function testConnection(button) {
+    // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
+    const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
+
+    if (success) {
+        alert("연결되었습니다.");
+    } else {
+        alert("연결에 실패하였습니다.");
+    }
 }
 </script>
 </body>
