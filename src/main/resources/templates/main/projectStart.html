@@ -40,7 +40,6 @@
 					     <th style="text-align:center;">API 이름</th>
 					     <th style="text-align:center;">요청 URL</th>
 					     <th style="text-align:center;">응답 형식</th>
-					     <th style="text-align:center;">실행</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,16 +52,10 @@
 		            <td>2</td>
 		            <td>3</td>
               	    <td>JSON</td> 
-              	<td style="text-align: center;"><button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 13px;">URL 확인 </button>
-              	</td>
                     </tr>
                 </tbody>
             </table>
-        		 <div style="margin-top: 15px;">
-		  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">추가</button>
-		  <button type="button" class="btn btn-outline-warning" onclick="deleteSource()">삭제</button>
-	</div>
-</div>
+		</div>
 
             <!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
             <div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
@@ -76,6 +69,7 @@
                 <th style="text-align:center;">입력명</th>
                 <th style="text-align:center;">입력항목 키</th>
                 <th style="text-align:center;">입력값</th>
+                <th style="text-align:center;">필/선</th>
             </tr>
         </thead>
        <tbody>
@@ -84,18 +78,21 @@
 		    <td>지역</td>
 		    <td>region</td>
 		    <td style="width:159px"><input type="text" value="대전광역시" style="width: 70%; box-sizing: border-box;"></td>
+		    <td>이야ㅐ</td>
 		  </tr>
 		  <tr>
 		    <td>IN002</td>
 		    <td>날짜</td>
 		    <td>date</td>
 		    <td><input type="text" value="2025-07-31" style="width: 70%; box-sizing: border-box;"></td>
+		    <td>이야ㅐ</td>
 		  </tr>
 		  <tr>
 		    <td>IN003</td>
 		    <td>시간</td>
 		    <td>hour</td>
 		    <td><input type="text" value="12:00" style="width: 70%; box-sizing: border-box;"></td>
+		    <td>이야ㅐ</td>
 		  </tr>
 		</tbody>
     </table>
@@ -111,6 +108,7 @@
                 <th style="text-align:center;">출력명</th>
                 <th style="text-align:center;">출력항목 키</th>
                 <th style="text-align:center;">출력값</th>
+                <th style="text-align:center;">필/선</th>
             </tr>
         </thead>
         <tbody>
@@ -119,23 +117,27 @@
 			    <td>기온</td>
 			    <td>temp</td>
 			    <td style="width:159px"><input type="text" value="31.5℃" style="width: 70%; box-sizing: border-box;"></td>
+			  	<td>이야ㅐ</td>
 			  </tr>
 			  <tr>
 			    <td>OUT002</td>
 			    <td>하늘상태</td>
 			    <td>sky</td>
 			    <td><input type="text" value="맑음" style="width: 70%; box-sizing: border-box;"></td>
+			    <td>이야ㅐ</td>
 			  </tr>
 			  <tr>
 			    <td>OUT003</td>
 			    <td>강수확률</td>
 			    <td>rainProb</td>
 			    <td><input type="text" value="20%" style="width: 70%; box-sizing: border-box;"></td>
+			    <td>이야ㅐ</td>
 			  </tr>
         </tbody>
     </table>
 </div>
-</div>
+</div>	
+<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 13px;">URL 확인 </button>
 </div>
 </div>
 <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
