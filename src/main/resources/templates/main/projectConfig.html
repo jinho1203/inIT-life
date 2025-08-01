@@ -211,8 +211,12 @@ function closePopup3() {
     document.getElementById("popup3").style.display = "none";
 	}
 function openPopup4(row) {
+	// 새로고침된 URL에서 sourceId 읽어오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const sourceId = urlParams.get("sourceId");
+	
 	// sourceId 저장
-    document.getElementById("popup4-sourceId").value = selectedSourceId;
+    document.getElementById("popup4-sourceId").value = sourceId;
 	
     // 팝업 열기
     document.getElementById("popup4").style.display = "block";
@@ -226,21 +230,23 @@ let selectedSourceId = null;
 
 function setSelectedSourceId(row) {
     const sourceId = row.getAttribute("data-sourceid");
-	
+    selectedSourceId = sourceId; // 전역 변수에 저장
+    
     console.log("sourceId 값 : ",sourceId)
     
     // 기존 URL에서 projectId, projectName 유지
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get("projectId");
     const projectName = urlParams.get("projectName");
-
-    // sourceId를 포함한 새 URL로 이동	
-	//window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
+	
+    
+//  sourceId를 포함한 새 URL로 이동	
+	window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
     
 	//  sourceId 보려고 일부러 딜레이 건거임.
-    setTimeout(() => {
-        window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
-    }, 2000); // 2초 후 이동
+//     setTimeout(() => {
+//         window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
+//     }, 10000); // 2초 후 이동
 }
 	
 function saveSource() {
