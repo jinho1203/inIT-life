@@ -72,9 +72,10 @@
                         <thead>
                             <tr>
                                 <th style="text-align:center;">입력 ID</th>
-                                <th style="text-align:center;">입력명</th>
-                                <th style="text-align:center;">입력항목 키</th>
-                                <th style="text-align:center;">입력값</th>
+                                <th style="text-align:center;">항목키</th>
+                                <th style="text-align:center;">기본값</th>
+                                <th style="text-align:center; width:190px;">설명</th>
+                                <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,17 +100,25 @@
                         <thead>
                             <tr>
                                 <th style="text-align:center;">출력 ID</th>
-                                <th style="text-align:center;">출력명</th>
-                                <th style="text-align:center;">출력항목 키</th>
-                                <th style="text-align:center;">출력값</th>
+                                <th style="text-align:center;">항목키</th>
+                                <th style="text-align:center;">데이터값</th>
+                                <th style="text-align:center;">응답값</th>
+                                <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td></td><td></td><td></td><td></td></tr>
-                            <tr><td></td><td></td><td></td><td></td></tr>
-                            <tr><td></td><td></td><td></td><td></td></tr>
+                            <tr>
+                            	<td>
+                            		</td><td>
+                            		</td><td>
+                            		</td><td>
+                            		</td><td>
                         </tbody>
                     </table>
+                    <div class="buttons">
+                       <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
+                       <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
+                    </div>
                 </div>
             </div>
     	</div>
@@ -158,32 +167,27 @@
        	
         <table class="popup-table">
 			<tr>
-			   <td class="label required">입력명<span class="asterisk">(*)</span></td>
-  			   <td><input type="text" id="inputName" placeholder="Ex) 제목" /></td>
+			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
+  			       <td style="text-align: center;">
+			      <input type="checkbox" id="isRequired" />
+			   </td>
 			</tr>
 			<tr>
-			  <td class="label required">입력항목키<span class="asterisk">(*)</span></td>
+			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="inputName" placeholder="Ex.obj1" /></td>
+			</tr>
+			<tr>
+			  <td class="label">기본값</td>
 			  <td>
-			    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-			      <input type="text" id="inputKey" placeholder="Ex) obj1" style="flex: 1;" />
-			      <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; white-space: nowrap;">
-			        <span>필수 여부</span>
-			        <input type="checkbox" id="isRequired" style="width: 16px; height: 16px;" />
-			      </label>
-			    </div>
+			    <input type="text" id="inputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
 			  </td>
 			</tr>
 			<tr>
-			  <td class="label">입력값</td>
+			  <td class="label">설명</td>
 			  <td>
-			    <input type="text" id="inputValue" placeholder="Ex) 대전" style="width: 100%;" />
-			
-			    <!-- select box 추가 -->
-			    <select id="valueType" style="margin-top: 6px; width: 100%; padding: 4px 6px;">
-			      <option value="">입력값 유형 선택</option>
-			      <option value="string">문자형</option>
-			      <option value="number">숫자형</option>
-			    </select>
+			      <div class="mb-1">
+			      <textarea id="totalUrl" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+			    </div>
 			  </td>
 			</tr>
         </table>
