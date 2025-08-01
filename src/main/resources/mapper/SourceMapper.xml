@@ -11,7 +11,7 @@
 	<!-- 소스 입력 -->
 	<insert id="insertSource" parameterType="egovframework.example.vo.SourceVO">
 		INSERT INTO test.source
-			(sourceName, baseUrl, fullUrl, projectId)
+			(sourceName, baseUrl, fullUrl, projectId) 
 		VALUES
 			(#{sourceName}, #{baseUrl}, #{fullUrl}, #{projectId})
 	</insert>

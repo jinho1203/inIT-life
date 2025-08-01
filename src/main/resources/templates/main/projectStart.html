@@ -83,19 +83,19 @@
 		    <td>IN001</td>
 		    <td>지역</td>
 		    <td>region</td>
-		    <td>대전광역시</td>
+		    <td style="width:159px"><input type="text" value="대전광역시" style="width: 70%; box-sizing: border-box;"></td>
 		  </tr>
 		  <tr>
 		    <td>IN002</td>
 		    <td>날짜</td>
 		    <td>date</td>
-		    <td>2025-07-31</td>
+		    <td><input type="text" value="2025-07-31" style="width: 70%; box-sizing: border-box;"></td>
 		  </tr>
 		  <tr>
 		    <td>IN003</td>
 		    <td>시간</td>
 		    <td>hour</td>
-		    <td>12:00</td>
+		    <td><input type="text" value="12:00" style="width: 70%; box-sizing: border-box;"></td>
 		  </tr>
 		</tbody>
     </table>
@@ -254,6 +254,32 @@ function openPopup5() {
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
    }
+//선택 버튼 클릭 시
+function confirmSelection() {
+  if (selectedProject) {
+    // SweetAlert로 확인 메시지 띄우기
+    Swal.fire({
+      title: '프로젝트 선택 완료',
+      text: '프로젝트가 설정되었습니다.',
+      icon: 'success',
+      confirmButtonText: '확인'
+    }).then(() => {
+      // 프로젝트 정보 입력 필드에 채워넣기
+      document.getElementById("projectId").value = selectedProject.projectId;
+      document.getElementById("projectName").value = selectedProject.projectName;
+
+      // 팝업 닫기 + 필요한 작업 추가
+      closePopup2(); // 너가 사용 중인 팝업 닫기 함수
+    });
+  } else {
+    Swal.fire({
+      title: '선택된 항목 없음',
+      text: '먼저 프로젝트를 선택해주세요.',
+      icon: 'warning',
+      confirmButtonText: '확인'
+    });
+  }
+}
 </script>
 </body>
 </html>
