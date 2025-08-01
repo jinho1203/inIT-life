@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,19 +69,22 @@ public class ProjectConfigController {
 			
 		return "success";
 	}
+
+	
+	/*
+	 * inPut 영역
+	 */
 	
 	@PostMapping("/input")
 	@ResponseBody
 	public String insertInput(@RequestBody InputVO inputVO) {
 		
-		System.out.println("받은 입력명: " + inputVO.getInputName());
 		System.out.println("받은 항목키: " + inputVO.getInputKey());
 		System.out.println("받은 입력값: " + inputVO.getInputValue());
 		System.out.println("필수 조건 여부: " + inputVO.getReqParam());
 		System.out.println("sourceId NUM : " + inputVO.getSourceId());
 		
-		if(inputVO.getInputName() == null || inputVO.getInputName().trim().isEmpty()
-				|| inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()
+		if(inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()
 				|| inputVO.getInputValue() == null || inputVO.getInputValue().trim().isEmpty()) {
 			return "fail";
 		}
@@ -90,4 +94,21 @@ public class ProjectConfigController {
 		return "success";
 	}
 	
+	@DeleteMapping
+	@ResponseBody
+	public String deleteInput(@RequestBody List<Long> inputId) {
+		
+		for(Long id : inputId) {
+			inputService.deleteInput(id);
+		}
+		return "success";
+	}
+	
+	/*
+	 * outPut 영역
+	 */
+	
+//	@PostMapping
+//	@ResponseBody
+//	public String insertOutput
 }

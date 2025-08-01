@@ -7,7 +7,6 @@ import lombok.Data;
 public class InputVO {
 	
 	private Long inputId;				// 입력 ID -> 1. KOSIS OO 의 추가 파라미터 
-	private String inputName;			// 입력 명 -> 주민등록 서울 인구수 
 	private String inputExplain;		// 설명 -> 서울 인구수 조사
 	private String inputKey;			// 입력 항목 키 -> objL1 (지역별) , objL2(경제별)
 	private String inputValue;			// 입력 값 -> 서울

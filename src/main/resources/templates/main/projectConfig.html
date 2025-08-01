@@ -315,9 +315,9 @@ function saveSource() {
     });	
 }
 function saveInput() {
-	const name = document.querySelector("#inputName").value.trim();
-	const value = document.querySelector("#inputValue").value.trim();
+// 	const name = document.querySelector("#inputName").value.trim();
 	const key = document.querySelector("#inputKey").value.trim();
+	const value = document.querySelector("#inputValue").value.trim();
 	const isChecked = document.querySelector("#isRequired").checked;
 	const reqParam = isChecked ? "Y" : "N";
 	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
@@ -325,7 +325,6 @@ function saveInput() {
 	const sourceId = document.getElementById("popup4-sourceId").value;
 	
 	
-	console.log("inputName 입력값:", name);
 	console.log("inputValue 입력값:", value);
 	console.log("inputKey 입력값:", key);
 	console.log("reqParam 입력값:", reqParam);
@@ -342,7 +341,7 @@ function saveInput() {
 		return;
 	}	
 	const data = {
-			inputName : name,
+			//inputName : name,
 			inputValue : value,
 			inputKey : key,
 			reqParam : reqParam,
