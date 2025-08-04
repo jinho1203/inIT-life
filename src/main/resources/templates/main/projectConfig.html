@@ -24,7 +24,8 @@
                                     <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" th:value="${param.projectId}" disabled>
                                     <!-- 서버로 전송될 숨겨진 필드 -->
                                     <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-                                    <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>
+                                    <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>        
+                                    <button type="button" onclick="testConnection(this)" class="btn btn-outline-primary" style="font-size:13px; margin-left:685px">테스트 연결 </button>
                                 </div>
                             </div>
                         </td>
@@ -41,7 +42,6 @@
 						     <th style="text-align:center;">API 이름</th>
 						     <th style="text-align:center;">요청 URL</th>
 						     <th style="text-align:center;">응답 형식</th>
-						     <th style="text-align:center;">테스트</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,9 +51,7 @@
                          	<td th:text="'S'+${source.sourceId}"></td>
 		                	<td th:text="${source.sourceName}"></td>
 		                	<td th:text="${source.baseUrl}"></td>
-		                	<td style="text-align: center;">JSON</td> 
-		                	<td style="text-align: center;"><button type="button" onclick="testConnection(this)" class="btn btn-outline-primary" style="font-size: 13px;">테스트 연결</button>
-		                	</td>
+		                	<td style="text-align: center;">JSON</td>
                         </tr>
                     </tbody>
                 </table>
@@ -101,8 +99,8 @@
                             <tr>
                                 <th style="text-align:center;">출력 ID</th>
                                 <th style="text-align:center;">항목키</th>
-                                <th style="text-align:center;">데이터값</th>
-                                <th style="text-align:center;">응답값</th>
+                                <th style="text-align:center;">기본값</th>
+                                <th style="text-align:center;">설명</th>
                                 <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
@@ -116,8 +114,8 @@
                         </tbody>
                     </table>
                     <div class="buttons">
-                       <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
-                       <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
+                       <button type="button" class="btn btn-outline-primary" onclick="openPopup5()">추가</button>
+                       <button type="button" class="btn btn-outline-warning" onclick="closePopup5()">삭제</button>
                     </div>
                 </div>
             </div>
@@ -174,7 +172,48 @@
 			</tr>
 			<tr>
 			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="inputName" placeholder="Ex.obj1" /></td>
+			  <td><input type="text" id="inputkey" placeholder="Ex.obj1" /></td>
+			</tr>
+			<tr>
+			  <td class="label">기본값</td>
+			  <td>
+			    <input type="text" id="inputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
+			  </td>
+			</tr>
+			<tr>
+			  <td class="label">설명</td>
+			  <td>
+			      <div class="mb-1">
+			      <textarea id="inputExplan" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+			    </div>
+			  </td>
+			</tr>
+        </table>
+        <div class="popup-buttons">
+            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+        </div>
+    </div>
+</div>
+<!-- 팝업5 -->	
+<div id="popup5">
+    <div class="popup-header">입력 속성정보
+        <span class="popup-close" onclick="closePopup()"></span>
+    </div>
+    <div class="popup-body">
+      	<!-- sourceId값 받아오기 -->
+       	<input type="hidden" id="popup4-sourceId" />
+      	
+        <table class="popup-table">
+			<tr>
+			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
+  			       <td style="text-align: center;">
+			      <input type="checkbox" id="isRequired" />
+			   </td>
+			</tr>
+			<tr>
+			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
+			  <td><input type="text" id="inputkey" placeholder="Ex.obj1" /></td>
 			</tr>
 			<tr>
 			  <td class="label">기본값</td>
@@ -192,8 +231,8 @@
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+            <button type="button" class="btn btn-outline-success" onclick="">저장</button>
+            <button type="button" class="btn btn-outline-warning" onclick="closePopup5()" style="margin-right:-50px">취소</button>
         </div>
     </div>
 </div>
@@ -213,6 +252,12 @@ function openPopup3() {
 	}
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
+	}
+function openPopup5() {
+    document.getElementById("popup5").style.display = "block";
+	}
+function closePopup5() {
+    document.getElementById("popup5").style.display = "none";
 	}
 function openPopup4(row) {
 	// 새로고침된 URL에서 sourceId 읽어오기

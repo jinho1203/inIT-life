@@ -66,33 +66,33 @@
         <thead>
             <tr>
                 <th style="text-align:center;">입력 ID</th>
-                <th style="text-align:center;">입력명</th>
-                <th style="text-align:center;">입력항목 키</th>
-                <th style="text-align:center;">입력값</th>
-                <th style="text-align:center;">필/선</th>
+                <th style="text-align:center;">항목키</th>
+                <th style="text-align:center;">기본값</th>
+                <th style="text-align:center;">설명</th>
+                <th style="text-align:center;">항목구분 </th>
             </tr>
         </thead>
        <tbody>
 		  <tr>
 		    <td>IN001</td>
-		    <td>지역</td>
 		    <td>region</td>
-		    <td style="width:159px"><input type="text" value="대전광역시" style="width: 70%; box-sizing: border-box;"></td>
-		    <td>이야ㅐ</td>
+		    <td>서울</td>
+		    <td style="width:159px"><input type="text" value="지역코드" style="width: 70%; box-sizing: border-box;"></td>
+		    <td style="text-align:center;">필수</td>
 		  </tr>
 		  <tr>
 		    <td>IN002</td>
-		    <td>날짜</td>
 		    <td>date</td>
-		    <td><input type="text" value="2025-07-31" style="width: 70%; box-sizing: border-box;"></td>
-		    <td>이야ㅐ</td>
+		    <td>1</td>
+		    <td><input type="text" value="페이지 번호" style="width: 70%; box-sizing: border-box;"></td>
+		     <td style="text-align:center;">필수</td>
 		  </tr>
 		  <tr>
 		    <td>IN003</td>
-		    <td>시간</td>
 		    <td>hour</td>
-		    <td><input type="text" value="12:00" style="width: 70%; box-sizing: border-box;"></td>
-		    <td>이야ㅐ</td>
+		    <td>01</td>
+		    <td><input type="text" value="품목 분류코드" style="width: 70%; box-sizing: border-box;"></td>
+		     <td style="text-align:center;">필수</td>
 		  </tr>
 		</tbody>
     </table>
@@ -105,39 +105,39 @@
         <thead>
             <tr>
                 <th style="text-align:center;">출력 ID</th>
-                <th style="text-align:center;">출력명</th>
-                <th style="text-align:center;">출력항목 키</th>
-                <th style="text-align:center;">출력값</th>
-                <th style="text-align:center;">필/선</th>
+                <th style="text-align:center;">항목키</th>
+                <th style="text-align:center;">기본값</th>
+                <th style="text-align:center;">설명</th>
+                <th style="text-align:center;">항목구분</th>
             </tr>
         </thead>
         <tbody>
               <tr>
 			    <td>OUT001</td>
-			    <td>기온</td>
-			    <td>temp</td>
-			    <td style="width:159px"><input type="text" value="31.5℃" style="width: 70%; box-sizing: border-box;"></td>
-			  	<td>이야ㅐ</td>
+			    <td>region</td>
+			    <td style="width:159px"><input type="text" value="대전" style="width: 70%; box-sizing: border-box;"></td>
+			  	<td>지역코드</td>
+			  	 <td style="text-align:center;">필수</td>
 			  </tr>
 			  <tr>
 			    <td>OUT002</td>
-			    <td>하늘상태</td>
-			    <td>sky</td>
-			    <td><input type="text" value="맑음" style="width: 70%; box-sizing: border-box;"></td>
-			    <td>이야ㅐ</td>
+			    <td>data</td>
+			    <td><input type="text" value="4" style="width: 70%; box-sizing: border-box;"></td>
+			     <td>페이지 번호</td>
+			      <td style="text-align:center;">필수</td>
 			  </tr>
 			  <tr>
 			    <td>OUT003</td>
-			    <td>강수확률</td>
-			    <td>rainProb</td>
-			    <td><input type="text" value="20%" style="width: 70%; box-sizing: border-box;"></td>
-			    <td>이야ㅐ</td>
+			    <td>hour</td>
+			    <td><input type="text" value="04" style="width: 70%; box-sizing: border-box;"></td>
+			    <td>품목 분류코드</td>
+			     <td style="text-align:center;">필수</td>
 			  </tr>
         </tbody>
     </table>
 </div>
 </div>	
-<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 13px;">URL 확인 </button>
+<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1093px;margin-top: 24px;">실행 </button>
 </div>
 </div>
 <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
