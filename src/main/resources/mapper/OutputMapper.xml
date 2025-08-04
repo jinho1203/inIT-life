@@ -6,15 +6,15 @@
 	<!-- 출력항목 조회 -->
 	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.OutputVO">
 		SELECT * FROM test.output
-		WHERE inputId = #{inputId}
+		WHERE sourceId = #{sourceId}
 	</select>
 	
 	<!-- 출력항목 등록 -->
 	<insert id="insertOutput" parameterType="egovframework.example.vo.OutputVO">
 		INSERT INTO test.output
-			(outputKey, outputValue, inputId, reqParam)
+			(outputKey, outputValue, sourceId, reqParam, outputExplain)
 		VALUES
-			(#{outputKey}, #{outputValue}, #{inputId}, #{reqParam})
+			(#{outputKey}, #{outputValue}, #{sourceId}, #{reqParam}, #{outputExplain})
 	</insert>	
 	
 	

@@ -42,13 +42,24 @@ public class ProjectConfigController {
 	        model.addAttribute("sourceList", List.of()); // 빈 리스트 처리
 	        model.addAttribute("paramProjectId", null);  // null 처리
 	    }
-	    
+
+	    // inputList 출력
 	    if(sourceId != null) {
 	    	List<InputVO> inputList = inputService.getAllList(sourceId);
 	    	model.addAttribute("inputList", inputList);
 	    	model.addAttribute("paramSourceId", sourceId);
 	    } else {
 	    	model.addAttribute("inputList", List.of()); // 빈 리스트 처리
+	        model.addAttribute("paramSourceId", null);  // null 처리
+	    }
+	    
+	    // outputList 출력
+	    if(sourceId != null) {
+	    	List<OutputVO> outputList = outputServe.getAllList(sourceId);
+	    	model.addAttribute("outputList", outputList);
+	    	model.addAttribute("paramSourceId", sourceId);
+	    } else {
+	    	model.addAttribute("outputList", List.of()); // 빈 리스트 처리
 	        model.addAttribute("paramSourceId", null);  // null 처리
 	    }
 

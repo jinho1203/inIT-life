@@ -12,7 +12,8 @@ public class OutputVO {
 	private String outputValue;
 	private LocalDate createdAt;		// 생성일자
 	private boolean isDeleted;			// 삭제
+	private String outputExplain;
 	
-	private Long inputId;
+	private Long sourceId;
 	private String reqParam;
 }

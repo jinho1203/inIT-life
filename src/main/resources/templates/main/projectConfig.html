@@ -72,7 +72,7 @@
                                 <th style="text-align:center;">입력 ID</th>
                                 <th style="text-align:center;">항목키</th>
                                 <th style="text-align:center;">기본값</th>
-                                <th style="text-align:center; width:190px;">설명</th>
+                                <th style="text-align:center;">설명</th>
                                 <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
@@ -106,7 +106,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        	<!-- 입력항목 출력 -->
+<!--                         	입력항목 출력 -->
                             <tr th:each="input : ${inputList}">
                             	<td th:text="'O' + ${input.inputId}"></td>
                             	<td th:text="${input.inputKey}"></td>
@@ -114,11 +114,12 @@
                             	<td th:text="${input.inputExplain}"></td>
                             	<td th:text="${input.reqParam}"></td>
                         	</tr>
-                        	<!--  출력항목 도 함께나오게 하기 -->
+<!--                         	 출력항목 도 함께나오게 하기 -->
                         	<tr th:each="output : ${outputList}">
 						        <td th:text="'O' + ${output.outputId}"></td>
 						        <td th:text="${output.outputKey}"></td>
 						        <td th:text="${output.outputValue}"></td>
+						        <td th:text="${output.outputExplain}"></td> 
 						        <td th:text="${output.reqParam}"></td>
 						    </tr>
                         </tbody>
@@ -177,12 +178,12 @@
 			<tr>
 			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
   			       <td style="text-align: center;">
-			      <input type="checkbox" id="isRequired" />
+			      <input type="checkbox" id=isRequiredInput />
 			   </td>
 			</tr>
 			<tr>
 			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="inputkey" placeholder="Ex.obj1" /></td>
+			  <td><input type="text" id="inputKey" placeholder="Ex.obj1" /></td>
 			</tr>
 			<tr>
 			  <td class="label">기본값</td>
@@ -194,7 +195,7 @@
 			  <td class="label">설명</td>
 			  <td>
 			      <div class="mb-1">
-			      <textarea id="inputExplan" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+			      <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
 			    </div>
 			  </td>
 			</tr>
@@ -205,49 +206,47 @@
         </div>
     </div>
 </div>
-<!-- 팝업5 -->	
+<!-- 팝업5/ 출력항목  -->	
 <div id="popup5">
-    <div class="popup-header">입력 속성정보
+    <div class="popup-header">출력 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
       	<!-- sourceId값 받아오기 -->
-       	<input type="hidden" id="popup4-sourceId" />
+       	<input type="hidden" id="popup5-sourceId" />
       	
         <table class="popup-table">
 			<tr>
 			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
   			       <td style="text-align: center;">
-			      <input type="checkbox" id="isRequired" />
+			      <input type="checkbox" id="isRequiredOutput" />
 			   </td>
 			</tr>
 			<tr>
 			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="inputkey" placeholder="Ex.obj1" /></td>
+			  <td><input type="text" id="outputKey" placeholder="Ex.obj1" /></td>
 			</tr>
 			<tr>
 			  <td class="label">기본값</td>
 			  <td>
-			    <input type="text" id="inputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
+			    <input type="text" id="outputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
 			  </td>
 			</tr>
 			<tr>
 			  <td class="label">설명</td>
 			  <td>
 			      <div class="mb-1">
+			      <textarea id="outputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
 			    </div>
 			  </td>
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success" onclick="">저장</button>
+            <button type="button" class="btn btn-outline-success" onclick="saveOutput()">저장</button>
             <button type="button" class="btn btn-outline-warning" onclick="closePopup5()" style="margin-right:-50px">취소</button>
         </div>
     </div>
 </div>
-			      <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
-
-<!-- 팝업5/ 출력항목 -->
 
 
 
@@ -269,12 +268,6 @@ function openPopup3() {
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
 	}
-function openPopup5() {
-    document.getElementById("popup5").style.display = "block";
-	}
-function closePopup5() {
-    document.getElementById("popup5").style.display = "none";
-	}
 function openPopup4(row) {
 	// 새로고침된 URL에서 sourceId 읽어오기
     const urlParams = new URLSearchParams(window.location.search);
@@ -288,6 +281,19 @@ function openPopup4(row) {
 	}
 function closePopup4() {
     document.getElementById("popup4").style.display = "none";
+	}
+function openPopup5(row) {
+	// 새로고침된 URL에서 sourceId 읽어오기
+    const urlParams = new URLSearchParams(window.location.search);
+    const sourceId = urlParams.get("sourceId");
+	
+	// sourceId 저장
+    document.getElementById("popup5-sourceId").value = sourceId;
+	
+    document.getElementById("popup5").style.display = "block";
+	}
+function closePopup5() {
+    document.getElementById("popup5").style.display = "none";
 	}
 	
 <!-- sourceId를 저장용-->
@@ -384,7 +390,7 @@ function saveInput() {
 	const key = document.querySelector("#inputKey").value.trim();
 	const value = document.querySelector("#inputValue").value.trim();
 	const explain = document.getElementById("inputExplain").value;
-	const isChecked = document.querySelector("#isRequired").checked;
+	const isChecked = document.querySelector("#isRequiredInput").checked;
 	const reqParam = isChecked ? "Y" : "N";
 	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
 	const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
@@ -458,6 +464,78 @@ function saveInput() {
         });
     });	
 }
+function saveOutput(){
+	const key = document.querySelector("#outputKey").value.trim();
+	const value = document.querySelector("#outputValue").value.trim();
+	const explain = document.getElementById("outputExplain").value;
+	const isChecked = document.querySelector("#isRequiredOutput").checked;
+	const reqParam = isChecked ? "Y" : "N";
+	const sourceId = document.getElementById("popup5-sourceId").value;
+	
+	console.log("outputKey 입력값:", key);
+	console.log("outputValue 입력값:", value);
+	console.log("outputExplain 입력값:", explain);
+	console.log("reqParam 입력값:", reqParam);
+	console.log("sourceId 입력값:", sourceId);
+	
+	if(key === "") {
+		Swal.fire({
+			title : "입력 오류",
+			text : "출력명을 작성해주세요.",
+			icon : "warning"
+		});
+		return;
+	}	
+	const data = {
+			outputValue : value,
+			outputKey : key,
+			outputExplain : explain,
+			reqParam : reqParam,
+			sourceId: Number(sourceId)
+	};
+
+	fetch("/projectConfig/output", {
+		method : "POST",
+		headers : {
+			"Content-type": "application/json"
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("서버 응답 오류");
+		}
+		return response.text();
+	})
+	.then(result => {
+		if(result === "success") {
+			Swal.fire({
+				title : '등록 성공',
+				text : '저장 완료되었습니다',
+				icon: 'success', 
+                confirmButtonText: '확인'
+            }).then(() => {
+            	closePopup4();
+                location.reload();					
+			});
+		} else {
+			Swal.fire({
+				title: '등록 실패',
+                text: '필수 항목을 입력해주세요.',
+                icon: 'warning'
+			});
+		}
+	})
+    .catch(error => {
+        console.error("에러발생:", error);
+        Swal.fire({
+            title: '등록 실패',
+            text: '저장 중 오류가 발생했습니다.',
+            icon: 'error'
+        });
+    });		
+}
+
 function testConnection(button) {
     // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
     const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
