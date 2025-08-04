@@ -72,7 +72,7 @@
                                 <th style="text-align:center;">입력 ID</th>
                                 <th style="text-align:center;">항목키</th>
                                 <th style="text-align:center;">기본값</th>
-                                <th style="text-align:center; width:190px;">설명</th>
+                                <th style="text-align:center;">설명</th>
                                 <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
@@ -207,7 +207,7 @@
 </div>
 <!-- 팝업5 -->	
 <div id="popup5">
-    <div class="popup-header">입력 속성정보
+    <div class="popup-header">출력 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
@@ -232,11 +232,11 @@
 			  </td>
 			</tr>
 			<tr>
-			  <td class="label">설명</td>
+			<td class="label">설명</td>
 			  <td>
 			      <div class="mb-1">
+			      <textarea id="inputExplan" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
 			    </div>
-			  </td>
 			</tr>
         </table>
         <div class="popup-buttons">
@@ -245,14 +245,7 @@
         </div>
     </div>
 </div>
-			      <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
-
-<!-- 팝업5/ 출력항목 -->
-
-
-
-
-	</div>
+</div>
 </div>
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
@@ -473,31 +466,21 @@ function testConnection(button) {
 let selectedProject = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-  const projectTable = document.getElementById("projectTable");
-  const rows = projectTable.querySelectorAll("tbody tr");
+	  const urlParams = new URLSearchParams(window.location.search);
+	  const selectedSourceId = urlParams.get("sourceId");  // URL에서 선택된 sourceId를 가져옴
 
-  rows.forEach(row => {
- 	  row.addEventListener("click", function () {
- 	    // 기존 선택 제거
- 	    rows.forEach(r => r.classList.remove("highlight"));
+	  if (selectedSourceId) {
+	    const projectTable = document.getElementById("projectTable");
+	    const rows = projectTable.querySelectorAll("tbody tr");
 
- 	    // 현재 선택한 행에 하이라이트
- 	    this.classList.add("highlight");
-
- 	    // 선택된 프로젝트 값 저장
- 	    const cells = this.getElementsByTagName("td");
- 	    const rawProjectId = cells[1].innerText.trim();  // "P4"
- 	    const numericProjectId = rawProjectId.replace(/\D/g, '');  // "4" (숫자만)
- 	    const projectName = cells[2].innerText.trim(); // 세 번째 칸: 프로젝트 이름
- 	    
-
- 	    selectedProject = {
- 	      projectId: numericProjectId,
- 	      projectName: cells[2].innerText.trim()
- 	    };
- 	  });
- 	});
-  });
+	    rows.forEach(row => {
+	      const rowSourceId = row.getAttribute("data-sourceid");
+	      if (rowSourceId === selectedSourceId) {
+	        row.classList.add("highlight");
+	      }
+	    });
+	  }
+	});
 
 </script>
 </body>
