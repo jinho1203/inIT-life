@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.mapper.OutputMapper">
+
+
+	<!-- 출력항목 조회 -->
+	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.OutputVO">
+		SELECT * FROM test.output
+		WHERE inputId = #{inputId}
+	</select>
+	
+	<!-- 출력항목 등록 -->
+	<insert id="insertOutput" parameterType="egovframework.example.vo.OutputVO">
+		INSERT INTO test.output
+			(outputKey, outputValue, inputId, reqParam)
+		VALUES
+			(#{outputKey}, #{outputValue}, #{inputId}, #{reqParam})
+	</insert>	
+	
+	
+</mapper>

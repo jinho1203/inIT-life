@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.service.InputService;
+import egovframework.example.service.OutputService;
 import egovframework.example.service.SourceService;
 import egovframework.example.vo.InputVO;
+import egovframework.example.vo.OutputVO;
 import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ public class ProjectConfigController {
 	
 	private final SourceService sourceService;
 	private final InputService inputService;
+	private final OutputService outputServe;
 	
 	@GetMapping
 	public String showConfigList(Model model, 
@@ -81,6 +84,7 @@ public class ProjectConfigController {
 		
 		System.out.println("받은 항목키: " + inputVO.getInputKey());
 		System.out.println("받은 입력값: " + inputVO.getInputValue());
+		System.out.println("받은 설명값: " + inputVO.getInputExplain());
 		System.out.println("필수 조건 여부: " + inputVO.getReqParam());
 		System.out.println("sourceId NUM : " + inputVO.getSourceId());
 		
@@ -108,7 +112,23 @@ public class ProjectConfigController {
 	 * outPut 영역
 	 */
 	
-//	@PostMapping
-//	@ResponseBody
-//	public String insertOutput
+	@PostMapping("/output")
+	@ResponseBody
+	public String insertOutput(@RequestBody OutputVO outputVO) {
+		
+		System.out.println("받은 항목키: " + outputVO.getOutputKey());
+		System.out.println("받은 입력값: " + outputVO.getOutputValue());
+		System.out.println("필수 조건 여부: " + outputVO.getReqParam());
+		
+		if(outputVO.getOutputKey() == null || outputVO.getOutputKey().trim().isEmpty()
+				|| outputVO.getOutputValue() == null || outputVO.getOutputValue().trim().isEmpty())	{
+			return "fail";
+		}
+		
+		outputServe.insertOutput(outputVO);
+		
+		return "success";
+	}
+	
+	
 }

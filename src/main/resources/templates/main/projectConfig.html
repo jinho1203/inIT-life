@@ -81,9 +81,10 @@
                         <tbody>
                             <tr th:each="input : ${inputList}">
                             	<td th:text="'I' + ${input.inputId}"></td>
-                            	<td th:text="${input.inputName}"></td>
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
+                            	<td th:text="${input.inputExplain}"></td>
+                            	<td th:text="${input.reqParam}"></td>
                         	</tr>
                         </tbody>
                     </table>
@@ -101,23 +102,32 @@
                             <tr>
                                 <th style="text-align:center;">출력 ID</th>
                                 <th style="text-align:center;">항목키</th>
-                                <th style="text-align:center;">데이터값</th>
-                                <th style="text-align:center;">응답값</th>
+                                <th style="text-align:center;">기본값</th>
+                                <th style="text-align:center;">설명</th>
                                 <th style="text-align:center;">항목구분</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            	<td>
-                            		</td><td>
-                            		</td><td>
-                            		</td><td>
-                            		</td><td>
+                        	<!-- 입력항목 출력 -->
+                            <tr th:each="input : ${inputList}">
+                            	<td th:text="'O' + ${input.inputId}"></td>
+                            	<td th:text="${input.inputKey}"></td>
+                            	<td th:text="${input.inputValue}"></td>
+                            	<td th:text="${input.inputExplain}"></td>
+                            	<td th:text="${input.reqParam}"></td>
+                        	</tr>
+                        	<!--  출력항목 도 함께나오게 하기 -->
+                        	<tr th:each="output : ${outputList}">
+						        <td th:text="'O' + ${output.outputId}"></td>
+						        <td th:text="${output.outputKey}"></td>
+						        <td th:text="${output.outputValue}"></td>
+						        <td th:text="${output.reqParam}"></td>
+						    </tr>
                         </tbody>
                     </table>
                     <div class="buttons">
-                       <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
-                       <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
+                       <button type="button" class="btn btn-outline-primary" onclick="openPopup5()">추가</button>
+                       <button type="button" class="btn btn-outline-warning" onclick="closePopup5()">삭제</button>
                     </div>
                 </div>
             </div>
@@ -156,7 +166,7 @@
 	    </div>
 	</div>
 
-<!-- 팝업4 -->	
+<!-- 팝업4/ 입력항목 -->	
 <div id="popup4">
     <div class="popup-header">입력 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
@@ -174,7 +184,7 @@
 			</tr>
 			<tr>
 			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="inputName" placeholder="Ex.obj1" /></td>
+			  <td><input type="text" id="inputKey" placeholder="Ex.obj1" /></td>
 			</tr>
 			<tr>
 			  <td class="label">기본값</td>
@@ -186,7 +196,7 @@
 			  <td class="label">설명</td>
 			  <td>
 			      <div class="mb-1">
-			      <textarea id="totalUrl" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+			      <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
 			    </div>
 			  </td>
 			</tr>
@@ -197,7 +207,13 @@
         </div>
     </div>
 </div>
-</div>
+
+<!-- 팝업5/ 출력항목 -->
+
+
+
+
+	</div>
 </div>
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
@@ -322,6 +338,7 @@ function saveInput() {
 // 	const name = document.querySelector("#inputName").value.trim();
 	const key = document.querySelector("#inputKey").value.trim();
 	const value = document.querySelector("#inputValue").value.trim();
+	const explain = document.getElementById("inputExplain").value;
 	const isChecked = document.querySelector("#isRequired").checked;
 	const reqParam = isChecked ? "Y" : "N";
 	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
@@ -329,14 +346,15 @@ function saveInput() {
 	const sourceId = document.getElementById("popup4-sourceId").value;
 	
 	
-	console.log("inputValue 입력값:", value);
 	console.log("inputKey 입력값:", key);
+	console.log("inputValue 입력값:", value);
+	console.log("explain 입력값:", explain);
 	console.log("reqParam 입력값:", reqParam);
 	console.log("projectIdNumber 입력값:", projectIdNumber);
 	console.log("sourceId 입력값:", sourceId);
 	
 	
-	if(name === "") {
+	if(key === "") {
 		Swal.fire({
 			title : "입력 오류",
 			text : "입력명을 작성해주세요.",
@@ -348,6 +366,7 @@ function saveInput() {
 			//inputName : name,
 			inputValue : value,
 			inputKey : key,
+			inputExplain : explain,
 			reqParam : reqParam,
 			projectId: Number(projectIdNumber),  // 숫자로 보냄
 			sourceId: Number(sourceId)
