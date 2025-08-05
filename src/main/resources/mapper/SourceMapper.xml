@@ -4,8 +4,8 @@
 	
 	<!-- 소스 조회 -->
 	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.SourceVO">
-		SELECT * FROM test.source
-		WHERE projectId = #{projectId}
+		  SELECT * FROM test.source
+  		  WHERE projectId = #{projectId} AND isDeleted = false
 	</select>
 	
 	<!-- 소스 입력 -->
