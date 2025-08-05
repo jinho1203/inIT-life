@@ -13,5 +13,6 @@ public interface SourceService {
 	int deleteSource(Long sourceId);
 
 	SourceVO findBasicUrl(Long sourceId);					// baseUrl 불러오기
-	void updateFullUrl(SourceVO sourceVO);					// fullUrl 저장하기			
+	
+	String createFullUrl(SourceVO sourceVO);					// fullUrl 저장하기			
 }

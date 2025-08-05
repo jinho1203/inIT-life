@@ -15,5 +15,5 @@ public class InputVO {
 	
 	private Long projectId;
 	private Long sourceId;
-	private String reqParam;
+	private String reqParam;			// 필수여부
 }

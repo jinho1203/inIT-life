@@ -1,6 +1,8 @@
 package egovframework.example.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,7 @@ public class ProjectConfigController {
 	
 	private final SourceService sourceService;
 	private final InputService inputService;
-	private final OutputService outputServe;
+	private final OutputService outputService;
 	
 	@GetMapping
 	public String showConfigList(Model model, 
@@ -55,7 +57,7 @@ public class ProjectConfigController {
 	    
 	    // outputList 출력
 	    if(sourceId != null) {
-	    	List<OutputVO> outputList = outputServe.getAllList(sourceId);
+	    	List<OutputVO> outputList = outputService.getAllList(sourceId);
 	    	model.addAttribute("outputList", outputList);
 	    	model.addAttribute("paramSourceId", sourceId);
 	    } else {
@@ -136,10 +138,23 @@ public class ProjectConfigController {
 			return "fail";
 		}
 		
-		outputServe.insertOutput(outputVO);
+		outputService.insertOutput(outputVO);
 		
 		return "success";
 	}
 	
+	
+	/*
+	 * baseUrl + input param + output param = full Url 
+	 */
+	@PostMapping("/fullUrl")
+	@ResponseBody
+	public String createFullUrl(@RequestBody SourceVO sourceVO) {
+		
+		String fullUrl = sourceService.createFullUrl(sourceVO);
+		System.out.println("최종 URL : " + fullUrl);
+
+		return "success";
+	}
 	
 }

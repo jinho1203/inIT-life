@@ -10,5 +10,7 @@ public interface OutputService {
 	
 	int insertOutput(OutputVO outputVO);
 	
+	int deleteOutput(Long outputId);
 	
+	List<OutputVO> findBySourceId(Long sourceId);
 }

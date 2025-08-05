@@ -29,5 +29,10 @@
 		WHERE sourceId = #{sourceId}
 	</select>
 	
-	<!--  -->
+	<!-- fullUrl 만들기-->
+	<update id="createFullUrl">
+		UPDATE test.source
+		SET fullUrl = #{fullUrl}
+		WHERE sourceId = #{sourceId}
+	</update>	
 </mapper>

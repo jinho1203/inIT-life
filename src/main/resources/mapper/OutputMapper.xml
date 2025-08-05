@@ -17,5 +17,16 @@
 			(#{outputKey}, #{outputValue}, #{sourceId}, #{reqParam}, #{outputExplain})
 	</insert>	
 	
+	<!-- 출력항목 삭제 -->
+	<update id="deleteOutput" parameterType="long">
+		UPDATE test.output
+		SET isDeleted = false
+		WHERE outputId = #{outputId}
+	</update>
 	
+	<!-- sourceId 가져오기 -->
+	<select id="findBySourceId" resultType="egovframework.example.vo.OutputVO">
+		SELECT * FROM test.output
+		WHERE sourceId = #{sourceId}
+	</select>
 </mapper>

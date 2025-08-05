@@ -1,13 +1,18 @@
 package egovframework.example.service.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.example.mapper.InputMapper;
+import egovframework.example.mapper.OutputMapper;
 import egovframework.example.mapper.SourceMapper;
 import egovframework.example.service.SourceService;
 import egovframework.example.vo.InputVO;
+import egovframework.example.vo.OutputVO;
 import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +22,7 @@ public class SourceServiceImpl implements SourceService {
 	
 	private final SourceMapper sourceMapper;
 	private final InputMapper inputMapper;
+	private final OutputMapper outputMapper;
 	
 	@Override
 	public List<SourceVO> getAllList(Long projectId) {
@@ -39,32 +45,62 @@ public class SourceServiceImpl implements SourceService {
 	}
 	
 	/*
-	 * input 테이블에서 sourceId를 이용하여 파라미터 값을 가져온다
+	 * baseUrl + input/output Param = fullUrl
 	 */
 	@Override
-	public void updateFullUrl(SourceVO sourceVO) {
-		
+	public String createFullUrl(SourceVO sourceVO) {
 		Long sourceId = sourceVO.getSourceId();
+		String baseUrl = sourceVO.getBaseUrl();
 		
-		SourceVO baseUrl = sourceMapper.findBasicUrl(sourceId);
-		
+		// input , output 가져오기
 		List<InputVO> inputList = inputMapper.findBySourceId(sourceId);
+		List<OutputVO> outputList = outputMapper.findBySourceId(sourceId);
 		
-		StringBuilder queryParam = new StringBuilder();
-		for(InputVO inputVO : inputList) {
-			if (queryParam.length() > 0)
-				queryParam.append("&");
+		// key 기준으로 value들을 합치기 위한 Map
+		Map<String , List<String>> paramMap = new LinkedHashMap<>();
+		
+		// input param 처리
+		for(InputVO input : inputList) {
+			//if(!input.getReqParam().equals("Y")) continue;  --> 필수값일 때만 (보류)
+
+			String key = input.getInputKey();
+			String value = input.getInputValue();
 			
-			queryParam.append(inputVO.getInputKey())
-					.append("=")
-					.append(inputVO.getInputValue());
+			paramMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+		}
+				
+		// output param 처리
+		for(OutputVO output : outputList) {
+//			if(!output.getReqParam().equals("Y")) continue;
+			
+			String key = output.getOutputKey();
+			String value = output.getOutputValue();
+			
+			paramMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
 		}
 		
-		// 메인URL + 파라미터 합친 최종 URL
-		String fullUrl = baseUrl + "?" + queryParam;
-				
+		// Map -> URL 파라미터 문자열 변환
+		StringBuilder fullUrlBuilder = new StringBuilder(baseUrl);
+		if(!paramMap.isEmpty()) {
+			fullUrlBuilder.append("?");
+			List<String> paramString = new ArrayList<>();
+			
+			for(Map.Entry<String, List<String>> entry : paramMap.entrySet()) {
+				String key = entry.getKey();
+				String value = String.join("+", entry.getValue());
+				paramString.add(key + "=" + value);
+			}
+			
+			fullUrlBuilder.append(String.join("&", paramString));
+		}
+		
+		String fullUrl = fullUrlBuilder.toString();
+
+		// fullUrl  DB에 저장
 		sourceVO.setFullUrl(fullUrl);
-		sourceMapper.updateFullUrl(sourceVO);
+		sourceMapper.createFullUrl(sourceVO);
+		
+		return fullUrl;
 	}
 
 }

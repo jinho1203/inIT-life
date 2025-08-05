@@ -13,5 +13,7 @@ public interface OutputMapper {
 	
 	int insertOutput(OutputVO outputVO);
 	
+	int deleteOutput(Long outputId);
 	
+	List<OutputVO> findBySourceId(Long sourceId);
 }

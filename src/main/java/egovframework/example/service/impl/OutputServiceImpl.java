@@ -25,4 +25,14 @@ public class OutputServiceImpl implements OutputService{
 		return outputMapper.insertOutput(outputVO);
 	}
 
+	@Override
+	public int deleteOutput(Long outputId) {
+		return outputMapper.deleteOutput(outputId);
+	}
+
+	@Override
+	public List<OutputVO> findBySourceId(Long sourceId) {
+		return outputMapper.findBySourceId(sourceId);
+	}
+
 }

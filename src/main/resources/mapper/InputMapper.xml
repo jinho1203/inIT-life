@@ -19,7 +19,7 @@
 	<!-- 입력항목 삭제 -->	
 	<update id="deleteInput" parameterType="long">
 		UPDATE test.input
-		SET isDeleted = true
+		SET isDeleted = false
 		WHERE inputId = #{inputId}
 	</update>
 		
