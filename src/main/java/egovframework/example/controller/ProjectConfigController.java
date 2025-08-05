@@ -109,16 +109,29 @@ public class ProjectConfigController {
 		return "success";
 	}
 	
-	@DeleteMapping
+	@DeleteMapping("/source")
 	@ResponseBody
-	public String deleteInput(@RequestBody List<Long> inputId) {
-		
-		for(Long id : inputId) {
-			inputService.deleteInput(id);
-		}
-		return "success";
+	public String deleteSource(@RequestBody List<Long> inputId) {
+	    try {
+	        for(Long id : inputId) {
+	           sourceService.deleteSource(id);
+	        }
+	        return "success";
+	    } catch (Exception e) {
+	        e.printStackTrace();  // 여기에 어떤 에러인지 반드시 찍히도록
+	        return "fail: " + e.getMessage();
+	    }
 	}
-	
+
+	   @DeleteMapping
+	   @ResponseBody
+	   public String deleteInput(@RequestBody List<Long> inputId) {
+	      
+	      for(Long id : inputId) {
+	         inputService.deleteInput(id);
+	      }
+	      return "success";
+	   }
 	/*
 	 * outPut 영역
 	 */
@@ -140,6 +153,5 @@ public class ProjectConfigController {
 		
 		return "success";
 	}
-	
-	
+
 }

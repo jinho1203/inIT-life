@@ -69,7 +69,6 @@
                     <table>
                         <thead>
                             <tr>
-                                <th style="text-align:center;">입력 ID</th>
                                 <th style="text-align:center;">항목키</th>
                                 <th style="text-align:center;">기본값</th>
                                 <th style="text-align:center;">설명</th>
@@ -78,7 +77,6 @@
                         </thead>
                         <tbody>
                             <tr th:each="input : ${inputList}">
-                            	<td th:text="'I' + ${input.inputId}"></td>
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
                             	<td th:text="${input.inputExplain}"></td>
@@ -98,7 +96,6 @@
                     <table>
                         <thead>
                             <tr>
-                                <th style="text-align:center;">출력 ID</th>
                                 <th style="text-align:center;">항목키</th>
                                 <th style="text-align:center;">기본값</th>
                                 <th style="text-align:center;">설명</th>
@@ -108,7 +105,6 @@
                         <tbody>
 <!--                         	입력항목 출력 -->
                             <tr th:each="input : ${inputList}">
-                            	<td th:text="'O' + ${input.inputId}"></td>
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
                             	<td th:text="${input.inputExplain}"></td>
@@ -116,7 +112,6 @@
                         	</tr>
 <!--                         	 출력항목 도 함께나오게 하기 -->
                         	<tr th:each="output : ${outputList}">
-						        <td th:text="'O' + ${output.outputId}"></td>
 						        <td th:text="${output.outputKey}"></td>
 						        <td th:text="${output.outputValue}"></td>
 						        <td th:text="${output.outputExplain}"></td> 
@@ -293,28 +288,48 @@ function closePopup5() {
 	
 <!-- sourceId를 저장용-->
 let selectedSourceId = null;
+let urlRedirectTimeout = null;  // ✅ 이 줄이 필요해!
+
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    selectedSourceId = urlParams.get("sourceId"); // 복원
+    console.log("복원된 sourceId:", selectedSourceId);
+
+    if (selectedSourceId) {
+        const projectTable = document.getElementById("projectTable");
+        const rows = projectTable.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const rowSourceId = row.getAttribute("data-sourceid");
+            if (rowSourceId === selectedSourceId) {
+                row.classList.add("highlight");
+            }
+        });
+    }
+});
 
 function setSelectedSourceId(row) {
-    const sourceId = row.getAttribute("data-sourceid");
-    selectedSourceId = sourceId; // 전역 변수에 저장
-    
-    console.log("sourceId 값 : ",sourceId)
-    
-    // 기존 URL에서 projectId, projectName 유지
+    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    row.classList.add("highlight");
+
+    selectedSourceId = row.getAttribute("data-sourceid");
+    console.log("선택된 ID:", selectedSourceId);
+
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get("projectId");
     const projectName = urlParams.get("projectName");
-	
+
+    // ✅ 기존 타이머 취소
+    if (urlRedirectTimeout) {
+        clearTimeout(urlRedirectTimeout);
+    }
+
+    // ✅ 약간의 지연 후 페이지 이동 (사용자가 삭제 클릭할 틈을 줌)
+    urlRedirectTimeout = setTimeout(() => {
+        window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${selectedSourceId}`;
+    });  // 0.3초 뒤 이동 (너무 짧게도 너무 길게도 말고)
     
-//  sourceId를 포함한 새 URL로 이동	
-	window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
-    
-	//  sourceId 보려고 일부러 딜레이 건거임.
-//     setTimeout(() => {
-//         window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${sourceId}`;
-//     }, 10000); // 2초 후 이동
 }
-	
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
 	const baseUrl = document.querySelector("#baseUrl").value.trim();
@@ -546,22 +561,51 @@ function testConnection(button) {
 let selectedProject = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-	  const urlParams = new URLSearchParams(window.location.search);
-	  const selectedSourceId = urlParams.get("sourceId");  // URL에서 선택된 sourceId를 가져옴
+     const urlParams = new URLSearchParams(window.location.search);
+     const selectedSourceId = urlParams.get("sourceId");  // URL에서 선택된 sourceId를 가져옴
 
-	  if (selectedSourceId) {
-	    const projectTable = document.getElementById("projectTable");
-	    const rows = projectTable.querySelectorAll("tbody tr");
+     if (selectedSourceId) {
+       const projectTable = document.getElementById("projectTable");
+       const rows = projectTable.querySelectorAll("tbody tr");
 
-	    rows.forEach(row => {
-	      const rowSourceId = row.getAttribute("data-sourceid");
-	      if (rowSourceId === selectedSourceId) {
-	        row.classList.add("highlight");
-	      }
-	    });
-	  }
-	});
+       rows.forEach(row => {
+         const rowSourceId = row.getAttribute("data-sourceid");
+         if (rowSourceId === selectedSourceId) {
+           row.classList.add("highlight");
+         }
+       });
+     }
+   });
+   
+function deleteSource() {
+    if (!selectedSourceId) {
+        alert("삭제할 항목을 선택하세요.");
+        return;
+    }
+    if (!confirm("정말 삭제하시겠습니까?")) return;
 
+    fetch('/projectConfig/source', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([Number(selectedSourceId)]),
+    })
+    .then(res => res.text())
+    .then(result => {
+        if (result === 'success') {
+            alert('삭제 처리 완료');
+            // 테이블에서 행만 제거 (soft delete니까 DB는 isDeleted만 변경됨)
+            const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
+            if (row) row.remove();
+            selectedSourceId = null;
+        } else {
+            alert('삭제 실패');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('오류 발생');
+    });
+}
 </script>
 </body>
 </html>
