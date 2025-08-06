@@ -42,7 +42,7 @@
 					     <th style="text-align:center;">응답 형식</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="apiTableBody">
 				     <tr th:each="source : ${sourceList}" 
 		              th:attr="data-sourceid=${source.sourceId}"
 		              onclick="setSelectedSourceId(this)">    
@@ -62,12 +62,13 @@
     <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
+                <th style="text-align:center;">항목키</th>
                 <th style="text-align:center;">기본값</th>
                 <th style="text-align:center;">설명</th>
                 <th style="text-align:center;">항목구분 </th>
             </tr>
         </thead>
-        <tbody>
+         <tbody id="inputTableBody">
             <tr th:each="input : ${inputList}" 
                 th:attr="data-inputid=${input.inputId}" 
                 onclick="setSelectedInputId(this)">
@@ -86,12 +87,13 @@
     <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
+            	<th style="text-align:center;">항목키</th>
                 <th style="text-align:center;">기본값</th>
                 <th style="text-align:center;">설명</th>
                 <th style="text-align:center;">항목구분</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="outputTableBody">
            <!-- 입력 항목도 같이 보이게 함 -->
           <tr th:each="input : ${inputList}" 
               th:attr="data-inputid=${input.inputId}" 
@@ -197,26 +199,26 @@ function openPopup2() {
 let selectedProject = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-const projectTable = document.getElementById("projectTable");
-const rows = projectTable.querySelectorAll("tbody tr");
+	  const projectTable = document.getElementById("projectTable");
+	  const rows = projectTable.querySelectorAll("tbody tr");
 
-rows.forEach(row => {
- row.addEventListener("click", function () {
-   // 기존 선택 제거
-   rows.forEach(r => r.classList.remove("highlight"));
+	  rows.forEach(row => {
+	    row.addEventListener("click", function () {
+	      // 기존 선택 제거
+	      rows.forEach(r => r.classList.remove("highlight"));
 
-   // 현재 선택한 행에 하이라이트
-   this.classList.add("highlight");
+	      // 현재 선택한 행에 하이라이트
+	      this.classList.add("highlight");
 
-   // 선택된 프로젝트 값 저장
-   const cells = this.getElementsByTagName("td");
-   selectedProject = {
-     projectId: cells[0].innerText.trim(),
-     projectName: cells[1].innerText.trim()
-   };
- });
-});
-});
+	      // ✅ 여기 수정함
+	      const cells = this.getElementsByTagName("td");
+	      selectedProject = {
+	        projectId: parseInt(cells[0].innerText.trim().replace(/^P/, ''), 10),
+	        projectName: cells[1].innerText.trim()
+	      };
+	    });
+	  });
+	});
 //팝업 닫기
 function closePopup2() {
   document.getElementById("popup2").style.display = "none";
@@ -261,7 +263,7 @@ function confirmSelection() {
 }
 
 function fetchProjectDetails(projectId) {
-	  fetch(`/projectConfig/projectDetails?projectId=${projectId}`)
+	 fetch(`/projectStart/projectDetails?projectId=${projectId}`)
 	    .then(res => res.json())
 	    .then(data => {
 	      if (data) {

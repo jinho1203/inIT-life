@@ -1,16 +1,24 @@
 package egovframework.example.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import egovframework.example.service.InputService;
+import egovframework.example.service.OutputService;
 import egovframework.example.service.ProjectService;
 import egovframework.example.service.SourceService;
+import egovframework.example.vo.InputVO;
+import egovframework.example.vo.OutputVO;
 import egovframework.example.vo.ProjectVO;
+import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -20,7 +28,8 @@ public class ProjectStartController {
 	
 	private final ProjectService projectService;
 	private final SourceService sourceService;
-	
+	private final InputService inputService;
+	private final OutputService outputService;
 	@GetMapping
 	public String ShowSourceList(Model model) {
 		
@@ -31,5 +40,21 @@ public class ProjectStartController {
 //    	model.addAttribute("sourceList", sourceList);
 		
 		return "main/projectStart";
+	}
+	@GetMapping("/projectDetails")
+	@ResponseBody
+	public Map<String, Object> getProjectDetails(@RequestParam("projectId") Long projectId, Long sourceId, Long inputId) {
+	    Map<String, Object> result = new HashMap<>();
+
+	    // 예시: 실제로는 프로젝트 ID 기준으로 데이터 조회 필요
+	    List<SourceVO> apiList = sourceService.getAllList(projectId);
+	    List<InputVO> inputList = inputService.getAllList(sourceId);
+	    List<OutputVO> outputList = outputService.getAllList(inputId);
+
+	    result.put("apiList", apiList);
+	    result.put("inputList", inputList);
+	    result.put("outputList", outputList);
+
+	    return result;
 	}
 }
