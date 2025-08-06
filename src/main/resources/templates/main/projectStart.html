@@ -8,8 +8,8 @@
 <body>
 <div layout:fragment="content">
 	<div class="config-wrapper" style="position: relative;">
-    <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
-		<div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
+<div class="bookmark" style="margin-right: -41px;" onclick="location.href='/projectConfig'">설정</div>
+      <div class="bookmark2" style="margin-right: -41px; margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
         <!-- 설정하기 화면 -->
         <div id="config" class="section-wrapper config-section">
         
@@ -116,7 +116,7 @@
     </table>
 </div>
 </div>	
-<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1093px;margin-top: 24px;">실행 </button>
+<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1268px;margin-top: 24px;">실행 </button>
 </div>
 </div>
 <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
@@ -325,6 +325,7 @@ function populateOutputTable(outputList) {
     tbody.insertAdjacentHTML("beforeend", row);
   });
 }
+
 </script>
 </body>
 </html>
