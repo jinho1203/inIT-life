@@ -8,8 +8,8 @@
 <body>
 <div layout:fragment="content">
 	<div class="config-wrapper" style="position: relative;">
-    <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
-		<div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
+<div class="bookmark" style="margin-right: -41px;" onclick="location.href='/projectConfig'">설정</div>
+      <div class="bookmark2" style="margin-right: -41px; margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
         <!-- 설정하기 화면 -->
         <div id="config" class="section-wrapper config-section">
         
@@ -85,6 +85,80 @@
 		        </tbody>
 		    </table>
 		</div>
+<!-- 출력 항목 -->
+<div style="flex: 1;">
+    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+            	<th style="text-align:center;">항목키</th>
+                <th style="text-align:center;">기본값</th>
+                <th style="text-align:center;">설명</th>
+                <th style="text-align:center;">항목구분</th>
+            </tr>
+        </thead>
+        <tbody id="outputTableBody">
+           <!-- 입력 항목도 같이 보이게 함 -->
+          <tr th:each="input : ${inputList}" 
+              th:attr="data-inputid=${input.inputId}" 
+              onclick="setSelectedInputId(this)">
+              <td th:text="${input.inputKey}"></td>
+              <td th:text="${input.inputValue}"></td>
+              <td th:text="${input.inputExplain}"></td>
+              <td th:text="${input.reqParam}"></td>
+          </tr>
+          <!-- 출력 항목 표시 -->
+          <tr th:each="output : ${outputList}" 
+              th:attr="data-outputid=${output.outputId}" 
+              onclick="setSelectedOutputId(this)">
+              <td th:text="${output.outputKey}"></td>
+              <td th:text="${output.outputValue}"></td>
+              <td th:text="${output.outputExplain}"></td>
+              <td th:text="${output.reqParam}"></td>
+          </tr>
+        </tbody>
+    </table>
+</div>
+</div>	
+<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1268px;margin-top: 24px;">실행 </button>
+</div>
+</div>
+<!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
+<div id="popup2">
+  <div class="popup2-header">
+    프로젝트 선택
+    <span class="popup2-close" onclick="closePopup2()">×</span>
+  </div>
+
+  <div class="popup2-body">
+    <table id="projectTable" class="project-table">
+      <thead>
+        <tr>
+          <th>프로젝트ID</th>
+          <th>프로젝트명</th>
+        </tr>
+      </thead>
+      <tbody>
+         <tr th:each="project : ${projectList}">
+         <td th:text="'P'+${project.projectId}"></td>
+         <td th:text="${project.projectName}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="popup2-buttons">
+      <button type="button" class="btn btn-secondary" onclick="confirmSelection()">확인</button>
+      <button type="button" class="btn btn-outline-secondary" onclick="closePopup2()">닫기</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- popup5 (실행칸) -->
+<div id="popup5">
+  <div class="popup2-header">
+    URL 확인
+    <span class="popup2-close" onclick="closePopup5()">×</span>
+  </div>
 	
 		<!-- 출력 항목 -->
 		<div style="flex: 1;">
