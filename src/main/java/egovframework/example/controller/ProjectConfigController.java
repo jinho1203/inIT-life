@@ -125,7 +125,7 @@ public class ProjectConfigController {
 	    }
 	}
 
-	   @DeleteMapping
+	   @DeleteMapping("/input")
 	   @ResponseBody
 	   public String deleteInput(@RequestBody List<Long> inputId) {
 	      
@@ -134,6 +134,7 @@ public class ProjectConfigController {
 	      }
 	      return "success";
 	   }
+
 	/*
 	 * outPut 영역
 	 */
@@ -155,8 +156,20 @@ public class ProjectConfigController {
 		
 		return "success";
 	}
-	
-	
+
+	/*
+	 * outPut 삭제 영역
+	 */
+	   @DeleteMapping("/output")
+	   @ResponseBody
+	   public String deleteOutput(@RequestBody List<Long> outputId) {
+	      
+	      for(Long id : outputId) {
+	    	  outputService.deleteOutput(id);
+	      }
+	      return "success";
+	   }
+    
 	/*
 	 * baseUrl + input param + output param = full Url 
 	 */

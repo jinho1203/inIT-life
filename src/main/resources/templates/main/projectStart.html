@@ -43,58 +43,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                <!--  <tr th:each="source : ${sourceList}">
-		                <td th:text="'S'+${source.sourceId}"></td>
-		              	<td th:text="${source.sourceName}"></td>
-		              	<td th:text="${source.baseUrl}"></td> -->
-		        <tr>
-		            <td>1</td>
-		            <td>2</td>
-		            <td>3</td>
-              	    <td>JSON</td> 
-                    </tr>
+				     <tr th:each="source : ${sourceList}" 
+		              th:attr="data-sourceid=${source.sourceId}"
+		              onclick="setSelectedSourceId(this)">    
+		              <td th:text="'S'+${source.sourceId}"></td>
+		              <td th:text="${source.sourceName}"></td>
+		              <td th:text="${source.baseUrl}"></td>
+		              <td style="text-align: center;">JSON</td>
                 </tbody>
             </table>
 		</div>
 
-            <!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
-            <div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
-            <!-- 입력 항목 -->
+<!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
+<div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
+<!-- 입력 항목 -->
 <div style="flex: 1;">
     <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
     <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="text-align:center;">입력 ID</th>
-                <th style="text-align:center;">항목키</th>
                 <th style="text-align:center;">기본값</th>
                 <th style="text-align:center;">설명</th>
                 <th style="text-align:center;">항목구분 </th>
             </tr>
         </thead>
-       <tbody>
-		  <tr>
-		    <td>IN001</td>
-		    <td>region</td>
-		    <td>서울</td>
-		    <td style="width:159px"><input type="text" value="지역코드" style="width: 70%; box-sizing: border-box;"></td>
-		    <td style="text-align:center;">필수</td>
-		  </tr>
-		  <tr>
-		    <td>IN002</td>
-		    <td>date</td>
-		    <td>1</td>
-		    <td><input type="text" value="페이지 번호" style="width: 70%; box-sizing: border-box;"></td>
-		     <td style="text-align:center;">필수</td>
-		  </tr>
-		  <tr>
-		    <td>IN003</td>
-		    <td>hour</td>
-		    <td>01</td>
-		    <td><input type="text" value="품목 분류코드" style="width: 70%; box-sizing: border-box;"></td>
-		     <td style="text-align:center;">필수</td>
-		  </tr>
-		</tbody>
+        <tbody>
+            <tr th:each="input : ${inputList}" 
+                th:attr="data-inputid=${input.inputId}" 
+                onclick="setSelectedInputId(this)">
+                <td th:text="${input.inputKey}"></td>
+                <td th:text="${input.inputValue}"></td>
+                <td th:text="${input.inputExplain}"></td>
+                <td th:text="${input.reqParam}"></td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
@@ -104,35 +86,30 @@
     <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="text-align:center;">출력 ID</th>
-                <th style="text-align:center;">항목키</th>
                 <th style="text-align:center;">기본값</th>
                 <th style="text-align:center;">설명</th>
                 <th style="text-align:center;">항목구분</th>
             </tr>
         </thead>
         <tbody>
-              <tr>
-			    <td>OUT001</td>
-			    <td>region</td>
-			    <td style="width:159px"><input type="text" value="대전" style="width: 70%; box-sizing: border-box;"></td>
-			  	<td>지역코드</td>
-			  	 <td style="text-align:center;">필수</td>
-			  </tr>
-			  <tr>
-			    <td>OUT002</td>
-			    <td>data</td>
-			    <td><input type="text" value="4" style="width: 70%; box-sizing: border-box;"></td>
-			     <td>페이지 번호</td>
-			      <td style="text-align:center;">필수</td>
-			  </tr>
-			  <tr>
-			    <td>OUT003</td>
-			    <td>hour</td>
-			    <td><input type="text" value="04" style="width: 70%; box-sizing: border-box;"></td>
-			    <td>품목 분류코드</td>
-			     <td style="text-align:center;">필수</td>
-			  </tr>
+           <!-- 입력 항목도 같이 보이게 함 -->
+          <tr th:each="input : ${inputList}" 
+              th:attr="data-inputid=${input.inputId}" 
+              onclick="setSelectedInputId(this)">
+              <td th:text="${input.inputKey}"></td>
+              <td th:text="${input.inputValue}"></td>
+              <td th:text="${input.inputExplain}"></td>
+              <td th:text="${input.reqParam}"></td>
+          </tr>
+          <!-- 출력 항목 표시 -->
+          <tr th:each="output : ${outputList}" 
+              th:attr="data-outputid=${output.outputId}" 
+              onclick="setSelectedOutputId(this)">
+              <td th:text="${output.outputKey}"></td>
+              <td th:text="${output.outputValue}"></td>
+              <td th:text="${output.outputExplain}"></td>
+              <td th:text="${output.reqParam}"></td>
+          </tr>
         </tbody>
     </table>
 </div>
@@ -259,19 +236,19 @@ function closePopup5() {
 //선택 버튼 클릭 시
 function confirmSelection() {
   if (selectedProject) {
-    // SweetAlert로 확인 메시지 띄우기
     Swal.fire({
       title: '프로젝트 선택 완료',
       text: '프로젝트가 설정되었습니다.',
       icon: 'success',
       confirmButtonText: '확인'
     }).then(() => {
-      // 프로젝트 정보 입력 필드에 채워넣기
       document.getElementById("projectId").value = selectedProject.projectId;
       document.getElementById("projectName").value = selectedProject.projectName;
 
-      // 팝업 닫기 + 필요한 작업 추가
-      closePopup2(); // 너가 사용 중인 팝업 닫기 함수
+      // ✅ 연동된 데이터 불러오기
+      fetchProjectDetails(selectedProject.projectId);
+
+      closePopup2(); // 팝업 닫기
     });
   } else {
     Swal.fire({
@@ -281,6 +258,70 @@ function confirmSelection() {
       confirmButtonText: '확인'
     });
   }
+}
+
+function fetchProjectDetails(projectId) {
+	  fetch(`/projectConfig/projectDetails?projectId=${projectId}`)
+	    .then(res => res.json())
+	    .then(data => {
+	      if (data) {
+	        populateApiTable(data.apiList || []);
+	        populateInputTable(data.inputList || []);
+	        populateOutputTable(data.outputList || []);
+	      }
+	    })
+	    .catch(err => {
+	      console.error('프로젝트 세부정보 로딩 오류:', err);
+	      Swal.fire('오류', '데이터를 불러오는 중 오류가 발생했습니다.', 'error');
+	    });
+	}
+function populateApiTable(apiList) {
+	  const tbody = document.querySelector("#apiTableBody"); // tbody에 id 부여 필요
+	  tbody.innerHTML = "";
+
+	  apiList.forEach((api, index) => {
+	    const row = `
+	      <tr>
+	        <td style="text-align:center;">${index + 1}</td>
+	        <td style="text-align:center;">${api.sourceName}</td>
+	        <td style="text-align:center;">${api.baseUrl}</td>
+	        <td style="text-align:center;">${api.responseFormat}</td>
+	      </tr>
+	    `;
+	    tbody.insertAdjacentHTML("beforeend", row);
+	  });
+	}
+
+function populateInputTable(inputList) {
+  const tbody = document.querySelector("#inputTableBody");
+  tbody.innerHTML = "";
+
+  inputList.forEach(input => {
+    const row = `
+      <tr>
+        <td style="text-align:center;">${input.defaultValue}</td>
+        <td style="text-align:center;">${input.description}</td>
+        <td style="text-align:center;">${input.type}</td>
+      </tr>
+    `;
+    tbody.insertAdjacentHTML("beforeend", row);
+  });
+}
+
+function populateOutputTable(outputList) {
+  const tbody = document.querySelector("#outputTableBody");
+  tbody.innerHTML = "";
+
+  outputList.forEach(output => {
+    const row = `
+      <tr>
+        <td style="text-align:center;">${output.defaultValue}</td>
+        <td style="text-align:center;">${output.description}</td>
+        <td style="text-align:center;">${output.type}</td>
+      </tr>
+    `;
+    tbody.insertAdjacentHTML("beforeend", row);
+  });
 }
 </script>
 </body>
