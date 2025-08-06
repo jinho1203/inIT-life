@@ -86,6 +86,19 @@ public class ProjectConfigController {
 		return "success";
 	}
 
+	@DeleteMapping("/source")
+	@ResponseBody
+	public String deleteSource(@RequestBody List<Long> inputId) {
+		try {
+			for(Long id : inputId) {
+				sourceService.deleteSource(id);
+			}
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();  // 여기에 어떤 에러인지 반드시 찍히도록
+			return "fail: " + e.getMessage();
+		}
+	}
 	
 	/*
 	 * inPut 영역
@@ -101,8 +114,12 @@ public class ProjectConfigController {
 		System.out.println("필수 조건 여부: " + inputVO.getReqParam());
 		System.out.println("sourceId NUM : " + inputVO.getSourceId());
 		
-		if(inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()
-				|| inputVO.getInputValue() == null || inputVO.getInputValue().trim().isEmpty()) {
+//		if(inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()
+//				|| inputVO.getInputValue() == null || inputVO.getInputValue().trim().isEmpty()) {
+//			return "fail";
+//		}
+		
+		if(inputVO.getInputKey() == null || inputVO.getInputKey().trim().isEmpty()) {
 			return "fail";
 		}
 		
@@ -111,19 +128,6 @@ public class ProjectConfigController {
 		return "success";
 	}
 	
-	@DeleteMapping("/source")
-	@ResponseBody
-	public String deleteSource(@RequestBody List<Long> inputId) {
-	    try {
-	        for(Long id : inputId) {
-	           sourceService.deleteSource(id);
-	        }
-	        return "success";
-	    } catch (Exception e) {
-	        e.printStackTrace();  // 여기에 어떤 에러인지 반드시 찍히도록
-	        return "fail: " + e.getMessage();
-	    }
-	}
 
 	   @DeleteMapping
 	   @ResponseBody
@@ -146,8 +150,12 @@ public class ProjectConfigController {
 		System.out.println("받은 입력값: " + outputVO.getOutputValue());
 		System.out.println("필수 조건 여부: " + outputVO.getReqParam());
 		
-		if(outputVO.getOutputKey() == null || outputVO.getOutputKey().trim().isEmpty()
-				|| outputVO.getOutputValue() == null || outputVO.getOutputValue().trim().isEmpty())	{
+//		if(outputVO.getOutputKey() == null || outputVO.getOutputKey().trim().isEmpty()
+//				|| outputVO.getOutputValue() == null || outputVO.getOutputValue().trim().isEmpty())	{
+//			return "fail";
+//		}
+		
+		if(outputVO.getOutputKey() == null || outputVO.getOutputKey().trim().isEmpty())	{
 			return "fail";
 		}
 		

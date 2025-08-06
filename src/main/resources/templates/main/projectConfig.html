@@ -25,14 +25,14 @@
                                     <!-- 서버로 전송될 숨겨진 필드 -->
                                     <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
                                     <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>        
-                                    <button type="button" onclick="testConnection(this)" class="btn btn-outline-primary" style="font-size:13px; margin-left:685px">테스트 연결 </button>
+                                    <button type="button" id="testConnection" class="btn btn-outline-primary" style="font-size:13px; margin-left:685px">테스트 연결 </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-      <!-- API 리스트 -->
+      		<!-- API 리스트 -->
             <div style="margin-top: 20px;">
                 <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
                 <table id="projectTable">
@@ -55,6 +55,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- 숨겨진 sourceId -->
+                <input type="hidden" name="sourceId" id="sourceId" />
+                
             		 <div style="margin-top: 15px;">
 						  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">추가</button>
 						  <button type="button" class="btn btn-outline-warning" onclick="deleteSource()">삭제</button>
@@ -66,7 +69,7 @@
                 <!-- 입력 항목 -->
                 <div style="flex: 1;">
                     <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
-                    <table>
+                    <table id="inputTable">
                         <thead>
                             <tr>
                                 <th style="text-align:center;">항목키</th>
@@ -93,7 +96,7 @@
                 <!-- 출력 항목 -->
                 <div style="flex: 1;">
                     <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
-                    <table>
+                    <table id="outputTable">
                         <thead>
                             <tr>
                                 <th style="text-align:center;">항목키</th>
@@ -103,14 +106,14 @@
                             </tr>
                         </thead>
                         <tbody>
-<!--                         	입력항목 출력 -->
+							<!-- 입력항목 출력 -->
                             <tr th:each="input : ${inputList}">
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
                             	<td th:text="${input.inputExplain}"></td>
                             	<td th:text="${input.reqParam}"></td>
                         	</tr>
-<!--                         	 출력항목 도 함께나오게 하기 -->
+							<!-- 출력항목 도 함께나오게 하기 -->
                         	<tr th:each="output : ${outputList}">
 						        <td th:text="${output.outputKey}"></td>
 						        <td th:text="${output.outputValue}"></td>
@@ -246,90 +249,42 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
+let selectedSourceId = null;
+let urlRedirectTimeout = null;  // 필요한 변수 유지
+
+// 팝업 열기/닫기 함수들 (중복 없음, 그대로 유지)
 function openSourcePopup() {
 	document.getElementById("sourcePopup").style.display = "block";
 }
 function closeSourcePopup() {
     document.getElementById("sourcePopup").style.display = "none";
-	}
+}
 function openPopup3() {
     document.getElementById("popup3").style.display = "block";
-	}
+}
 function closePopup3() {
     document.getElementById("popup3").style.display = "none";
-	}
-function openPopup4(row) {
-	// 새로고침된 URL에서 sourceId 읽어오기
+}
+function openPopup4() {
+    // URL에서 sourceId 읽어와 input에 세팅
     const urlParams = new URLSearchParams(window.location.search);
     const sourceId = urlParams.get("sourceId");
-	
-	// sourceId 저장
     document.getElementById("popup4-sourceId").value = sourceId;
-	
-    // 팝업 열기
     document.getElementById("popup4").style.display = "block";
-	}
+}
 function closePopup4() {
     document.getElementById("popup4").style.display = "none";
-	}
-function openPopup5(row) {
-	// 새로고침된 URL에서 sourceId 읽어오기
+}
+function openPopup5() {
     const urlParams = new URLSearchParams(window.location.search);
     const sourceId = urlParams.get("sourceId");
-	
-	// sourceId 저장
     document.getElementById("popup5-sourceId").value = sourceId;
-	
     document.getElementById("popup5").style.display = "block";
-	}
+}
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
-	}
-	
-<!-- sourceId를 저장용-->
-let selectedSourceId = null;
-let urlRedirectTimeout = null;  // ✅ 이 줄이 필요해!
-
-document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    selectedSourceId = urlParams.get("sourceId"); // 복원
-    console.log("복원된 sourceId:", selectedSourceId);
-
-    if (selectedSourceId) {
-        const projectTable = document.getElementById("projectTable");
-        const rows = projectTable.querySelectorAll("tbody tr");
-
-        rows.forEach(row => {
-            const rowSourceId = row.getAttribute("data-sourceid");
-            if (rowSourceId === selectedSourceId) {
-                row.classList.add("highlight");
-            }
-        });
-    }
-});
-
-function setSelectedSourceId(row) {
-    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
-    row.classList.add("highlight");
-
-    selectedSourceId = row.getAttribute("data-sourceid");
-    console.log("선택된 ID:", selectedSourceId);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get("projectId");
-    const projectName = urlParams.get("projectName");
-
-    // ✅ 기존 타이머 취소
-    if (urlRedirectTimeout) {
-        clearTimeout(urlRedirectTimeout);
-    }
-
-    // ✅ 약간의 지연 후 페이지 이동 (사용자가 삭제 클릭할 틈을 줌)
-    urlRedirectTimeout = setTimeout(() => {
-        window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${selectedSourceId}`;
-    });  // 0.3초 뒤 이동 (너무 짧게도 너무 길게도 말고)
-    
 }
+
 function saveSource() {
 	const name = document.querySelector("#sourceName").value.trim();
 	const baseUrl = document.querySelector("#baseUrl").value.trim();
@@ -394,6 +349,35 @@ function saveSource() {
             icon: 'error'
         });
     });	
+}
+function deleteSource() {
+    if (!selectedSourceId) {
+        alert("삭제할 항목을 선택하세요.");
+        return;
+    }
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    fetch('/projectConfig/source', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([Number(selectedSourceId)]),
+    })
+    .then(res => res.text())
+    .then(result => {
+        if (result === 'success') {
+            alert('삭제 처리 완료');
+            // 테이블에서 행만 제거 (soft delete니까 DB는 isDeleted만 변경됨)
+            const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
+            if (row) row.remove();
+            selectedSourceId = null;
+        } else {
+            alert('삭제 실패');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('오류 발생');
+    });
 }
 function saveInput() {
 // 	const name = document.querySelector("#inputName").value.trim();
@@ -546,37 +530,139 @@ function saveOutput(){
     });		
 }
 
-function testConnection(button) {
-    // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
-    const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
 
-    if (success) {
-        alert("연결되었습니다.");
-    } else {
-        alert("연결에 실패하였습니다.");
+// 페이지 로드 시 실행되는 초기화 함수 - URL에서 sourceId 복원 및 하이라이트 처리
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    selectedSourceId = urlParams.get("sourceId"); // 전역 변수에 저장
+    console.log("복원된 sourceId:", selectedSourceId);
+
+    if (selectedSourceId) {
+        const projectTable = document.getElementById("projectTable");
+        if (projectTable) {
+            projectTable.querySelectorAll("tbody tr").forEach(row => {
+                if (row.getAttribute("data-sourceid") === selectedSourceId) {
+                    row.classList.add("highlight");
+                }
+            });
+        }
     }
+
+    // testConnection 버튼 이벤트 등록 (중복 등록 방지)
+    const testBtn = document.getElementById("testConnection");
+    if (testBtn) {
+        testBtn.addEventListener("click", onTestConnectionClick);
+    }
+});
+
+// 프로젝트 테이블 행 클릭 시 선택 및 페이지 이동 처리
+function setSelectedSourceId(row) {
+    console.log("setSelectedSourceId 호출됨");
+
+    selectedSourceId = row.getAttribute("data-sourceid");
+    console.log("선택된 ID:", selectedSourceId);
+
+    const hiddenInput = document.getElementById("sourceId");
+    if (hiddenInput) {
+        hiddenInput.value = selectedSourceId;
+        console.log("hidden input에 값 세팅:", hiddenInput.value);
+    }
+
+    // 하이라이트 토글
+    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    row.classList.add("highlight");
+
+    // URL 이동 (setTimeout 없이 바로 이동해도 무방)
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get("projectId");
+    const projectName = urlParams.get("projectName");
+
+    window.location.href = `/projectConfig?projectId=${projectId}&projectName=${projectName}&sourceId=${selectedSourceId}`;
 }
 
-//테이블 행 클릭 시
-let selectedProject = null;
+// testConnection 버튼 클릭시 처리 함수 분리
+function onTestConnectionClick() {
+    if (!selectedSourceId) {
+        alert("API를 선택해주세요.");
+        return;
+    }
 
-document.addEventListener("DOMContentLoaded", function () {
-     const urlParams = new URLSearchParams(window.location.search);
-     const selectedSourceId = urlParams.get("sourceId");  // URL에서 선택된 sourceId를 가져옴
+    const selectedRow = document.querySelector(`#projectTable tbody tr[data-sourceid="${selectedSourceId}"]`);
+    if (!selectedRow) {
+        alert("선택된 API 행을 찾을 수 없습니다.");
+        return;
+    }
 
-     if (selectedSourceId) {
-       const projectTable = document.getElementById("projectTable");
-       const rows = projectTable.querySelectorAll("tbody tr");
+    const baseUrl = selectedRow.querySelector("td:nth-child(3)")?.innerText.trim() || "";
+    console.log("baseUrl:", baseUrl);
 
-       rows.forEach(row => {
-         const rowSourceId = row.getAttribute("data-sourceid");
-         if (rowSourceId === selectedSourceId) {
-           row.classList.add("highlight");
-         }
-       });
-     }
-   });
-   
+    const inputList = [];
+    document.querySelectorAll("#inputTable tbody tr").forEach(row => {
+        const inputKey = row.querySelector("td:nth-child(1)")?.innerText.trim();
+        const inputValue = row.querySelector("td:nth-child(2)")?.innerText.trim();
+        const reqParam = row.querySelector("td:nth-child(4)")?.innerText.trim();
+
+        if(inputKey && inputValue) {
+            inputList.push({ inputKey, inputValue, reqParam });
+        }
+    });
+
+    const outputList = [];
+    document.querySelectorAll("#outputTable tbody tr").forEach(row => {
+        const outputKey = row.querySelector("td:nth-child(1)")?.innerText.trim();
+        const outputValue = row.querySelector("td:nth-child(2)")?.innerText.trim();
+        const reqParam = row.querySelector("td:nth-child(4)")?.innerText.trim();
+
+        if(outputKey && outputValue) {
+            outputList.push({ outputKey, outputValue, reqParam });
+        }
+    });
+
+    const data = {
+        sourceId: selectedSourceId,
+        baseUrl: baseUrl,
+        inputList: inputList,
+        outputList: outputList
+    };
+
+    console.log("전송 데이터 : ", data);
+
+    fetch("/projectConfig/fullUrl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.text())
+    .then(result => {
+        if(result === "success") {
+            Swal.fire({
+                title: '연결 성공',
+                text: '연결 성공하였습니다',
+                icon: 'success',
+                confirmButtonText: '확인'
+            }).then(() => {
+                closePopup4();
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                title: '연결 실패',
+                text: '연결에 실패하였습니다.',
+                icon: 'warning'
+            });
+        }
+    })
+    .catch(error => {
+        console.error("에러발생:", error);
+        Swal.fire({
+            title: '연결 실패',
+            text: '연결 중 오류가 발생했습니다.',
+            icon: 'error'
+        });
+    });
+}
+
+// 삭제 처리 함수 - selectedSourceId 전역변수 사용
 function deleteSource() {
     if (!selectedSourceId) {
         alert("삭제할 항목을 선택하세요.");
@@ -593,7 +679,6 @@ function deleteSource() {
     .then(result => {
         if (result === 'success') {
             alert('삭제 처리 완료');
-            // 테이블에서 행만 제거 (soft delete니까 DB는 isDeleted만 변경됨)
             const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
             if (row) row.remove();
             selectedSourceId = null;
