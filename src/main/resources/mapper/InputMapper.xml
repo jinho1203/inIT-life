@@ -5,7 +5,8 @@
 	<!-- 입력항목 조회 -->
 	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.InputVO">
 		SELECT * FROM test.input
-		WHERE sourceId = #{sourceId}
+		WHERE sourceId = #{sourceId} AND isDeleted = false 
+		
 	</select>
 	
 	<!-- 입력항목 등록 -->
@@ -19,7 +20,7 @@
 	<!-- 입력항목 삭제 -->	
 	<update id="deleteInput" parameterType="long">
 		UPDATE test.input
-		SET isDeleted = false
+		SET isDeleted = true
 		WHERE inputId = #{inputId}
 	</update>
 		

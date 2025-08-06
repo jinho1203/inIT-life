@@ -6,7 +6,7 @@
 	<!-- 출력항목 조회 -->
 	<select id="getAllList" parameterType="long" resultType="egovframework.example.vo.OutputVO">
 		SELECT * FROM test.output
-		WHERE sourceId = #{sourceId}
+		WHERE sourceId = #{sourceId} AND isDeleted = false 
 	</select>
 	
 	<!-- 출력항목 등록 -->
@@ -20,7 +20,7 @@
 	<!-- 출력항목 삭제 -->
 	<update id="deleteOutput" parameterType="long">
 		UPDATE test.output
-		SET isDeleted = false
+		SET isDeleted = true
 		WHERE outputId = #{outputId}
 	</update>
 	

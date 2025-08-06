@@ -79,7 +79,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="input : ${inputList}">
+                            <tr th:each="input : ${inputList}" 
+						        th:attr="data-inputid=${input.inputId}" 
+						        onclick="setSelectedInputId(this)">
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
                             	<td th:text="${input.inputExplain}"></td>
@@ -89,7 +91,7 @@
                     </table>
                     <div class="buttons">
                          <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
-                         <button type="button" class="btn btn-outline-warning" onclick="closePopup4()">삭제</button>
+                         <button type="button" class="btn btn-outline-warning" onclick="deleteInput()">삭제</button>
                     </div>
                 </div>
 
@@ -98,7 +100,7 @@
                     <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
                     <table id="outputTable">
                         <thead>
-                            <tr>
+							<tr>
                                 <th style="text-align:center;">항목키</th>
                                 <th style="text-align:center;">기본값</th>
                                 <th style="text-align:center;">설명</th>
@@ -106,15 +108,19 @@
                             </tr>
                         </thead>
                         <tbody>
-							<!-- 입력항목 출력 -->
-                            <tr th:each="input : ${inputList}">
+								<!--입력항목 출력 -->
+                               <tr th:each="input : ${inputList}" 
+						        th:attr="data-inputid=${input.inputId}" 
+						        onclick="setSelectedInputId(this)">
                             	<td th:text="${input.inputKey}"></td>
                             	<td th:text="${input.inputValue}"></td>
                             	<td th:text="${input.inputExplain}"></td>
                             	<td th:text="${input.reqParam}"></td>
                         	</tr>
-							<!-- 출력항목 도 함께나오게 하기 -->
-                        	<tr th:each="output : ${outputList}">
+								<!-- 출력항목 도 함께나오게 하기 -->
+                        	    <tr th:each="output : ${outputList}" 
+							        th:attr="data-outputid=${output.outputId}" 
+							        onclick="setSelectedOutputId(this)">
 						        <td th:text="${output.outputKey}"></td>
 						        <td th:text="${output.outputValue}"></td>
 						        <td th:text="${output.outputExplain}"></td> 
@@ -124,7 +130,7 @@
                     </table>
                     <div class="buttons">
                        <button type="button" class="btn btn-outline-primary" onclick="openPopup5()">추가</button>
-                       <button type="button" class="btn btn-outline-warning" onclick="closePopup5()">삭제</button>
+                       <button type="button" class="btn btn-outline-warning" onclick="deleteOutput()">삭제</button>
                     </div>
                 </div>
             </div>
@@ -249,10 +255,23 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
-let selectedSourceId = null;
-let urlRedirectTimeout = null;  // 필요한 변수 유지
+let selectedInputId = null;
+let selectedOutputId = null;
 
-// 팝업 열기/닫기 함수들 (중복 없음, 그대로 유지)
+function setSelectedInputId(row) {
+    document.querySelectorAll("#inputTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    row.classList.add("highlight");
+    selectedInputId = row.getAttribute("data-inputid");
+    console.log("선택된 inputId:", selectedInputId);
+}
+
+function setSelectedOutputId(row) {
+    document.querySelectorAll("#outputTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    row.classList.add("highlight");
+    selectedOutputId = row.getAttribute("data-outputid");
+    console.log("선택된 outputId:", selectedOutputId);
+}
+
 function openSourcePopup() {
 	document.getElementById("sourcePopup").style.display = "block";
 }
@@ -663,32 +682,233 @@ function onTestConnectionClick() {
 }
 
 // 삭제 처리 함수 - selectedSourceId 전역변수 사용
+document.addEventListener("DOMContentLoaded", function () {
+    // --- 1. projectTable 처리 ---
+    const selectedSourceId = new URLSearchParams(window.location.search).get("sourceId");
+    const projectTable = document.getElementById("projectTable");
+    if (projectTable) {
+      const rows = projectTable.querySelectorAll("tbody tr");
+      rows.forEach(row => {
+        // URL 파라미터와 data-sourceid 비교해서 초기 하이라이트
+        if (selectedSourceId && row.getAttribute("data-sourceid") === selectedSourceId) {
+          row.classList.add("highlight");
+        }
+        // 클릭 이벤트
+        row.addEventListener("click", () => {
+          rows.forEach(r => r.classList.remove("highlight"));
+          row.classList.add("highlight");
+          // 선택된 sourceId 등 값을 활용하는 로직 필요시 여기서 처리
+        });
+      });
+    }
+
+    // --- 2. inputTable 처리 ---
+    const inputTable = document.getElementById("inputTable");
+    if (inputTable) {
+      const rows = inputTable.querySelectorAll("tbody tr");
+      rows.forEach(row => {
+        row.addEventListener("click", () => {
+          rows.forEach(r => r.classList.remove("highlight"));
+          row.classList.add("highlight");
+          // 선택된 inputKey 등 값을 활용하는 로직 필요시 여기서 처리
+        });
+      });
+    }
+
+    // --- 3. outputTable 처리 ---
+    const outputTable = document.getElementById("outputTable");
+    if (outputTable) {
+      const rows = outputTable.querySelectorAll("tbody tr");
+      rows.forEach(row => {
+        row.addEventListener("click", () => {
+          rows.forEach(r => r.classList.remove("highlight"));
+          row.classList.add("highlight");
+          // 선택된 outputKey 등 값을 활용하는 로직 필요시 여기서 처리
+        });
+      });
+    }
+  });
 function deleteSource() {
     if (!selectedSourceId) {
-        alert("삭제할 항목을 선택하세요.");
+        Swal.fire({
+            icon: 'warning',
+            title: '삭제할 항목을 선택하세요.',
+            confirmButtonText: '확인'
+        });
         return;
     }
-    if (!confirm("정말 삭제하시겠습니까?")) return;
 
-    fetch('/projectConfig/source', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([Number(selectedSourceId)]),
-    })
-    .then(res => res.text())
-    .then(result => {
-        if (result === 'success') {
-            alert('삭제 처리 완료');
-            const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
-            if (row) row.remove();
-            selectedSourceId = null;
-        } else {
-            alert('삭제 실패');
+    Swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        text: '이 작업은 되돌릴 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/projectConfig/source', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify([Number(selectedSourceId)]),
+            })
+            .then(res => res.text())
+            .then(result => {
+                if (result === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '삭제 완료',
+                        text: '항목이 삭제 처리되었습니다.',
+                        confirmButtonText: '확인'
+                    });
+
+                    // soft delete니까 화면에서만 제거
+                    const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
+                    if (row) row.remove();
+                    selectedSourceId = null;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '삭제 실패',
+                        text: '서버에서 삭제에 실패했습니다.',
+                        confirmButtonText: '확인'
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: '오류 발생',
+                    text: '서버와의 통신 중 문제가 발생했습니다.',
+                    confirmButtonText: '확인'
+                });
+            });
         }
-    })
-    .catch(err => {
-        console.error(err);
-        alert('오류 발생');
+    });
+}
+
+//입력 삭제 
+function deleteInput() {
+    if (!selectedInputId) {
+        Swal.fire({
+            icon: 'warning',
+            title: '입력 항목을 선택하세요.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        text: '이 작업은 되돌릴 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/projectConfig/input', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify([Number(selectedInputId)])
+            })
+            .then(res => res.text())
+            .then(result => {
+                if (result === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '삭제 완료',
+                        text: '입력 항목이 삭제되었습니다.',
+                        confirmButtonText: '확인'
+                    }).then(() => {
+                        // ✅ 여기서 새로고침
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '삭제 실패',
+                        text: result,
+                        confirmButtonText: '확인'
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: '오류 발생',
+                    text: '서버와의 통신 중 오류가 발생했습니다.',
+                    confirmButtonText: '확인'
+                });
+            });
+        }
+    });
+}
+//출력삭제 
+function deleteOutput() {
+    if (!selectedOutputId) {
+        Swal.fire({
+            icon: 'warning',
+            title: '출력 항목을 선택하세요.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: '정말 삭제하시겠습니까?',
+        text: '이 작업은 되돌릴 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/projectConfig/output', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify([Number(selectedOutputId)])
+            })
+            .then(res => res.text())
+            .then(result => {
+                if (result === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '삭제 완료',
+                        text: '출력 항목이 삭제되었습니다.',
+                        confirmButtonText: '확인'
+                    });
+
+                    const row = document.querySelector(`#outputTable tbody tr[data-outputid='${selectedOutputId}']`);
+                    if (row) row.remove();
+                    selectedOutputId = null;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '삭제 실패',
+                        text: result,
+                        confirmButtonText: '확인'
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: '오류 발생',
+                    text: '서버와의 통신 중 오류가 발생했습니다.',
+                    confirmButtonText: '확인'
+                });
+            });
+        }
     });
 }
 </script>
