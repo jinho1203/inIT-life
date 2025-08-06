@@ -257,6 +257,7 @@
 <script>
 let selectedInputId = null;
 let selectedOutputId = null;
+let selectedSourceId = null;
 
 function setSelectedInputId(row) {
     document.querySelectorAll("#inputTable tbody tr").forEach(r => r.classList.remove("highlight"));
@@ -549,31 +550,6 @@ function saveOutput(){
     });		
 }
 
-
-// 페이지 로드 시 실행되는 초기화 함수 - URL에서 sourceId 복원 및 하이라이트 처리
-document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    selectedSourceId = urlParams.get("sourceId"); // 전역 변수에 저장
-    console.log("복원된 sourceId:", selectedSourceId);
-
-    if (selectedSourceId) {
-        const projectTable = document.getElementById("projectTable");
-        if (projectTable) {
-            projectTable.querySelectorAll("tbody tr").forEach(row => {
-                if (row.getAttribute("data-sourceid") === selectedSourceId) {
-                    row.classList.add("highlight");
-                }
-            });
-        }
-    }
-
-    // testConnection 버튼 이벤트 등록 (중복 등록 방지)
-    const testBtn = document.getElementById("testConnection");
-    if (testBtn) {
-        testBtn.addEventListener("click", onTestConnectionClick);
-    }
-});
-
 // 프로젝트 테이블 행 클릭 시 선택 및 페이지 이동 처리
 function setSelectedSourceId(row) {
     console.log("setSelectedSourceId 호출됨");
@@ -681,11 +657,15 @@ function onTestConnectionClick() {
     });
 }
 
-// 삭제 처리 함수 - selectedSourceId 전역변수 사용
+// DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    selectedSourceId = urlParams.get("sourceId"); // 전역 변수에 저장
+    console.log("복원된 sourceId:", selectedSourceId); 
+	
     // --- 1. projectTable 처리 ---
-    const selectedSourceId = new URLSearchParams(window.location.search).get("sourceId");
     const projectTable = document.getElementById("projectTable");
+    
     if (projectTable) {
       const rows = projectTable.querySelectorAll("tbody tr");
       rows.forEach(row => {
@@ -726,6 +706,12 @@ document.addEventListener("DOMContentLoaded", function () {
           // 선택된 outputKey 등 값을 활용하는 로직 필요시 여기서 처리
         });
       });
+    }
+    
+    // --- 4. testConnection 버튼 이벤트 등록 (중복 방지) ---
+    const testBtn = document.getElementById("testConnection");
+    if (testBtn) {
+      testBtn.addEventListener("click", onTestConnectionClick);
     }
   });
 function deleteSource() {
