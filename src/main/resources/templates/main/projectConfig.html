@@ -35,7 +35,7 @@
       		<!-- API 리스트 -->
             <div style="margin-top: 20px;">
                 <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
-                <table id="projectTable">
+                <table id="apiTable">
                     <thead>
                         <tr>
                              <th style="width:86px;">No.</th>
@@ -252,6 +252,7 @@
 </div>
 </div>
 </div>
+
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
@@ -387,7 +388,7 @@ function deleteSource() {
         if (result === 'success') {
             alert('삭제 처리 완료');
             // 테이블에서 행만 제거 (soft delete니까 DB는 isDeleted만 변경됨)
-            const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
+            const row = document.querySelector(`#apiTable tbody tr[data-sourceid='${selectedSourceId}']`);
             if (row) row.remove();
             selectedSourceId = null;
         } else {
@@ -564,7 +565,7 @@ function setSelectedSourceId(row) {
     }
 
     // 하이라이트 토글
-    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    document.querySelectorAll("#apiTable tbody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
 
     // URL 이동 (setTimeout 없이 바로 이동해도 무방)
@@ -582,7 +583,7 @@ function onTestConnectionClick() {
         return;
     }
 
-    const selectedRow = document.querySelector(`#projectTable tbody tr[data-sourceid="${selectedSourceId}"]`);
+    const selectedRow = document.querySelector(`#apiTable tbody tr[data-sourceid="${selectedSourceId}"]`);
     if (!selectedRow) {
         alert("선택된 API 행을 찾을 수 없습니다.");
         return;
@@ -663,11 +664,11 @@ document.addEventListener("DOMContentLoaded", function () {
     selectedSourceId = urlParams.get("sourceId"); // 전역 변수에 저장
     console.log("복원된 sourceId:", selectedSourceId); 
 	
-    // --- 1. projectTable 처리 ---
-    const projectTable = document.getElementById("projectTable");
+    // --- 1. apiTable 처리 ---
+    const apiTable = document.getElementById("apiTable");
     
-    if (projectTable) {
-      const rows = projectTable.querySelectorAll("tbody tr");
+    if (apiTable) {
+      const rows = apiTable.querySelectorAll("tbody tr");
       rows.forEach(row => {
         // URL 파라미터와 data-sourceid 비교해서 초기 하이라이트
         if (selectedSourceId && row.getAttribute("data-sourceid") === selectedSourceId) {
@@ -751,7 +752,7 @@ function deleteSource() {
                     });
 
                     // soft delete니까 화면에서만 제거
-                    const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
+                    const row = document.querySelector(`#apiTable tbody tr[data-sourceid='${selectedSourceId}']`);
                     if (row) row.remove();
                     selectedSourceId = null;
                 } else {

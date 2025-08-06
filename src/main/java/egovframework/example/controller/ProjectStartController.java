@@ -30,31 +30,66 @@ public class ProjectStartController {
 	private final SourceService sourceService;
 	private final InputService inputService;
 	private final OutputService outputService;
+	
+	/*
+	 * 화면만 불러오는거임
+	 */
 	@GetMapping
-	public String ShowSourceList(Model model) {
+	public String ShowSourceList(Model model,
+								@RequestParam(required = false) Long projectId,
+								@RequestParam(required = false) String projectName,
+								@RequestParam(required = false) Long sourceId) {
 		
 		List<ProjectVO> projectList = projectService.getAllList();
-//    	List<SourceVO> sourceList = sourceService.getAllList();
+		List<SourceVO> sourceList = sourceService.getAllList(projectId);
     	
     	model.addAttribute("projectList", projectList);
-//    	model.addAttribute("sourceList", sourceList);
-		
+    	model.addAttribute("sourceList", sourceList);
+
+        model.addAttribute("selectedProjectId", projectId);
+        model.addAttribute("selectedProjectName", projectName);
+        model.addAttribute("selectedSourceId", sourceId);
 		return "main/projectStart";
 	}
-	@GetMapping("/projectDetails")
+	
+	/*
+	 * API 목록 projectId로 구분하여 List 출력
+	 */
+	@GetMapping("/getSourceList")
 	@ResponseBody
-	public Map<String, Object> getProjectDetails(@RequestParam("projectId") Long projectId, Long sourceId, Long inputId) {
-	    Map<String, Object> result = new HashMap<>();
-
-	    // 예시: 실제로는 프로젝트 ID 기준으로 데이터 조회 필요
-	    List<SourceVO> apiList = sourceService.getAllList(projectId);
-	    List<InputVO> inputList = inputService.getAllList(sourceId);
-	    List<OutputVO> outputList = outputService.getAllList(inputId);
-
-	    result.put("apiList", apiList);
-	    result.put("inputList", inputList);
-	    result.put("outputList", outputList);
-
-	    return result;
+	public List<SourceVO> getSourceList(@RequestParam Long projectId) {
+		
+		return sourceService.getAllList(projectId);
+	}
+	
+//	@GetMapping("/projectDetails")
+//	@ResponseBody
+//	public Map<String, Object> getProjectDetails(@RequestParam("projectId") Long projectId, Long sourceId, Long inputId) {
+//	    Map<String, Object> result = new HashMap<>();
+//
+//	    // 예시: 실제로는 프로젝트 ID 기준으로 데이터 조회 필요
+//	    List<SourceVO> apiList = sourceService.getAllList(projectId);
+//	    List<InputVO> inputList = inputService.getAllList(sourceId);
+//	    List<OutputVO> outputList = outputService.getAllList(inputId);
+//
+//	    result.put("apiList", apiList);
+//	    result.put("inputList", inputList);
+//	    result.put("outputList", outputList);
+//
+//	    return result;
+//	}
+	
+	@GetMapping("/IOList")
+	@ResponseBody
+	public Map<String, Object> getInOutList(@RequestParam Long sourceId){
+		
+		List<InputVO> inputList = inputService.getAllList(sourceId);
+		List<OutputVO> outputList = outputService.getAllList(sourceId);
+		
+		 Map<String, Object> result = new HashMap<>();
+		 result.put("inputList", inputList);
+		 result.put("outputList", outputList);
+		
+		return result;
 	}
 }
