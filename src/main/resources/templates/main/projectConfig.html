@@ -8,116 +8,36 @@
 <body>
 <div layout:fragment="content">
   <div class="config-wrapper" style="position: relative;">
-    <div class="bookmark" style="margin-right: -41px;" onclick="location.href='/projectConfig'">설정</div>
-    <div class="bookmark2" style="margin-right: -41px; margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
-	<div class="config-wrapper" style="position: relative;">
-      <div class="bookmark" onclick="location.href='/projectConfig'">설정</div>
-      <div class="bookmark2" style="margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
-        <!-- 설정하기 화면 -->
-        <div id="config" class="section-wrapper config-section">
-        
-     		<table style="width:100%;margin:0;padding:0;" border="0">
-                <tbody>
-                    <tr>
-                        <td class="tdContent">         
-                            <div id="divProjectPro">
-                                <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>                                
-                                <div>
-                                    <span class="inputLabel">프로젝트ID</span>
-                                    <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" th:value="${param.projectId}" disabled>
-                                    <!-- 서버로 전송될 숨겨진 필드 -->
-                                    <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-                                    <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>        
-                                    <button type="button" id="testConnection" class="btn btn-outline-primary" style="font-size:13px; margin-left:685px">테스트 연결 </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-      		<!-- API 리스트 -->
-            <div style="margin-top: 20px;">
-                <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
-                <table id="apiTable">
-                    <thead>
-                        <tr>
-                             <th style="width:86px;">No.</th>
-						     <th style="text-align:center;">API 이름</th>
-						     <th style="text-align:center;">요청 URL</th>
-						     <th style="text-align:center;">응답 형식</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="source : ${sourceList}" 
-                        	th:attr="data-sourceid=${source.sourceId}"
-                        	onclick="setSelectedSourceId(this)">
-                         	<td th:text="'S'+${source.sourceId}"></td>
-		                	<td th:text="${source.sourceName}"></td>
-		                	<td th:text="${source.baseUrl}"></td>
-		                	<td style="text-align: center;">JSON</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- 숨겨진 sourceId -->
-                <input type="hidden" name="sourceId" id="sourceId" />
-                
-            		 <div style="margin-top: 15px;">
-						  <button type="button" class="btn btn-outline-primary" onclick="openPopup3()">추가</button>
-						  <button type="button" class="btn btn-outline-warning" onclick="deleteSource()">삭제</button>
-					</div>
-				</div>
-            <!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
-            <div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
-          
-                <!-- 입력 항목 -->
-                <div style="flex: 1;">
-                    <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
-                    <table id="inputTable">
-                        <thead>
-                            <tr>
-                                <th style="text-align:center;">항목키</th>
-                                <th style="text-align:center;">기본값</th>
-                                <th style="text-align:center;">설명</th>
-                                <th style="text-align:center;">항목구분</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="input : ${inputList}" 
-						        th:attr="data-inputid=${input.inputId}" 
-						        onclick="setSelectedInputId(this)">
-                            	<td th:text="${input.inputKey}"></td>
-                            	<td th:text="${input.inputValue}"></td>
-                            	<td th:text="${input.inputExplain}"></td>
-                            	<td th:text="${input.reqParam}"></td>
-                        	</tr>
-                        </tbody>
-                    </table>
-                    <div class="buttons">
-                         <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
-                         <button type="button" class="btn btn-outline-warning" onclick="deleteInput()">삭제</button>
-                    </div>
-                </div>
-
-    <!-- 설정하기 화면 -->
+   <!-- 설정하기 화면 -->
     <div id="config" class="section-wrapper config-section">
       <table style="width:100%;margin:0;padding:0;" border="0">
         <tbody>
           <tr>
             <td class="tdContent">
-              <div id="divProjectPro">
-                <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
-                <div>
+            <div id="divProjectPro">
+              <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <!-- 입력란 -->
+                <div style="display: flex; align-items: center;">
                   <span class="inputLabel">프로젝트ID</span>
-                  <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" th:value="${param.projectId}" disabled>
+                  <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
                   <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-                  <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" th:value="${param.projectName}" disabled>
+                  <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
                 </div>
+
+             <!-- 버튼 영역 -->
+             <div style="display: flex; gap: 8px;">
+               <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+               <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
+             </div>
               </div>
+            </div>
             </td>
           </tr>
-        </tbody>
-      </table>
-
+       </tbody>
+   </table>
+      
       <!-- API 리스트 -->
       <div style="margin-top: 20px;">
         <h3 class="h3-project" style="font-size:24px;">API 목록</h3>
@@ -169,13 +89,13 @@
               </thead>
               <tbody>
                 <tr th:each="input : ${inputList}" 
-	                 th:attr="data-inputid=${input.inputId}" 
-	                 onclick="setSelectedInputId(this)">
+                    th:attr="data-inputid=${input.inputId}" 
+                    onclick="setSelectedInputId(this)">
                 <td th:text="${input.inputKey}"></td>
                 <td th:text="${input.inputValue}" 
                     style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
-	                title="[[${input.inputValue}]]">
-	               </td>
+                   title="[[${input.inputValue}]]">
+                  </td>
                 <td th:text="${input.inputExplain}"></td>
                 <td th:text="${input.reqParam}"></td>
                 </tr>
@@ -234,117 +154,116 @@
         </div>
       </div> <!-- io-wrapper -->
     </div> <!-- config-section -->
-  </div> <!-- config-wrapper -->
-</div> <!-- layout:fragment -->
-	
-	<!-- 팝업3 /API 등록-->
-	<div id="popup3">
-	    <div class="popup-header">
-	        소스 속성정보
-	        <span class="popup-close" onclick="closePopup()"></span>
-	    </div>
-	    <div class="popup-body">
-	        <table class="popup-table">
-				<tr>
-				  <td class="label required">API 이름<span class="asterisk">(*)</span></td>
-				  <td><input type="text" id="sourceName" /></td>
-				</tr>
-				<tr>
-				  <td class="label">요청URL</td>
-				  <td><input type="text" id="baseUrl" /></td>
-				</tr>
-				 <tr>
-					  <td class="label">응답형식</td>
-					  <td>
-					    <select id="projectExplain" name="responseFormat">
-					      <option value="" disabled selected>--선택해주세요--</option>
-					      <option value="json">JSON</option>
-					      <option value="xml">XML</option>
-					    </select>
-					  </td>
-					</tr>
-	        </table>
-	        <div class="popup-buttons">
+
+   
+   <!-- 팝업3 /API 등록-->
+   <div id="popup3">
+       <div class="popup-header">
+           소스 속성정보
+           <span class="popup-close" onclick="closePopup()"></span>
+       </div>
+       <div class="popup-body">
+           <table class="popup-table">
+            <tr>
+              <td class="label required">API 이름<span class="asterisk">(*)</span></td>
+              <td><input type="text" id="sourceName" /></td>
+            </tr>
+            <tr>
+              <td class="label">요청URL</td>
+              <td><input type="text" id="baseUrl" /></td>
+            </tr>
+             <tr>
+                 <td class="label">응답형식</td>
+                 <td>
+                   <select id="projectExplain" name="responseFormat">
+                     <option value="" disabled selected>--선택해주세요--</option>
+                     <option value="json">JSON</option>
+                     <option value="xml">XML</option>
+                   </select>
+                 </td>
+               </tr>
+           </table>
+           <div class="popup-buttons">
             <button type="button" class="btn btn-outline-success" onclick="saveSource()">저장</button>
             <button type="button" class="btn btn-outline-warning" onclick="closePopup3()">취소</button>
-	        </div>
-	    </div>
-	</div>
+           </div>
+       </div>
+   </div>
 
-<!-- 팝업4/ 입력항목 -->	
+<!-- 팝업4/ 입력항목 -->   
 <div id="popup4">
     <div class="popup-header">입력 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
-      	<!-- sourceId값 받아오기 -->
-       	<input type="hidden" id="popup4-sourceId" />
-       	
+         <!-- sourceId값 받아오기 -->
+          <input type="hidden" id="popup4-sourceId" />
+          
         <table class="popup-table">
-			<tr>
-			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
-  			       <td style="text-align: center;">
-			      <input type="checkbox" id=isRequiredInput />
-			   </td>
-			</tr>
-			<tr>
-			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="inputKey" placeholder="Ex.obj1" /></td>
-			</tr>
-			<tr>
-			  <td class="label">기본값</td>
-			  <td>
-			    <input type="text" id="inputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
-			  </td>
-			</tr>
-			<tr>
-			  <td class="label">설명</td>
-			  <td>
-			      <div class="mb-1">
-			      <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
-			    </div>
-			  </td>
-			</tr>
+         <tr>
+            <td class="label required">필수여부<span class="asterisk">(*)</span></td>
+                  <td style="text-align: center;">
+               <input type="checkbox" id=isRequiredInput />
+            </td>
+         </tr>
+         <tr>
+           <td class="label required">항목키<span class="asterisk">(*)</span></td>
+           <td><input type="text" id="inputKey" placeholder="Ex.obj1" /></td>
+         </tr>
+         <tr>
+           <td class="label">기본값</td>
+           <td>
+             <input type="text" id="inputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
+           </td>
+         </tr>
+         <tr>
+           <td class="label">설명</td>
+           <td>
+               <div class="mb-1">
+               <textarea id="inputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+             </div>
+           </td>
+         </tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+            <button id="btn-config" type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
+            <button id="btn-start" type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
         </div>
     </div>
 </div>
-<!-- 팝업5/ 출력항목  -->	
+<!-- 팝업5/ 출력항목  -->   
 <div id="popup5">
     <div class="popup-header">출력 속성정보
         <span class="popup-close" onclick="closePopup()"></span>
     </div>
     <div class="popup-body">
-      	<!-- sourceId값 받아오기 -->
-       	<input type="hidden" id="popup5-sourceId" />
-      	
+         <!-- sourceId값 받아오기 -->
+          <input type="hidden" id="popup5-sourceId" />
+         
         <table class="popup-table">
-			<tr>
-			   <td class="label required">필수여부<span class="asterisk">(*)</span></td>
-  			       <td style="text-align: center;">
-			      <input type="checkbox" id="isRequiredOutput" />
-			   </td>
-			</tr>
-			<tr>
-			  <td class="label required">항목키<span class="asterisk">(*)</span></td>
-			  <td><input type="text" id="outputKey" placeholder="Ex.obj1" /></td>
-			</tr>
-			<tr>
-			  <td class="label">기본값</td>
-			  <td>
-			    <input type="text" id="outputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
-			  </td>
-			</tr>
-			<tr>
-			<td class="label">설명</td>
-			  <td>
-			      <div class="mb-1">
-			      <textarea id="outputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
-			    </div>
-			</tr>
+         <tr>
+            <td class="label required">필수여부<span class="asterisk">(*)</span></td>
+                  <td style="text-align: center;">
+               <input type="checkbox" id="isRequiredOutput" />
+            </td>
+         </tr>
+         <tr>
+           <td class="label required">항목키<span class="asterisk">(*)</span></td>
+           <td><input type="text" id="outputKey" placeholder="Ex.obj1" /></td>
+         </tr>
+         <tr>
+           <td class="label">기본값</td>
+           <td>
+             <input type="text" id="outputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
+           </td>
+         </tr>
+         <tr>
+         <td class="label">설명</td>
+           <td>
+               <div class="mb-1">
+               <textarea id="outputExplain" rows="4" placeholder="품목 분류 코드 01 : 소화기류, 02 : 경보기류, 03 : 기계류, 04 : 방염류 ,07 : 소방장비류" style="width: 100%; resize: vertical;"></textarea>
+             </div>
+         </tr>
         </table>
         <div class="popup-buttons">
             <button type="button" class="btn btn-outline-success" onclick="saveOutput()">저장</button>
@@ -374,10 +293,10 @@ function setSelectedOutputId(row) {
     row.classList.add("highlight");
     selectedOutputId = row.getAttribute("data-outputid");
     console.log("선택된 outputId:", selectedOutputId);
-}
+}	
 
 function openSourcePopup() {
-	document.getElementById("sourcePopup").style.display = "block";
+   document.getElementById("sourcePopup").style.display = "block";
 }
 function closeSourcePopup() {
     document.getElementById("sourcePopup").style.display = "none";
@@ -409,61 +328,61 @@ function closePopup5() {
 }
 
 function saveSource() {
-	const name = document.querySelector("#sourceName").value.trim();
-	const baseUrl = document.querySelector("#baseUrl").value.trim();
-	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
-	const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
-	
-	console.log("source 입력값:", name);
-	console.log("baseUrl 입력값:", baseUrl);
-	console.log("projectId 입력값:", projectId);
-	
-	if(name === "") {
-		Swal.fire({
-			title : "입력 오류",
-			text : "API 명을 입력해주세요.",
-			icon : "warning"
-		});
-		return;
-	}
-	const data = {
-			sourceName : name,
-			baseUrl : baseUrl,
-			projectId: Number(projectIdNumber)  // 숫자로 보냄
-	};
-	
-	fetch("/projectConfig/source", {
-		method : "POST",
-		headers : {
-			"Content-type": "application/json"
-		},
-		body : JSON.stringify(data)
-	})
-	.then(response => {
-		if (!response.ok) {
-			throw new Error("서버 응답 오류");
-		}
-		return response.text();
-	})
-	.then(result => {
-		if(result === "success") {
-			Swal.fire({
-				title : '등록 성공',
-				text : '저장 완료되었습니다',
-				icon: 'success', 
+   const name = document.querySelector("#sourceName").value.trim();
+   const baseUrl = document.querySelector("#baseUrl").value.trim();
+   const rawProjectId = document.querySelector("#projectIdHidden").value.trim();   // 문자 + 숫자 P1
+   const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
+   
+   console.log("source 입력값:", name);
+   console.log("baseUrl 입력값:", baseUrl);
+   console.log("projectId 입력값:", projectId);
+   
+   if(name === "") {
+      Swal.fire({
+         title : "입력 오류",
+         text : "API 명을 입력해주세요.",
+         icon : "warning"
+      });
+      return;
+   }
+   const data = {
+         sourceName : name,
+         baseUrl : baseUrl,
+         projectId: Number(projectIdNumber)  // 숫자로 보냄
+   };
+   
+   fetch("/projectConfig/source", {
+      method : "POST",
+      headers : {
+         "Content-type": "application/json"
+      },
+      body : JSON.stringify(data)
+   })
+   .then(response => {
+      if (!response.ok) {
+         throw new Error("서버 응답 오류");
+      }
+      return response.text();
+   })
+   .then(result => {
+      if(result === "success") {
+         Swal.fire({
+            title : '등록 성공',
+            text : '저장 완료되었습니다',
+            icon: 'success', 
                 confirmButtonText: '확인'
             }).then(() => {
-            	closePopup3();
-                location.reload();					
-			});
-		} else {
-			Swal.fire({
-				title: '등록 실패',
+               closePopup3();
+                location.reload();               
+         });
+      } else {
+         Swal.fire({
+            title: '등록 실패',
                 text: '필수 항목을 입력해주세요.',
                 icon: 'warning'
-			});
-		}
-	})
+         });
+      }
+   })
     .catch(error => {
         console.error("에러발생:", error);
         Swal.fire({
@@ -471,7 +390,7 @@ function saveSource() {
             text: '저장 중 오류가 발생했습니다.',
             icon: 'error'
         });
-    });	
+    });   
 }
 function deleteSource() {
     if (!selectedSourceId) {
@@ -490,7 +409,7 @@ function deleteSource() {
         if (result === 'success') {
             alert('삭제 처리 완료');
             // 테이블에서 행만 제거 (soft delete니까 DB는 isDeleted만 변경됨)
-            const row = document.querySelector(`#apiTable tbody tr[data-sourceid='${selectedSourceId}']`);
+            const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
             if (row) row.remove();
             selectedSourceId = null;
         } else {
@@ -503,75 +422,75 @@ function deleteSource() {
     });
 }
 function saveInput() {
-// 	const name = document.querySelector("#inputName").value.trim();
-	const key = document.querySelector("#inputKey").value.trim();
-	const value = document.querySelector("#inputValue").value.trim();
-	const explain = document.getElementById("inputExplain").value;
-	const isChecked = document.querySelector("#isRequiredInput").checked;
-	const reqParam = isChecked ? "Y" : "N";
-	const rawProjectId = document.querySelector("#projectIdHidden").value.trim();	// 문자 + 숫자 P1
-	const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
-	const sourceId = document.getElementById("popup4-sourceId").value;
-	
-	
-	console.log("inputKey 입력값:", key);
-	console.log("inputValue 입력값:", value);
-	console.log("explain 입력값:", explain);
-	console.log("reqParam 입력값:", reqParam);
-	console.log("projectIdNumber 입력값:", projectIdNumber);
-	console.log("sourceId 입력값:", sourceId);
-	
-	
-	if(key === "") {
-		Swal.fire({
-			title : "입력 오류",
-			text : "입력명을 작성해주세요.",
-			icon : "warning"
-		});
-		return;
-	}	
-	const data = {
-			//inputName : name,
-			inputValue : value,
-			inputKey : key,
-			inputExplain : explain,
-			reqParam : reqParam,
-			projectId: Number(projectIdNumber),  // 숫자로 보냄
-			sourceId: Number(sourceId)
-	};
+//    const name = document.querySelector("#inputName").value.trim();
+   const key = document.querySelector("#inputKey").value.trim();
+   const value = document.querySelector("#inputValue").value.trim();
+   const explain = document.getElementById("inputExplain").value;
+   const isChecked = document.querySelector("#isRequiredInput").checked;
+   const reqParam = isChecked ? "Y" : "N";
+   const rawProjectId = document.querySelector("#projectIdHidden").value.trim();   // 문자 + 숫자 P1
+   const projectIdNumber = rawProjectId.replace(/[^0-9]/g, ''); // 숫자만 추출
+   const sourceId = document.getElementById("popup4-sourceId").value;
+   
+   
+   console.log("inputKey 입력값:", key);
+   console.log("inputValue 입력값:", value);
+   console.log("explain 입력값:", explain);
+   console.log("reqParam 입력값:", reqParam);
+   console.log("projectIdNumber 입력값:", projectIdNumber);
+   console.log("sourceId 입력값:", sourceId);
+   
+   
+   if(key === "") {
+      Swal.fire({
+         title : "입력 오류",
+         text : "입력명을 작성해주세요.",
+         icon : "warning"
+      });
+      return;
+   }   
+   const data = {
+         //inputName : name,
+         inputValue : value,
+         inputKey : key,
+         inputExplain : explain,
+         reqParam : reqParam,
+         projectId: Number(projectIdNumber),  // 숫자로 보냄
+         sourceId: Number(sourceId)
+   };
 
-	fetch("/projectConfig/input", {
-		method : "POST",
-		headers : {
-			"Content-type": "application/json"
-		},
-		body : JSON.stringify(data)
-	})
-	.then(response => {
-		if (!response.ok) {
-			throw new Error("서버 응답 오류");
-		}
-		return response.text();
-	})
-	.then(result => {
-		if(result === "success") {
-			Swal.fire({
-				title : '등록 성공',
-				text : '저장 완료되었습니다',
-				icon: 'success', 
+   fetch("/projectConfig/input", {
+      method : "POST",
+      headers : {
+         "Content-type": "application/json"
+      },
+      body : JSON.stringify(data)
+   })
+   .then(response => {
+      if (!response.ok) {
+         throw new Error("서버 응답 오류");
+      }
+      return response.text();
+   })
+   .then(result => {
+      if(result === "success") {
+         Swal.fire({
+            title : '등록 성공',
+            text : '저장 완료되었습니다',
+            icon: 'success', 
                 confirmButtonText: '확인'
             }).then(() => {
-            	closePopup4();
-                location.reload();					
-			});
-		} else {
-			Swal.fire({
-				title: '등록 실패',
+               closePopup4();
+                location.reload();               
+         });
+      } else {
+         Swal.fire({
+            title: '등록 실패',
                 text: '필수 항목을 입력해주세요.',
                 icon: 'warning'
-			});
-		}
-	})
+         });
+      }
+   })
     .catch(error => {
         console.error("에러발생:", error);
         Swal.fire({
@@ -579,70 +498,70 @@ function saveInput() {
             text: '저장 중 오류가 발생했습니다.',
             icon: 'error'
         });
-    });	
+    });   
 }
 function saveOutput(){
-	const key = document.querySelector("#outputKey").value.trim();
-	const value = document.querySelector("#outputValue").value.trim();
-	const explain = document.getElementById("outputExplain").value;
-	const isChecked = document.querySelector("#isRequiredOutput").checked;
-	const reqParam = isChecked ? "Y" : "N";
-	const sourceId = document.getElementById("popup5-sourceId").value;
-	
-	console.log("outputKey 입력값:", key);
-	console.log("outputValue 입력값:", value);
-	console.log("outputExplain 입력값:", explain);
-	console.log("reqParam 입력값:", reqParam);
-	console.log("sourceId 입력값:", sourceId);
-	
-	if(key === "") {
-		Swal.fire({
-			title : "입력 오류",
-			text : "출력명을 작성해주세요.",
-			icon : "warning"
-		});
-		return;
-	}	
-	const data = {
-			outputValue : value,
-			outputKey : key,
-			outputExplain : explain,
-			reqParam : reqParam,
-			sourceId: Number(sourceId)
-	};
+   const key = document.querySelector("#outputKey").value.trim();
+   const value = document.querySelector("#outputValue").value.trim();
+   const explain = document.getElementById("outputExplain").value;
+   const isChecked = document.querySelector("#isRequiredOutput").checked;
+   const reqParam = isChecked ? "Y" : "N";
+   const sourceId = document.getElementById("popup5-sourceId").value;
+   
+   console.log("outputKey 입력값:", key);
+   console.log("outputValue 입력값:", value);
+   console.log("outputExplain 입력값:", explain);
+   console.log("reqParam 입력값:", reqParam);
+   console.log("sourceId 입력값:", sourceId);
+   
+   if(key === "") {
+      Swal.fire({
+         title : "입력 오류",
+         text : "출력명을 작성해주세요.",
+         icon : "warning"
+      });
+      return;
+   }   
+   const data = {
+         outputValue : value,
+         outputKey : key,
+         outputExplain : explain,
+         reqParam : reqParam,
+         sourceId: Number(sourceId)
+   };
 
-	fetch("/projectConfig/output", {
-		method : "POST",
-		headers : {
-			"Content-type": "application/json"
-		},
-		body : JSON.stringify(data)
-	})
-	.then(response => {
-		if (!response.ok) {
-			throw new Error("서버 응답 오류");
-		}
-		return response.text();
-	})
-	.then(result => {
-		if(result === "success") {
-			Swal.fire({
-				title : '등록 성공',
-				text : '저장 완료되었습니다',
-				icon: 'success', 
+   fetch("/projectConfig/output", {
+      method : "POST",
+      headers : {
+         "Content-type": "application/json"
+      },
+      body : JSON.stringify(data)
+   })
+   .then(response => {
+      if (!response.ok) {
+         throw new Error("서버 응답 오류");
+      }
+      return response.text();
+   })
+   .then(result => {
+      if(result === "success") {
+         Swal.fire({
+            title : '등록 성공',
+            text : '저장 완료되었습니다',
+            icon: 'success', 
                 confirmButtonText: '확인'
             }).then(() => {
-            	closePopup4();
-                location.reload();					
-			});
-		} else {
-			Swal.fire({
-				title: '등록 실패',
+               closePopup4();
+                location.reload();               
+         });
+      } else {
+         Swal.fire({
+            title: '등록 실패',
                 text: '필수 항목을 입력해주세요.',
                 icon: 'warning'
-			});
-		}
-	})
+         });
+      }
+   })
     .catch(error => {
         console.error("에러발생:", error);
         Swal.fire({
@@ -650,7 +569,7 @@ function saveOutput(){
             text: '저장 중 오류가 발생했습니다.',
             icon: 'error'
         });
-    });		
+    });      
 }
 
 // 프로젝트 테이블 행 클릭 시 선택 및 페이지 이동 처리
@@ -667,7 +586,7 @@ function setSelectedSourceId(row) {
     }
 
     // 하이라이트 토글
-    document.querySelectorAll("#apiTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
 
     // URL 이동 (setTimeout 없이 바로 이동해도 무방)
@@ -685,7 +604,7 @@ function onTestConnectionClick() {
         return;
     }
 
-    const selectedRow = document.querySelector(`#apiTable tbody tr[data-sourceid="${selectedSourceId}"]`);
+    const selectedRow = document.querySelector(`#projectTable tbody tr[data-sourceid="${selectedSourceId}"]`);
     if (!selectedRow) {
         alert("선택된 API 행을 찾을 수 없습니다.");
         return;
@@ -765,12 +684,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     selectedSourceId = urlParams.get("sourceId"); // 전역 변수에 저장
     console.log("복원된 sourceId:", selectedSourceId); 
-	
-    // --- 1. apiTable 처리 ---
-    const apiTable = document.getElementById("apiTable");
+   
+    // --- 1. projectTable 처리 ---
+    const projectTable = document.getElementById("projectTable");
     
-    if (apiTable) {
-      const rows = apiTable.querySelectorAll("tbody tr");
+    if (projectTable) {
+      const rows = projectTable.querySelectorAll("tbody tr");
       rows.forEach(row => {
         // URL 파라미터와 data-sourceid 비교해서 초기 하이라이트
         if (selectedSourceId && row.getAttribute("data-sourceid") === selectedSourceId) {
@@ -854,7 +773,7 @@ function deleteSource() {
                     });
 
                     // soft delete니까 화면에서만 제거
-                    const row = document.querySelector(`#apiTable tbody tr[data-sourceid='${selectedSourceId}']`);
+                    const row = document.querySelector(`#projectTable tbody tr[data-sourceid='${selectedSourceId}']`);
                     if (row) row.remove();
                     selectedSourceId = null;
                 } else {
@@ -1000,6 +919,23 @@ function deleteOutput() {
         }
     });
 }
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+
+    const configBtn = document.getElementById("btn-config");
+    const startBtn = document.getElementById("btn-start");
+
+    if (path.includes("projectConfig")) {
+      configBtn.className = "btn-run";
+      startBtn.className = "btn-config";
+    } else if (path.includes("projectStart")) {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-run";
+    } else {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-config";
+    }
+  }); 
 </script>
 </body>
 </html>

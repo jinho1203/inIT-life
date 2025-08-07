@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.mapper.CustomMapper">
+	
+	<!-- baseUrl 찾기 -->
+	<select id="getBaseUrl" parameterType="long" resultType="egovframework.example.vo.CustomVO">
+		SELECT baseUrl from source
+		WHERE sourceId = #{sourceId}
+	</select>
+	
+	<!-- 사용자 URL 등록 -->
+	<insert id="createCustomFullUrl" parameterType="egovframework.example.vo.CustomVO">
+		INSERT INTO test.custom
+			(sourceId, customFullUrl)
+		VALUES
+			(#{sourceId}, #{customFullUrl})	
+	</insert>
+	
+</mapper>

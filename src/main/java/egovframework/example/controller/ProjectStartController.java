@@ -7,14 +7,18 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.example.service.CustomService;
 import egovframework.example.service.InputService;
 import egovframework.example.service.OutputService;
 import egovframework.example.service.ProjectService;
 import egovframework.example.service.SourceService;
+import egovframework.example.vo.CustomVO;
 import egovframework.example.vo.InputVO;
 import egovframework.example.vo.OutputVO;
 import egovframework.example.vo.ProjectVO;
@@ -30,7 +34,7 @@ public class ProjectStartController {
 	private final SourceService sourceService;
 	private final InputService inputService;
 	private final OutputService outputService;
-	
+	private final CustomService customService;
 	/*
 	 * 화면만 불러오는거임
 	 */
@@ -62,23 +66,6 @@ public class ProjectStartController {
 		return sourceService.getAllList(projectId);
 	}
 	
-//	@GetMapping("/projectDetails")
-//	@ResponseBody
-//	public Map<String, Object> getProjectDetails(@RequestParam("projectId") Long projectId, Long sourceId, Long inputId) {
-//	    Map<String, Object> result = new HashMap<>();
-//
-//	    // 예시: 실제로는 프로젝트 ID 기준으로 데이터 조회 필요
-//	    List<SourceVO> apiList = sourceService.getAllList(projectId);
-//	    List<InputVO> inputList = inputService.getAllList(sourceId);
-//	    List<OutputVO> outputList = outputService.getAllList(inputId);
-//
-//	    result.put("apiList", apiList);
-//	    result.put("inputList", inputList);
-//	    result.put("outputList", outputList);
-//
-//	    return result;
-//	}
-	
 	@GetMapping("/IOList")
 	@ResponseBody
 	public Map<String, Object> getInOutList(@RequestParam Long sourceId){
@@ -91,5 +78,18 @@ public class ProjectStartController {
 		 result.put("outputList", outputList);
 		
 		return result;
+	}
+	
+	/*
+	 * fullUrl 가져와서 팝업창에 URL 띄우기
+	 */
+	@PostMapping("/customFullUrl")
+	@ResponseBody
+	public String createCustomFullUrl(@RequestBody CustomVO customVO) {
+		
+		String customFullUrl = customService.createCustomFullUrl(customVO);
+		System.out.println("custom 최종 Url : " + customFullUrl);
+		
+		return customFullUrl;
 	}
 }

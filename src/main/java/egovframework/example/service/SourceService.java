@@ -14,5 +14,7 @@ public interface SourceService {
 
 	SourceVO findBasicUrl(Long sourceId);					// baseUrl 불러오기
 	
-	String createFullUrl(SourceVO sourceVO);					// fullUrl 저장하기			
+	String createFullUrl(SourceVO sourceVO);					// fullUrl 저장하기		
+	
+	SourceVO findFullUrl(Long sourceId);
 }

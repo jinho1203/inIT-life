@@ -25,7 +25,7 @@
 	
 	<!-- baseUrl 불러오기 -->
 	<select id="findBasicUrl" parameterType="long" resultType="egovframework.example.vo.SourceVO">
-		SELECT * FROM test.source
+		SELECT basicUrl FROM source
 		WHERE sourceId = #{sourceId}
 	</select>
 	
@@ -34,5 +34,11 @@
 		UPDATE test.source
 		SET fullUrl = #{fullUrl}
 		WHERE sourceId = #{sourceId}
-	</update>	
+	</update>
+	
+	<!-- fullUrl 불러오기 -->
+	<select id="findFullUrl" parameterType="long" resultType="egovframework.example.vo.SourceVO">
+		SELECT fullUrl FROM source
+		WHERE sourceId = #{sourceId}
+	</select>	
 </mapper>

@@ -17,5 +17,7 @@ public interface SourceMapper {
 	
 	SourceVO findBasicUrl(Long sourceId);					// baseUrl 불러오기
 	
-	void createFullUrl(SourceVO sourceVO);					// fullUrl 저장하기			
+	void createFullUrl(SourceVO sourceVO);					// fullUrl 저장하기
+	
+	SourceVO findFullUrl(Long sourceId);
 }

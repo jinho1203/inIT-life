@@ -85,120 +85,46 @@
 		        </tbody>
 		    </table>
 		</div>
-<!-- 출력 항목 -->
-<div style="flex: 1;">
-    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-            	<th style="text-align:center;">항목키</th>
-                <th style="text-align:center;">기본값</th>
-                <th style="text-align:center;">설명</th>
-                <th style="text-align:center;">항목구분</th>
-            </tr>
-        </thead>
-        <tbody id="outputTableBody">
-           <!-- 입력 항목도 같이 보이게 함 -->
-          <tr th:each="input : ${inputList}" 
-              th:attr="data-inputid=${input.inputId}" 
-              onclick="setSelectedInputId(this)">
-              <td th:text="${input.inputKey}"></td>
-              <td th:text="${input.inputValue}"></td>
-              <td th:text="${input.inputExplain}"></td>
-              <td th:text="${input.reqParam}"></td>
-          </tr>
-          <!-- 출력 항목 표시 -->
-          <tr th:each="output : ${outputList}" 
-              th:attr="data-outputid=${output.outputId}" 
-              onclick="setSelectedOutputId(this)">
-              <td th:text="${output.outputKey}"></td>
-              <td th:text="${output.outputValue}"></td>
-              <td th:text="${output.outputExplain}"></td>
-              <td th:text="${output.reqParam}"></td>
-          </tr>
-        </tbody>
-    </table>
-</div>
+		
+	<!-- 출력 항목 -->
+	<div style="flex: 1;">
+	    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
+	    <table border="1" style="width: 100%; border-collapse: collapse;">
+	        <thead>
+	            <tr>
+	            	<th style="text-align:center;">항목키</th>
+	                <th style="text-align:center;">기본값</th>
+	                <th style="text-align:center;">설명</th>
+	                <th style="text-align:center;">항목구분</th>
+	            </tr>
+	        </thead>
+	        <tbody id="outputTableBody">
+	           <!-- 입력 항목도 같이 보이게 함 -->
+	          <tr th:each="input : ${inputList}" 
+	              th:attr="data-inputid=${input.inputId}" 
+	              onclick="setSelectedInputId(this)">
+	              <td th:text="${input.inputKey}"></td>
+	              <td th:text="${input.inputValue}"></td>
+	              <td th:text="${input.inputExplain}"></td>
+	              <td th:text="${input.reqParam}"></td>
+	          </tr>
+	          <!-- 출력 항목 표시 -->
+	          <tr th:each="output : ${outputList}" 
+	              th:attr="data-outputid=${output.outputId}" 
+	              onclick="setSelectedOutputId(this)">
+	              <td th:text="${output.outputKey}"></td>
+	              <td th:text="${output.outputValue}"></td>
+	              <td th:text="${output.outputExplain}"></td>
+	              <td th:text="${output.reqParam}"></td>
+	          </tr>
+	        </tbody>
+	    </table>
+	</div>
 </div>	
-<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1268px;margin-top: 24px;">실행 </button>
-</div>
-</div>
-<!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
-<div id="popup2">
-  <div class="popup2-header">
-    프로젝트 선택
-    <span class="popup2-close" onclick="closePopup2()">×</span>
-  </div>
-
-  <div class="popup2-body">
-    <table id="projectTable" class="project-table">
-      <thead>
-        <tr>
-          <th>프로젝트ID</th>
-          <th>프로젝트명</th>
-        </tr>
-      </thead>
-      <tbody>
-         <tr th:each="project : ${projectList}">
-         <td th:text="'P'+${project.projectId}"></td>
-         <td th:text="${project.projectName}"></td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="popup2-buttons">
-      <button type="button" class="btn btn-secondary" onclick="confirmSelection()">확인</button>
-      <button type="button" class="btn btn-outline-secondary" onclick="closePopup2()">닫기</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- popup5 (실행칸) -->
-<div id="popup5">
-  <div class="popup2-header">
-    URL 확인
-    <span class="popup2-close" onclick="closePopup5()">×</span>
-  </div>
+				<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button>
+			</div>
+	</div>
 	
-		<!-- 출력 항목 -->
-		<div style="flex: 1;">
-		    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
-		    <table border="1" style="width: 100%; border-collapse: collapse;">
-		        <thead>
-		            <tr>
-		            	<th style="text-align:center;">항목키</th>
-		                <th style="text-align:center;">기본값</th>
-		                <th style="text-align:center;">설명</th>
-		                <th style="text-align:center;">항목구분</th>
-		            </tr>
-		        </thead>
-		        <tbody id="outputTableBody">
-		           <!-- 입력 항목도 같이 보이게 함 -->
-		          <tr th:each="input : ${inputList}" 
-		              th:attr="data-inputid=${input.inputId}" 
-		              onclick="setSelectedInputId(this)">
-		              <td th:text="${input.inputKey}"></td>
-		              <td th:text="${input.inputValue}"></td>
-		              <td th:text="${input.inputExplain}"></td>
-		              <td th:text="${input.reqParam}"></td>
-		          </tr>
-		          <!-- 출력 항목 표시 -->
-		          <tr th:each="output : ${outputList}" 
-		              th:attr="data-outputid=${output.outputId}" 
-		              onclick="setSelectedOutputId(this)">
-		              <td th:text="${output.outputKey}"></td>
-		              <td th:text="${output.outputValue}"></td>
-		              <td th:text="${output.outputExplain}"></td>
-		              <td th:text="${output.reqParam}"></td>
-		          </tr>
-		        </tbody>
-		    </table>
-		</div>
-	</div>	
-			<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1093px;margin-top: 24px;">실행 </button>
-	</div>
-	</div>
-
 	<!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
 	<div id="popup2">
 	  <div class="popup2-header">
@@ -228,27 +154,26 @@
 	  </div>
 	</div>
 
-
-	<!-- popup5 (실행칸) -->
+	<!-- popup5 (실행칸 - URL 나오는 팝업 창) -->
 	<div id="popup5">
 	  <div class="popup2-header">
 	    URL 확인
 	    <span class="popup2-close" onclick="closePopup5()">×</span>
 	  </div>
+	   
+		  		<div class="popup2-body">
+		        <!-- 텍스트 영역 -->
+			  	<div class="mb-3">
+			    	<textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea>
+			    </div>
 		
-	  <div class="popup2-body">
-	                <!-- 텍스트 영역 -->
-				      <div class="mb-3">
-				      <textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea>
-				    </div>
-	
-	                <!-- 버튼 영역 -->
-	                <div class="buttons">
-	                    <button class="btn btn-success" style="margin-top: -27px; margin-left:431px">Excel 다운로드</button>
-	                </div>
-	            </div>
+                <!-- 버튼 영역 -->
+                <div class="buttons">
+                    <button class="btn btn-success" style="margin-top: -27px; margin-left:431px">Excel 다운로드</button>
+                </div>
+		  </div>
 	  </div>
-	</div>
+</div>
 
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
@@ -312,7 +237,37 @@ function closePopup2() {
   });
 }
 function openPopup5() {
-    document.getElementById("popup5").style.display = "block";
+	const sourceId = document.getElementById("sourceId").value;
+	console.log("sourceId -> ", sourceId)
+	
+	if(!sourceId) {
+		Swal.fire({
+			title: 'API 선택',
+			text: 'API를 먼저 선택해주세요.',
+			icon: 'warning',
+			confirmButtonText: '확인'
+		});
+		return;
+	}
+	
+    // 1. DB에 customFullUrl 저장 요청
+    fetch("/projectStart/customFullUrl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sourceId: sourceId })
+    })
+    .then(response => response.text())
+    .then(url => {
+        // 2. textarea에 표시
+        document.getElementById("totalUrl").value = url;
+
+        // 3. 팝업 열기
+        document.getElementById("popup5").style.display = "block";    	
+    })
+    .catch(error => {
+        console.error("URL 저장 실패:", error);
+        alert("URL 저장 중 오류가 발생했습니다.");
+    });
   }
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
@@ -385,7 +340,8 @@ function setSelectedSourceId(row) {
     }
 
     // 하이라이트 토글
-    document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
+//     document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
+    document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
 	
     fetch(`/projectStart/IOList?sourceId=${selectedSourceId}`)
@@ -443,13 +399,7 @@ function setSelectedSourceId(row) {
             console.error('입출력 항목 로딩 실패:', err);
             alert("입력/출력 항목 로딩에 실패했습니다.");
         });
-    
-    // URL 이동 (setTimeout 없이 바로 이동해도 무방)
-//     const urlParams = new URLSearchParams(window.location.search);
-//     window.location.href = `/projectStart?projectId=${projectId}&projectName=${projectName}&sourceId=${selectedSourceId}`;
 }
-
-
 </script>
 </body>
 </html>

@@ -7,10 +7,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.example.mapper.CustomMapper;
 import egovframework.example.mapper.InputMapper;
 import egovframework.example.mapper.OutputMapper;
-import egovframework.example.mapper.SourceMapper;
-import egovframework.example.service.SourceService;
+import egovframework.example.service.CustomService;
+import egovframework.example.vo.CustomVO;
 import egovframework.example.vo.InputVO;
 import egovframework.example.vo.OutputVO;
 import egovframework.example.vo.SourceVO;
@@ -18,41 +19,27 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class SourceServiceImpl implements SourceService {
+public class CustomServiceImpl implements CustomService {
 	
-	private final SourceMapper sourceMapper;
+	private final CustomMapper customMapper;
 	private final InputMapper inputMapper;
 	private final OutputMapper outputMapper;
+
+	@Override
+	public CustomVO getBaseUrl(Long sourceId) {
+		return customMapper.getBaseUrl(sourceId);
+	}
 	
 	@Override
-	public List<SourceVO> getAllList(Long projectId) {
-		return sourceMapper.getAllList(projectId);
-	}
-
-	@Override
-	public int insertSource(SourceVO sourceVO) {
-		return sourceMapper.insertSource(sourceVO);
-	}
-
-	@Override
-	public int deleteSource(Long sourceId) {
-		return sourceMapper.deleteSource(sourceId);
-	}
-
-	@Override
-	public SourceVO findBasicUrl(Long sourceId) {
-		return sourceMapper.findBasicUrl(sourceId);
-	}
-	
-	/*
-	 * baseUrl + input/output Param = fullUrl
-	 */
-	@Override
-	public String createFullUrl(SourceVO sourceVO) {
-		Long sourceId = sourceVO.getSourceId();
-		String baseUrl = sourceVO.getBaseUrl();
+	public String createCustomFullUrl(CustomVO customVO) {
+		Long sourceId = customVO.getSourceId();
 		
-		// input , output 가져오기
+		//DB에서 baseUrl 가져오기
+		CustomVO sourceBaseUrl = customMapper.getBaseUrl(sourceId);
+		String baseUrl = sourceBaseUrl.getBaseUrl();
+		
+		customVO.setBaseUrl(baseUrl);
+		
 		List<InputVO> inputList = inputMapper.findBySourceId(sourceId);
 		List<OutputVO> outputList = outputMapper.findBySourceId(sourceId);
 		
@@ -94,18 +81,12 @@ public class SourceServiceImpl implements SourceService {
 			fullUrlBuilder.append(String.join("&", paramString));
 		}
 		
-		String fullUrl = fullUrlBuilder.toString();
-
-		// fullUrl  DB에 저장
-		sourceVO.setFullUrl(fullUrl);
-		sourceMapper.createFullUrl(sourceVO);
+		String customFullUrl = fullUrlBuilder.toString();
 		
-		return fullUrl;
+		// customFullUrl DB에 저장
+		customVO.setCustomFullUrl(customFullUrl);
+		customMapper.createCustomFullUrl(customVO);
+		
+		return customFullUrl;
 	}
-
-	@Override
-	public SourceVO findFullUrl(Long sourceId) {
-		return sourceMapper.findFullUrl(sourceId);
-	}
-
 }
