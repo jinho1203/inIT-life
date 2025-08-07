@@ -30,8 +30,8 @@
 
             <!-- 우측 설정/실행 버튼 -->
             <div style="display: flex; gap: 8px;">
-              <button type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-              <button type="button" class="btn-run" onclick="location.href='/projectStart'">▶ 실행</button>
+              <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+              <button id="btn-start" type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
             </div>
 
           </div>
@@ -336,7 +336,23 @@ function populateOutputTable(outputList) {
     tbody.insertAdjacentHTML("beforeend", row);
   });
 }
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
 
+    const configBtn = document.getElementById("btn-config");
+    const startBtn = document.getElementById("btn-start");
+
+    if (path.includes("projectConfig")) {
+      configBtn.className = "btn-run";
+      startBtn.className = "btn-config";
+    } else if (path.includes("projectStart")) {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-run";
+    } else {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-config";
+    }
+  });
 </script>
 </body>
 </html>

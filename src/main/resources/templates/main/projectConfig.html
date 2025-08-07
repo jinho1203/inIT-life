@@ -28,8 +28,8 @@
 
 			    <!-- 버튼 영역 -->
 			    <div style="display: flex; gap: 8px;">
-			      <button type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-			      <button type="button" class="btn-run" onclick="location.href='/projectStart'">▶ 실행</button>
+			      <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+			      <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
     			</div>
   				</div>
 				</div>
@@ -154,8 +154,7 @@
         </div>
       </div> <!-- io-wrapper -->
     </div> <!-- config-section -->
-  </div> <!-- config-wrapper -->
-</div> <!-- layout:fragment -->
+
 	
 	<!-- 팝업3 /API 등록-->
 	<div id="popup3">
@@ -227,8 +226,8 @@
 			</tr>
         </table>
         <div class="popup-buttons">
-            <button type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
-            <button type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
+            <button id="btn-config" type="button" class="btn btn-outline-success" onclick="saveInput()">저장</button>
+            <button id="btn-start" type="button" class="btn btn-outline-warning" onclick="closePopup4()" style="margin-right:-50px">취소</button>
         </div>
     </div>
 </div>
@@ -919,6 +918,23 @@ function deleteOutput() {
         }
     });
 }
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+
+    const configBtn = document.getElementById("btn-config");
+    const startBtn = document.getElementById("btn-start");
+
+    if (path.includes("projectConfig")) {
+      configBtn.className = "btn-run";
+      startBtn.className = "btn-config";
+    } else if (path.includes("projectStart")) {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-run";
+    } else {
+      configBtn.className = "btn-config";
+      startBtn.className = "btn-config";
+    }
+  });
 </script>
 </body>
 </html>
