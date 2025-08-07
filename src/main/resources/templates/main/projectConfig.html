@@ -924,17 +924,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const configBtn = document.getElementById("btn-config");
     const startBtn = document.getElementById("btn-start");
 
-    if (path.includes("projectConfig")) {
-      configBtn.className = "btn-run";
-      startBtn.className = "btn-config";
-    } else if (path.includes("projectStart")) {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-run";
-    } else {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-config";
-    }
-  });
+    if (configBtn && startBtn) {
+        if (path.includes("projectConfig")) {
+          configBtn.className = "btn-run";
+          startBtn.className = "btn-config";
+        } else if (path.includes("projectStart")) {
+          configBtn.className = "btn-config";
+          startBtn.className = "btn-run";
+        } else {
+          configBtn.className = "btn-config";
+          startBtn.className = "btn-config";
+        }
+      }
+    });
 </script>
 </body>
 </html>
+

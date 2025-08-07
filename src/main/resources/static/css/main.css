@@ -38,29 +38,53 @@ body {
   font-weight: bold;
   justify-content: center;
 }
-.bookmark {
-    position: absolute;
-    top: 0;
-    right: 10px; /* 오른쪽 바깥으로 빼기 */
-    background: #F0F8FF;
-    padding: 0.6em;
-    border-left: inset;
-    border-radius: 0 15px 15px 0;
-    writing-mode: horizontal-tb; /* 글자를 세로로 돌리고 싶으면 사용 */
-    text-align: center;
-/*    font-weight: bold; */
+.btn-black {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.bookmark2 {
-    position: absolute;
-    top: 0;
-    right: 10px; /* 오른쪽 바깥으로 빼기 */
-    background: #D8EFFB;
-    padding: 0.6em;
-    border-left: inset;
-    border-radius: 0 15px 15px 0;
-    writing-mode: horizontal-tb; /* 글자를 세로로 돌리고 싶으면 사용 */
-    text-align: center;
-/*    font-weight: bold; */
+
+.btn-black:hover {
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.btn-darkgray {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #333333;
+  color: #ffffff;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-gray {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #d9d9d9;
+  color: #333333;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-gray:hover {
+  background-color: #c0c0c0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-darkgray:hover {
+  background-color: #4d4d4d;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 .btn-config,
 .btn-run {

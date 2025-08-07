@@ -25,7 +25,7 @@
               <span class="inputLabel">프로젝트ID</span>
               <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" disabled>
               <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
-              <button type="button" class="btn btn-secondary" onclick="openPopup2()" style="margin-left:5px;">...</button>
+              <button type="button" class="btn-gray" onclick="openPopup2()" style="margin-left:5px;">...</button>
             </div>
 
             <!-- 우측 설정/실행 버튼 -->
@@ -342,15 +342,17 @@ window.addEventListener('DOMContentLoaded', () => {
     const configBtn = document.getElementById("btn-config");
     const startBtn = document.getElementById("btn-start");
 
-    if (path.includes("projectConfig")) {
-      configBtn.className = "btn-run";
-      startBtn.className = "btn-config";
-    } else if (path.includes("projectStart")) {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-run";
-    } else {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-config";
+    if (configBtn && startBtn) {
+	    if (path.includes("projectConfig")) {
+	      configBtn.className = "btn-run";
+	      startBtn.className = "btn-config";
+	    } else if (path.includes("projectStart")) {
+	      configBtn.className = "btn-config";
+	      startBtn.className = "btn-run";
+	    } else {
+	      configBtn.className = "btn-config";
+	      startBtn.className = "btn-config";
+	    }
     }
   });
 </script>

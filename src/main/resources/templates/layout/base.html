@@ -49,13 +49,7 @@ function switchTab(element, targetId) {
     allSections.forEach(section => section.style.display = "none");
     document.getElementById(targetId).style.display = "block";
 }
-const currentPath = window.location.pathname;
 
-if (currentPath === '/projectConfig') {
-  document.querySelector('.bookmark').classList.add('active');
-} else if (currentPath === '/projectStart') {
-  document.querySelector('.bookmark2').classList.add('active');
-}
 </script>
 
 </body>
