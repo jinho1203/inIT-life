@@ -8,27 +8,38 @@
 <body>
 <div layout:fragment="content">
 	<div class="config-wrapper" style="position: relative;">
-<div class="bookmark" style="margin-right: -41px;" onclick="location.href='/projectConfig'">설정</div>
-      <div class="bookmark2" style="margin-right: -41px; margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
-        <!-- 설정하기 화면 -->
-        <div id="config" class="section-wrapper config-section">
+	       <div id="config" class="section-wrapper config-section">
         
-<table style="width:100%;margin:0;padding:0;" border="0">
-	<tbody>
-		<tr>
-			<td class="tdContent">         
-				<div id="divProjectPro">
-					<h3 class="h3-project" style="font-size:24px;">프로젝트</h3>                                
-					<div>
-					<span class="inputLabel">프로젝트ID</span>
-						<input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" disabled>
-						<input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" disabled>
-						<button type="button" class="btn btn-secondary" onclick="openPopup2()" style="width: 3%;">...</button>          
-					</div>
-				</div>
-			</td>
-		</tr>
-	</tbody>
+<table style="width:100%; margin:0; padding:0;" border="0">
+  <tbody>
+    <tr>
+      <td class="tdContent">
+        <div id="divProjectPro">
+          <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
+
+          <!-- 전체 라인을 flex로 묶음 -->
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            
+            <!-- 좌측 입력란들 -->
+            <div style="display: flex; align-items: center;">
+              <span class="inputLabel">프로젝트ID</span>
+              <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" disabled>
+              <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
+              <button type="button" class="btn-gray" onclick="openPopup2()" style="margin-left:5px;">...</button>
+            </div>
+
+            <!-- 우측 설정/실행 버튼 -->
+            <div style="display: flex; gap: 8px;">
+              <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+              <button id="btn-start" type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
+            </div>
+
+          </div>
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 		<!-- API 리스트 -->
@@ -400,6 +411,89 @@ function setSelectedSourceId(row) {
             alert("입력/출력 항목 로딩에 실패했습니다.");
         });
 }
+
+function fetchProjectDetails(projectId) {
+	 fetch(`/projectStart/projectDetails?projectId=${projectId}`)
+	    .then(res => res.json())
+	    .then(data => {
+	      if (data) {
+	        populateApiTable(data.apiList || []);
+	        populateInputTable(data.inputList || []);
+	        populateOutputTable(data.outputList || []);
+	      }
+	    })
+	    .catch(err => {
+	      console.error('프로젝트 세부정보 로딩 오류:', err);
+	      Swal.fire('오류', '데이터를 불러오는 중 오류가 발생했습니다.', 'error');
+	    });
+	}
+function populateApiTable(apiList) {
+	  const tbody = document.querySelector("#apiTableBody"); // tbody에 id 부여 필요
+	  tbody.innerHTML = "";
+
+	  apiList.forEach((api, index) => {
+	    const row = `
+	      <tr>
+	        <td style="text-align:center;">${index + 1}</td>
+	        <td style="text-align:center;">${api.sourceName}</td>
+	        <td style="text-align:center;">${api.baseUrl}</td>
+	        <td style="text-align:center;">${api.responseFormat}</td>
+	      </tr>
+	    `;
+	    tbody.insertAdjacentHTML("beforeend", row);
+	  });
+	}
+
+function populateInputTable(inputList) {
+  const tbody = document.querySelector("#inputTableBody");
+  tbody.innerHTML = "";
+
+  inputList.forEach(input => {
+    const row = `
+      <tr>
+        <td style="text-align:center;">${input.defaultValue}</td>
+        <td style="text-align:center;">${input.description}</td>
+        <td style="text-align:center;">${input.type}</td>
+      </tr>
+    `;
+    tbody.insertAdjacentHTML("beforeend", row);
+  });
+}
+
+function populateOutputTable(outputList) {
+  const tbody = document.querySelector("#outputTableBody");
+  tbody.innerHTML = "";
+
+  outputList.forEach(output => {
+    const row = `
+      <tr>
+        <td style="text-align:center;">${output.defaultValue}</td>
+        <td style="text-align:center;">${output.description}</td>
+        <td style="text-align:center;">${output.type}</td>
+      </tr>
+    `;
+    tbody.insertAdjacentHTML("beforeend", row);
+  });
+}
+window.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+
+    const configBtn = document.getElementById("btn-config");
+    const startBtn = document.getElementById("btn-start");
+
+    if (configBtn && startBtn) {
+	    if (path.includes("projectConfig")) {
+	      configBtn.className = "btn-run";
+	      startBtn.className = "btn-config";
+	    } else if (path.includes("projectStart")) {
+	      configBtn.className = "btn-config";
+	      startBtn.className = "btn-run";
+	    } else {
+	      configBtn.className = "btn-config";
+	      startBtn.className = "btn-config";
+	    }
+    }
+  });
 </script>
 </body>
 </html>

@@ -14,25 +14,25 @@
         <tbody>
           <tr>
             <td class="tdContent">
-            <div id="divProjectPro">
-              <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
-              
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <!-- 입력란 -->
-                <div style="display: flex; align-items: center;">
-                  <span class="inputLabel">프로젝트ID</span>
-                  <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
-                  <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-                  <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
-                </div>
+				<div id="divProjectPro">
+				  <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
+				  
+				  <div style="display: flex; align-items: center; justify-content: space-between;">
+				    <!-- 입력란 -->
+				    <div style="display: flex; align-items: center;">
+				      <span class="inputLabel">프로젝트ID</span>
+				      <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
+				      <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
+				      <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
+				    </div>
 
-             <!-- 버튼 영역 -->
-             <div style="display: flex; gap: 8px;">
-               <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-               <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-             </div>
-              </div>
-            </div>
+			    <!-- 버튼 영역 -->
+			    <div style="display: flex; gap: 8px;">
+			      <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+			      <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
+    			</div>
+  				</div>
+				</div>
             </td>
           </tr>
        </tbody>
@@ -925,17 +925,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const configBtn = document.getElementById("btn-config");
     const startBtn = document.getElementById("btn-start");
 
-    if (path.includes("projectConfig")) {
-      configBtn.className = "btn-run";
-      startBtn.className = "btn-config";
-    } else if (path.includes("projectStart")) {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-run";
-    } else {
-      configBtn.className = "btn-config";
-      startBtn.className = "btn-config";
-    }
-  }); 
+    if (configBtn && startBtn) {
+        if (path.includes("projectConfig")) {
+          configBtn.className = "btn-run";
+          startBtn.className = "btn-config";
+        } else if (path.includes("projectStart")) {
+          configBtn.className = "btn-config";
+          startBtn.className = "btn-run";
+        } else {
+          configBtn.className = "btn-config";
+          startBtn.className = "btn-config";
+        }
+      }
+    });
 </script>
 </body>
 </html>
+
