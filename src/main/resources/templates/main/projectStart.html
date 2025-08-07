@@ -8,27 +8,38 @@
 <body>
 <div layout:fragment="content">
 	<div class="config-wrapper" style="position: relative;">
-<div class="bookmark" style="margin-right: -41px;" onclick="location.href='/projectConfig'">설정</div>
-      <div class="bookmark2" style="margin-right: -41px; margin-top: 52px;" onclick="location.href='/projectStart'">실행</div>
-        <!-- 설정하기 화면 -->
-        <div id="config" class="section-wrapper config-section">
+	       <div id="config" class="section-wrapper config-section">
         
-<table style="width:100%;margin:0;padding:0;" border="0">
-           <tbody>
-               <tr>
-                   <td class="tdContent">         
-                       <div id="divProjectPro">
-                           <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>                                
-                           <div>
-                               <span class="inputLabel">프로젝트ID</span>
-                               <input id="projectId" type="text" class="text" style="width:100px;margin-left:10px;text-align:center;" disabled>
-                               <input id="projectName" type="text" class="text" style="width:179px;margin-left:5px;" disabled>
-                               <button type="button" class="btn btn-secondary" onclick="openPopup2()" style="width: 3%;">...</button>          
-                           </div>
-                       </div>
-                   </td>
-               </tr>
-           </tbody>
+<table style="width:100%; margin:0; padding:0;" border="0">
+  <tbody>
+    <tr>
+      <td class="tdContent">
+        <div id="divProjectPro">
+          <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
+
+          <!-- 전체 라인을 flex로 묶음 -->
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            
+            <!-- 좌측 입력란들 -->
+            <div style="display: flex; align-items: center;">
+              <span class="inputLabel">프로젝트ID</span>
+              <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" disabled>
+              <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
+              <button type="button" class="btn btn-secondary" onclick="openPopup2()" style="margin-left:5px;">...</button>
+            </div>
+
+            <!-- 우측 설정/실행 버튼 -->
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+              <button type="button" class="btn-run" onclick="location.href='/projectStart'">▶ 실행</button>
+            </div>
+
+          </div>
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <!-- API 리스트 -->
         <div style="margin-top: 20px;">
@@ -116,7 +127,7 @@
     </table>
 </div>
 </div>	
-<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1268px;margin-top: 24px;">실행 </button>
+<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button>
 </div>
 </div>
 <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
