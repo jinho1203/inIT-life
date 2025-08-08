@@ -94,7 +94,7 @@
                 <td th:text="${input.inputKey}"></td>
                 <td th:text="${input.inputValue}" 
                     style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
-                   title="[[${input.inputValue}]]">
+                    title="[[${input.inputValue}]]">
                   </td>
                 <td th:text="${input.inputExplain}"></td>
                 <td th:text="${input.reqParam}"></td>
@@ -116,7 +116,7 @@
               <thead>
                 <tr>
                   <th style="text-align:center;">항목키</th>
-                  <th style="text-align:center;">기본값</th>
+                  <th style="text-align:center; display:none;">기본값</th>
                   <th style="text-align:center;">설명</th>
                   <th style="text-align:center;">필수여부</th>
                 </tr>
@@ -127,7 +127,7 @@
                     onclick="setSelectedInputId(this)">
                   <td th:text="${input.inputKey}"></td>
                   <td th:text="${input.inputValue}" 
-                      style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
+                      style="display:none;" 
                       title="[[${input.inputValue}]]">
                   </td>
                   <td th:text="${input.inputExplain}"></td>
@@ -137,10 +137,9 @@
                     th:attr="data-outputid=${output.outputId}" 
                     onclick="setSelectedOutputId(this)">
                   <td th:text="${output.outputKey}"></td>
-                  <td th:text="${output.outputValue}" 
-                      style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
-                      title="[[${output.outputValue}]]">
-                  </td>
+                   <td th:text="${output.outputValue}" 
+	                  style="display:none;" 
+	                  title="[[${output.outputValue}]]"></td>
                   <td th:text="${output.outputExplain}"></td>
                   <td th:text="${output.reqParam}"></td>
                 </tr>

@@ -25,7 +25,7 @@
               <span class="inputLabel">프로젝트ID</span>
               <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" disabled>
               <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
-              <button type="button" class="btn-gray" onclick="openPopup2()" style="margin-left:5px;">...</button>
+              <button type="button" class="btn-darkgray" onclick="openPopup2()" style="margin-left:5px;">...</button>
             </div>
 
             <!-- 우측 설정/실행 버튼 -->
@@ -41,7 +41,6 @@
     </tr>
   </tbody>
 </table>
-
 		<!-- API 리스트 -->
 		<div style="margin-top: 20px;">
 			<h3 class="h3-project" style="font-size:24px;">API 목록</h3>
@@ -62,20 +61,21 @@
 						<td th:text="${source.sourceName}"></td>
 						<td th:text="${source.baseUrl}"></td>
 						<td style="text-align: center;">JSON</td>
+					</tr>
 				</tbody>
 			</table>
 			
-			<!-- 숨겨진 sourceId -->
-			<input type="hidden" name="sourceId" id="sourceId" />
-		</div>
+	<!-- 숨겨진 sourceId -->
+		<input type="hidden" name="sourceId" id="sourceId" />
+	</div>
 
 	<!-- 입력/출력 항목을 좌우로 배치하는 래퍼 -->
 	<div class="io-wrapper" style="display: flex; gap: 20px; margin-top: 30px;">
-
 		<!-- 입력 항목 -->
 		<div style="flex: 1;">
-		    <h3 class="h3-project" style="font-size:24px;">입력 항목</h3>
-		    <table border="1" style="width: 100%; border-collapse: collapse;">
+		    <h3 class="h3-project" style="font-size:24px;">요청변수</h3>
+		    <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd;">
+		    <table style="width: 100%;">
 		        <thead>
 		            <tr>
 		                <th style="text-align:center;">항목키</th>
@@ -85,57 +85,72 @@
 		            </tr>
 		        </thead>
 		         <tbody id="inputTableBody">
-		            <tr th:each="input : ${inputList}" 
-		                th:attr="data-inputid=${input.inputId}" 
-		                onclick="setSelectedInputId(this)">
+			            <tr th:each="input : ${inputList}" 
+			                th:attr="data-inputid=${input.inputId}" 
+			                onclick="setSelectedInputId(this)">
 		                <td th:text="${input.inputKey}"></td>
-		                <td th:text="${input.inputValue}"></td>
+		                <td class="ellipsis-cell" 
+							th:text="${input.inputValue}" 
+							title="[[${input.inputValue}]]"></td>
 		                <td th:text="${input.inputExplain}"></td>
 		                <td th:text="${input.reqParam}"></td>
 		            </tr>
 		        </tbody>
 		    </table>
 		</div>
-		
+	</div>
 	<!-- 출력 항목 -->
 	<div style="flex: 1;">
 	    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
+	     <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd;">
 	    <table border="1" style="width: 100%; border-collapse: collapse;">
 	        <thead>
 	            <tr>
 	            	<th style="text-align:center;">항목키</th>
-	                <th style="text-align:center;">기본값</th>
 	                <th style="text-align:center;">설명</th>
 	                <th style="text-align:center;">항목구분</th>
+	                <th style="width: 40px;"></th>
 	            </tr>
 	        </thead>
-	        <tbody id="outputTableBody">
-	           <!-- 입력 항목도 같이 보이게 함 -->
+			 <tbody id="outputTableBody">
+	        <!--  입력 항목도 같이 보이게 함 -->
 	          <tr th:each="input : ${inputList}" 
 	              th:attr="data-inputid=${input.inputId}" 
 	              onclick="setSelectedInputId(this)">
 	              <td th:text="${input.inputKey}"></td>
-	              <td th:text="${input.inputValue}"></td>
+	              <td th:text="${input.inputValue}" 
+                      style="display:none;" 
+                      title="[[${input.inputValue}]]">
+                  </td>
 	              <td th:text="${input.inputExplain}"></td>
 	              <td th:text="${input.reqParam}"></td>
+	              <td style="text-align:center;">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}" onchange="highlightRow(this)">
+			      </td>
 	          </tr>
-	          <!-- 출력 항목 표시 -->
+	         <!--  출력 항목 표시 -->
 	          <tr th:each="output : ${outputList}" 
 	              th:attr="data-outputid=${output.outputId}" 
 	              onclick="setSelectedOutputId(this)">
 	              <td th:text="${output.outputKey}"></td>
-	              <td th:text="${output.outputValue}"></td>
+	              <td th:text="${output.outputValue}" 
+	                  style="display:none;" 
+	                  title="[[${output.outputValue}]]"></td>
 	              <td th:text="${output.outputExplain}"></td>
 	              <td th:text="${output.reqParam}"></td>
+	               <td style="text-align:center;">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}" onchange="highlightRow(this)">
+			      </td>
 	          </tr>
 	        </tbody>
 	    </table>
-	</div>
+	    </div>
+		</div>
 </div>	
-				<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button>
-			</div>
-	</div>
-	
+		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button>
+		</div>
+</div>
+
 	<!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
 	<div id="popup2">
 	  <div class="popup2-header">
@@ -213,16 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    });
 	  });
 	});
-
-window.addEventListener('DOMContentLoaded', () => {
-    const path = window.location.pathname;
-
-    if (path.includes("projectConfig")) {
-        document.querySelector(".bookmark").classList.add("active");
-    } else if (path.includes("projectStart")) {
-        document.querySelector(".bookmark2").classList.add("active");
-    }
-});
 function testConnection(button) {
     // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
     const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
@@ -352,7 +357,7 @@ function setSelectedSourceId(row) {
 
     // 하이라이트 토글
 //     document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
-    document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
+/*     document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
 	
     fetch(`/projectStart/IOList?sourceId=${selectedSourceId}`)
@@ -402,6 +407,70 @@ function setSelectedSourceId(row) {
                     <td>${output.outputValue}</td>
                     <td>${output.outputExplain}</td>
                     <td>${output.reqParam}</td>
+                `;
+                outputTbody.appendChild(tr);
+            });
+        }) 
+        .catch(err => {
+            console.error('입출력 항목 로딩 실패:', err);
+            alert("입력/출력 항목 로딩에 실패했습니다.");
+        });
+} */
+    document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
+    row.classList.add("highlight");
+	
+    fetch(`/projectStart/IOList?sourceId=${selectedSourceId}`)
+    	.then(response => response.json())
+    	.then(data => {
+            const inputTbody = document.getElementById("inputTableBody");
+            inputTbody.innerHTML = ""; // 초기화    
+
+            data.inputList.forEach(input => {
+                const tr = document.createElement("tr");
+                tr.setAttribute("data-inputid", input.inputId);
+                tr.innerHTML = `
+                    <td>${input.inputKey}</td>
+                    <td>${input.inputValue}</td>
+                    <td>${input.inputExplain}</td>
+                    <td>${input.reqParam}</td>
+                `;
+                inputTbody.appendChild(tr);
+            });
+
+            // 출력 항목 tbody
+            const outputTbody = document.getElementById("outputTableBody");
+            outputTbody.innerHTML = ""; // 초기화
+            
+            // 1) 입력 리스트 
+            data.inputList.forEach(input => {
+                const tr = document.createElement("tr");
+                tr.setAttribute("data-inputid", input.inputId);
+                tr.innerHTML = `
+                    <td>${input.inputKey}</td>
+                    <td style="display:none">${input.inputValue}</td>
+                    <td>${input.inputExplain}</td>
+                    <td>${input.reqParam}</td>
+                    <td style="text-align:center;">
+                    <input type="checkbox" name="" value="${input.inputID}" onchange="highlightRow(this)">
+                    </td>
+                    
+                `;
+                outputTbody.appendChild(tr);
+            });
+
+            // 2) 출력 리스트 
+            data.outputList.forEach(output => {
+                const tr = document.createElement("tr");
+                tr.setAttribute("data-outputid", output.outputId);
+                tr.onclick = function() { setSelectedOutputId(this); };
+                tr.innerHTML = `
+                    <td>${output.outputKey}</td>
+                    <td style="display:none">${output.outputValue}</td>
+                    <td>${output.outputExplain}</td>
+                    <td>${output.reqParam}</td>
+                    <td style="text-align:center;">
+                    <input type="checkbox" name="" value="${output.outputId}" onchange="highlightRow(this)">
+                    </td>
                 `;
                 outputTbody.appendChild(tr);
             });
