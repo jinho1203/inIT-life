@@ -27,10 +27,6 @@
 				    </div>
 
 			    <!-- 버튼 영역 -->
-			    <div style="display: flex; gap: 8px;">
-			      <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-			      <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-    			</div>
   				</div>
 				</div>
             </td>
@@ -84,24 +80,29 @@
                   <th style="text-align:center;">항목키</th>
                   <th style="text-align:center;">기본값</th>
                   <th style="text-align:center;">설명</th>
-                  <th style="text-align:center;">필수여부</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="input : ${inputList}" 
                     th:attr="data-inputid=${input.inputId}" 
                     onclick="setSelectedInputId(this)">
-                <td th:text="${input.inputKey}"></td>
+                <td>
+				    <span th:if="${input.reqParam == 'Y'}" style="color: red; font-weight: bold;">*</span>
+				    <span th:text="${input.inputKey}"></span>
+				</td>
                 <td th:text="${input.inputValue}" 
                     style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
                     title="[[${input.inputValue}]]">
                   </td>
                 <td th:text="${input.inputExplain}"></td>
-                <td th:text="${input.reqParam}"></td>
                 </tr>
               </tbody>
             </table>
           </div>
+                        <!-- 설명 문구 추가 -->
+		  <div style="margin-top: 8px; color: gray; font-size: 13px;">
+		    * 는 필수 항목입니다.
+		  </div>
           <div class="buttons">
             <button type="button" class="btn btn-outline-primary" onclick="openPopup4()">추가</button>
             <button type="button" class="btn btn-outline-warning" onclick="deleteInput()">삭제</button>
@@ -110,7 +111,7 @@
 
         <!-- 출력 항목 -->
         <div style="flex: 1;">
-          <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
+          <h3 class="h3-project" style="font-size:24px;">출력 결과</h3>
           <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd;">
             <table id="outputTable" style="width: 100%;">
               <thead>
@@ -118,7 +119,7 @@
                   <th style="text-align:center;">항목키</th>
                   <th style="text-align:center; display:none;">기본값</th>
                   <th style="text-align:center;">설명</th>
-                  <th style="text-align:center;">필수여부</th>
+                  <th style="text-align:center;">출력여부</th>
                 </tr>
               </thead>
               <tbody>
@@ -131,7 +132,7 @@
                       title="[[${input.inputValue}]]">
                   </td>
                   <td th:text="${input.inputExplain}"></td>
-                  <td th:text="${input.reqParam}"></td>
+                  <td style="text-align: center;" th:text="${input.reqParam == 'Y' ? '필수' : '선택'}"></td>
                 </tr>
                 <tr th:each="output : ${outputList}" 
                     th:attr="data-outputid=${output.outputId}" 
@@ -141,7 +142,7 @@
 	                  style="display:none;" 
 	                  title="[[${output.outputValue}]]"></td>
                   <td th:text="${output.outputExplain}"></td>
-                  <td th:text="${output.reqParam}"></td>
+                  <td style="text-align: center;" th:text="${output.reqParam == 'Y' ? '필수' : '선택'}"></td>
                 </tr>
               </tbody>
             </table>
@@ -241,7 +242,7 @@
          
         <table class="popup-table">
          <tr>
-            <td class="label required">필수여부<span class="asterisk">(*)</span></td>
+            <td class="label required">출력여부<span class="asterisk">(*)</span></td>
                   <td style="text-align: center;">
                <input type="checkbox" id="isRequiredOutput" />
             </td>
@@ -249,12 +250,6 @@
          <tr>
            <td class="label required">항목키<span class="asterisk">(*)</span></td>
            <td><input type="text" id="outputKey" placeholder="Ex.obj1" /></td>
-         </tr>
-         <tr>
-           <td class="label">기본값</td>
-           <td>
-             <input type="text" id="outputValue" placeholder="Ex.품목 분류코드" style="width: 100%;" />
-           </td>
          </tr>
          <tr>
          <td class="label">설명</td>

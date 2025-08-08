@@ -147,6 +147,26 @@ body {
   margin-left: -304px; 
   
 }
+.sidebar li.thick-divider {
+  border-top: 3px solid #888;  /* 굵고 진한 색상 */
+  margin: 15px 0;  /* 위아래 여백으로 구분 더 명확하게 */
+  padding: 0;  /* 내용 없으니 패딩은 0 */
+  cursor: default;  /* 클릭 커서 없애기 */
+}
+
+/* 굵은 구분선용 li */
+.sidebar li.thick-divider {
+  border-top: 3px solid #888;
+  margin: 15px 0;
+  padding: 0;
+  cursor: default;
+}
+
+/* 굵은 구분선 다음 li의 얇은 선 제거 */
+.sidebar li.thick-divider + li {
+  border-top: none;  /* 굵은 선 뒤에 얇은 선 제거 */
+  padding-top: 10px; /* padding은 유지 */
+}
 
 .sidebar ul {
   list-style: none;
