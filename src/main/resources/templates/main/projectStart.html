@@ -81,7 +81,7 @@
 		                <th style="text-align:center;">항목키</th>
 		                <th style="text-align:center;">기본값</th>
 		                <th style="text-align:center;">설명</th>
-		                <th style="text-align:center;">항목구분 </th>
+		                <th style="text-align:center;">필수여부 </th>
 		            </tr>
 		        </thead>
 		         <tbody id="inputTableBody">
@@ -101,14 +101,14 @@
 	</div>
 	<!-- 출력 항목 -->
 	<div style="flex: 1;">
-	    <h3 class="h3-project" style="font-size:24px;">출력 항목</h3>
+	    <h3 class="h3-project" style="font-size:24px;">출력 결과</h3>
 	     <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd;">
 	    <table border="1" style="width: 100%; border-collapse: collapse;">
 	        <thead>
 	            <tr>
 	            	<th style="text-align:center;">항목키</th>
 	                <th style="text-align:center;">설명</th>
-	                <th style="text-align:center;">항목구분</th>
+	                <th style="text-align:center;">출력여부</th>
 	                <th style="width: 40px;"></th>
 	            </tr>
 	        </thead>
@@ -454,7 +454,7 @@ function setSelectedSourceId(row) {
                     <td>${input.inputKey}</td>
                     <td>${input.inputValue}</td>
                     <td>${input.inputExplain}</td>
-                    <td>${input.reqParam}</td>
+                    <td style="text-align: center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
                 `;
                 inputTbody.appendChild(tr);
             });
@@ -471,7 +471,7 @@ function setSelectedSourceId(row) {
                     <td>${input.inputKey}</td>
                     <td style="display:none">${input.inputValue}</td>
                     <td>${input.inputExplain}</td>
-                    <td>${input.reqParam}</td>
+                    <td style="text-align:center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
                     <input type="checkbox" name="" value="${input.inputID}" onchange="highlightRow(this)">
                     </td>
@@ -489,7 +489,7 @@ function setSelectedSourceId(row) {
                     <td>${output.outputKey}</td>
                     <td style="display:none">${output.outputValue}</td>
                     <td>${output.outputExplain}</td>
-                    <td>${output.reqParam}</td>
+                    <td style="text-align: center;">${output.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
                     <input type="checkbox" name="" value="${output.outputId}" onchange="highlightRow(this)">
                     </td>
