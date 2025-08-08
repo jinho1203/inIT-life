@@ -180,7 +180,7 @@
 	  </div>
 	</div>
 
-	<!-- popup5 (실행칸 - URL 나오는 팝업 창) -->
+	<!-- popup5 (실행칸 데이터가 나오도록 해야함) -->
 	<div id="popup5">
 	  <div class="popup2-header">
 	    URL 확인
@@ -189,13 +189,13 @@
 	   
 		  		<div class="popup2-body">
 		        <!-- 텍스트 영역 -->
-			  	<div class="mb-3">
-			    	<textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea>
-			    </div>
-		
+<!-- 			  	<div class="mb-3"> -->
+<!-- 			    	<textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea> -->
+<!-- 			    </div> -->
+				<pre id="apiDataPreview" style="width: 100%; height: 300px; overflow: auto; background: #f0f0f0; padding: 10px;"></pre>
                 <!-- 버튼 영역 -->
                 <div class="buttons">
-                    <button id="excelBtn" class="btn btn-success" style="margin-top: -27px; margin-left:431px">Excel 다운로드</button>
+                    <button id="" class="btn btn-success" style="margin-top: -27px; margin-left:431px">Excel 다운로드</button>
                 </div>
 		  </div>
 	  </div>
@@ -266,25 +266,47 @@ function openPopup5() {
 		return;
 	}
 	
-    // 1. DB에 customFullUrl 저장 요청
-    fetch("/projectStart/customFullUrl", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sourceId: sourceId })
-    })
-    .then(response => response.text())
-    .then(url => {
-        // 2. textarea에 표시
-        document.getElementById("totalUrl").value = url;
-
-        // 3. 팝업 열기
-        document.getElementById("popup5").style.display = "block";    	
-    })
-    .catch(error => {
-        console.error("URL 저장 실패:", error);
-        alert("URL 저장 중 오류가 발생했습니다.");
-    });
-  }
+	// 1. URL 저장 요청 (POST)
+	fetch("/projectStart/customFullUrl", {
+	  method: "POST",
+	  headers: { "Content-Type": "application/json" },
+	  body: JSON.stringify({ sourceId: sourceId })
+	})
+	.then(response => {
+	  if (!response.ok) throw new Error('URL 저장 실패');
+	  // 저장 성공하면 바로 데이터 요청 (GET)
+	  return fetch(`/projectStart/getData?sourceId=${sourceId}`);
+	})
+	.then(response => {
+	  if (!response.ok) throw new Error('API 데이터 호출 실패');
+	  return response.json();
+	})
+	.then(apiData => {
+	  // 일부 데이터만 예쁘게 출력
+	  let previewData;
+	  if (apiData.items && Array.isArray(apiData.items)) {
+	    previewData = {
+	      totalCount: apiData.items.length,
+	      first5Items: apiData.items.slice(0,5)
+	    };
+	  } else {
+	    previewData = {};
+	    const keys = Object.keys(apiData).slice(0,5);
+	    keys.forEach(key => previewData[key] = apiData[key]);
+	  }
+	
+	  const jsonStr = JSON.stringify(previewData, null, 2);
+	  document.getElementById("apiDataPreview").textContent = jsonStr;
+	
+	  // 팝업 열기
+	  document.getElementById("popup5").style.display = "block";
+	})
+	.catch(err => {
+	  console.error(err);
+	  alert(err.message || "오류가 발생했습니다.");
+	});
+}
+	
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
    }

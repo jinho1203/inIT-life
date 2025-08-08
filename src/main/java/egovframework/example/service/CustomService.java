@@ -7,4 +7,6 @@ public interface CustomService {
 	CustomVO getBaseUrl(Long sourceId);
 	
 	String createCustomFullUrl(CustomVO customVO);
+	
+	CustomVO getFullUrl(Long sourceId);
 }

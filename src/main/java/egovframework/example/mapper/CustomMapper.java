@@ -10,4 +10,6 @@ public interface CustomMapper {
 	CustomVO getBaseUrl(Long sourceId);
 	
 	int createCustomFullUrl(CustomVO customVO);
+	
+	CustomVO getFullUrl(Long sourceId);
 }

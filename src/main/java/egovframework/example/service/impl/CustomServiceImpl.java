@@ -89,4 +89,9 @@ public class CustomServiceImpl implements CustomService {
 		
 		return customFullUrl;
 	}
+
+	@Override
+	public CustomVO getFullUrl(Long sourceId) {
+		return customMapper.getFullUrl(sourceId);
+	}
 }

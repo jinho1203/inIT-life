@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import egovframework.example.service.CustomService;
 import egovframework.example.service.InputService;
@@ -91,5 +93,26 @@ public class ProjectStartController {
 		System.out.println("custom 최종 Url : " + customFullUrl);
 		
 		return customFullUrl;
+	}
+	
+	/*
+	 * 데이터 가져오기
+	 */
+	@GetMapping("/getData")
+	public ResponseEntity<String> getData(@RequestParam Long sourceId) {
+		// sourceId 로 URL 찾기
+		CustomVO custom = customService.getFullUrl(sourceId);
+		
+	    if(custom == null || custom.getCustomFullUrl() == null) {
+	        return ResponseEntity.badRequest().body("URL not found");
+	    }
+	    String url = custom.getCustomFullUrl();
+	    
+		// 공공 API 호출
+	    RestTemplate restTemplate = new RestTemplate();
+	    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+	    
+		// 공공 API에서 받은 데이터를 클라이언트에 그대로 전달
+	    return ResponseEntity.ok(response.getBody());
 	}
 }

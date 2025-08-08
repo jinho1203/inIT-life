@@ -15,5 +15,13 @@
 		VALUES
 			(#{sourceId}, #{customFullUrl})	
 	</insert>
+
+	<!-- fullUrl 찾기 createdAt을 사용해 제일 최신걸 불러오기-->
+	<select id="getFullUrl" parameterType="long" resultType="egovframework.example.vo.CustomVO">
+		SELECT customFullUrl from custom
+		WHERE sourceId = #{sourceId}
+		ORDER BY createdAt DESC
+		LIMIT 1
+	</select>
 	
 </mapper>
