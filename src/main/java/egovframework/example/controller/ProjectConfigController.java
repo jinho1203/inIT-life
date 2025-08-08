@@ -1,6 +1,8 @@
 package egovframework.example.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +66,20 @@ public class ProjectConfigController {
 	    }
 
 	    return "main/projectConfig";
+	}
+	
+	@GetMapping("/IOList")
+	@ResponseBody
+	public Map<String, Object> getIOList(@RequestParam("sourceId") Long sourceId) {
+	    Map<String, Object> result = new HashMap<>();
+
+	    List<InputVO> inputList = inputService.findBySourceId(sourceId);
+	    List<OutputVO> outputList = outputService.findBySourceId(sourceId);
+
+	    result.put("inputList", inputList);
+	    result.put("outputList", outputList);
+
+	    return result;
 	}
 	
 	@PostMapping("/source")

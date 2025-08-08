@@ -14,25 +14,25 @@
         <tbody>
           <tr>
             <td class="tdContent">
-				<div id="divProjectPro">
-				  <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
-				  
-				  <div style="display: flex; align-items: center; justify-content: space-between;">
-				    <!-- 입력란 -->
-				    <div style="display: flex; align-items: center;">
-				      <span class="inputLabel">프로젝트ID</span>
-				      <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
-				      <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
-				      <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
-				    </div>
+            <div id="divProjectPro">
+              <h3 class="h3-project" style="font-size:24px;">프로젝트</h3>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <!-- 입력란 -->
+                <div style="display: flex; align-items: center;">
+                  <span class="inputLabel">프로젝트ID</span>
+                  <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
+                  <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
+                  <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
+                </div>
 
-			    <!-- 버튼 영역 -->
-			    <div style="display: flex; gap: 8px;">
-			      <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-			      <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-    			</div>
-  				</div>
-				</div>
+             <!-- 버튼 영역 -->
+             <div style="display: flex; gap: 8px;">
+               <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
+               <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
+             </div>
+              </div>
+            </div>
             </td>
           </tr>
        </tbody>
@@ -60,7 +60,10 @@
             <td th:text="${source.baseUrl}"></td>
             <td style="text-align: center;">JSON</td>
             <td style="text-align: center;">
-            <button type="button" id="testConnection" class="btn btn-outline-primary" style="font-size:13px;">테스트 연결</button>
+				<button type="button" class="btn btn-outline-primary" style="font-size:13px;"
+				        th:onclick="'onTestConnectionClick(' + ${source.sourceId} + ')'">
+				    테스트 연결
+				</button>  
               </td>
             </tr>
           </tbody>
@@ -94,7 +97,7 @@
                 <td th:text="${input.inputKey}"></td>
                 <td th:text="${input.inputValue}" 
                     style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
-                   title="[[${input.inputValue}]]">
+                    title="[[${input.inputValue}]]">
                   </td>
                 <td th:text="${input.inputExplain}"></td>
                 <td th:text="${input.reqParam}"></td>
@@ -116,7 +119,7 @@
               <thead>
                 <tr>
                   <th style="text-align:center;">항목키</th>
-                  <th style="text-align:center;">기본값</th>
+                  <th style="text-align:center; display:none;">기본값</th>
                   <th style="text-align:center;">설명</th>
                   <th style="text-align:center;">필수여부</th>
                 </tr>
@@ -127,7 +130,7 @@
                     onclick="setSelectedInputId(this)">
                   <td th:text="${input.inputKey}"></td>
                   <td th:text="${input.inputValue}" 
-                      style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
+                      style="display:none;" 
                       title="[[${input.inputValue}]]">
                   </td>
                   <td th:text="${input.inputExplain}"></td>
@@ -137,10 +140,9 @@
                     th:attr="data-outputid=${output.outputId}" 
                     onclick="setSelectedOutputId(this)">
                   <td th:text="${output.outputKey}"></td>
-                  <td th:text="${output.outputValue}" 
-                      style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" 
-                      title="[[${output.outputValue}]]">
-                  </td>
+                   <td th:text="${output.outputValue}" 
+                     style="display:none;" 
+                     title="[[${output.outputValue}]]"></td>
                   <td th:text="${output.outputExplain}"></td>
                   <td th:text="${output.reqParam}"></td>
                 </tr>
@@ -293,7 +295,7 @@ function setSelectedOutputId(row) {
     row.classList.add("highlight");
     selectedOutputId = row.getAttribute("data-outputid");
     console.log("선택된 outputId:", selectedOutputId);
-}	
+}   
 
 function openSourcePopup() {
    document.getElementById("sourcePopup").style.display = "block";
@@ -422,7 +424,6 @@ function deleteSource() {
     });
 }
 function saveInput() {
-//    const name = document.querySelector("#inputName").value.trim();
    const key = document.querySelector("#inputKey").value.trim();
    const value = document.querySelector("#inputValue").value.trim();
    const explain = document.getElementById("inputExplain").value;
@@ -598,13 +599,15 @@ function setSelectedSourceId(row) {
 }
 
 // testConnection 버튼 클릭시 처리 함수 분리
-function onTestConnectionClick() {
+function onTestConnectionClick(sourceId) {
     if (!selectedSourceId) {
         alert("API를 선택해주세요.");
         return;
     }
-
-    const selectedRow = document.querySelector(`#projectTable tbody tr[data-sourceid="${selectedSourceId}"]`);
+	
+    selectedSourceId = sourceId;
+    
+	const selectedRow = document.querySelector(`#projectTable tbody tr[data-sourceid="${String(sourceId)}"]`);
     if (!selectedRow) {
         alert("선택된 API 행을 찾을 수 없습니다.");
         return;
@@ -636,7 +639,7 @@ function onTestConnectionClick() {
     });
 
     const data = {
-        sourceId: selectedSourceId,
+        sourceId: sourceId,
         baseUrl: baseUrl,
         inputList: inputList,
         outputList: outputList
