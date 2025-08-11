@@ -55,6 +55,7 @@ public class ProjectStartController {
         model.addAttribute("selectedProjectId", projectId);
         model.addAttribute("selectedProjectName", projectName);
         model.addAttribute("selectedSourceId", sourceId);
+
 		return "main/projectStart";
 	}
 	
@@ -67,6 +68,7 @@ public class ProjectStartController {
 		
 		return sourceService.getAllList(projectId);
 	}
+	
 	
 	@GetMapping("/IOList")
 	@ResponseBody

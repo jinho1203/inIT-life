@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.service.InputService;
 import egovframework.example.service.OutputService;
+import egovframework.example.service.ProjectService;
 import egovframework.example.service.SourceService;
 import egovframework.example.vo.InputVO;
 import egovframework.example.vo.OutputVO;
+import egovframework.example.vo.ProjectVO;
 import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projectConfig")
 public class ProjectConfigController {
 	
+	private final ProjectService projectService;
 	private final SourceService sourceService;
 	private final InputService inputService;
 	private final OutputService outputService;
@@ -35,6 +38,9 @@ public class ProjectConfigController {
 	public String showConfigList(Model model, 
 								@RequestParam(required = false) Long projectId,
 								@RequestParam(required = false) Long sourceId) {
+		  // 프로젝트 리스트 추가
+	    List<ProjectVO> projectList = projectService.getAllList();
+	    model.addAttribute("projectList", projectList);
 	    
 	    if (projectId != null) {
 	        List<SourceVO> sourceList = sourceService.getAllList(projectId);

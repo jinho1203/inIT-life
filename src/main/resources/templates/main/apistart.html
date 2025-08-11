@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+      th:with="activePage='result'">
+</head>
+<body>
+
+<div layout:fragment="content">
+
+	<div class="config-wrapper" style="position: relative;">
+		<div class="section-wrapper start-section active">
+	  		<div class="filters" aria-label="검색 필터">
+			    <div>
+			      <h3>프로젝트</h3>
+			      <select id="projectSelect" disabled>
+			        <option value="">전체</option>
+			        <option value="1" selected>관광API</option>
+			        <option value="2">인구통계</option>
+	      		  </select>
+	    		</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pageScript 프래그먼트로 스크립트 채우기 -->
+<th:block layout:fragment="pageScript">
+<script>
+
+</script>
+</th:block>
+</body>
+</html>
