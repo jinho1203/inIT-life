@@ -502,7 +502,9 @@ function saveInput() {
 }
 function saveOutput(){
    const key = document.querySelector("#outputKey").value.trim();
-   const value = document.querySelector("#outputValue").value.trim();
+   const valueEl = document.querySelector("#outputValue");
+   const value = valueEl ? valueEl.value.trim() : "";  // 없으면 빈 문자열 처리
+//    const value = document.querySelector("#outputValue").value.trim();
    const explain = document.getElementById("outputExplain").value;
    const isChecked = document.querySelector("#isRequiredOutput").checked;
    const reqParam = isChecked ? "Y" : "N";

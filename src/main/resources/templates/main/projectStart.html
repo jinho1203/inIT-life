@@ -183,15 +183,12 @@
 	<!-- popup5 (실행칸 데이터가 나오도록 해야함) -->
 	<div id="popup5">
 	  <div class="popup2-header">
-	    URL 확인
+	    데이터 확인
 	    <span class="popup2-close" onclick="closePopup5()">×</span>
 	  </div>
 	   
 		  		<div class="popup2-body">
 		        <!-- 텍스트 영역 -->
-<!-- 			  	<div class="mb-3"> -->
-<!-- 			    	<textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea> -->
-<!-- 			    </div> -->
 				<pre id="apiDataPreview" style="width: 100%; height: 300px; overflow: auto; background: #f0f0f0; padding: 10px;"></pre>
                 <!-- 버튼 영역 -->
                 <div class="buttons">
@@ -253,6 +250,8 @@ function closePopup2() {
   });
 }
 function openPopup5() {
+	
+	/*	JSON 형식의 데이터 출력하는 법
 	const sourceId = document.getElementById("sourceId").value;
 	console.log("sourceId -> ", sourceId)
 	
@@ -305,6 +304,7 @@ function openPopup5() {
 	  console.error(err);
 	  alert(err.message || "오류가 발생했습니다.");
 	});
+	*/
 }
 	
 function closePopup5() {
@@ -377,67 +377,6 @@ function setSelectedSourceId(row) {
         console.log("hidden input에 값 세팅:", hiddenInput.value);
     }
 
-    // 하이라이트 토글
-//     document.querySelectorAll("#projectTable tbody tr").forEach(r => r.classList.remove("highlight"));
-/*     document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
-    row.classList.add("highlight");
-	
-    fetch(`/projectStart/IOList?sourceId=${selectedSourceId}`)
-    	.then(response => response.json())
-    	.then(data => {
-            const inputTbody = document.getElementById("inputTableBody");
-            inputTbody.innerHTML = ""; // 초기화    
-
-            data.inputList.forEach(input => {
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-inputid", input.inputId);
-                tr.onclick = function() { setSelectedInputId(this); };
-                tr.innerHTML = `
-                    <td>${input.inputKey}</td>
-                    <td>${input.inputValue}</td>
-                    <td>${input.inputExplain}</td>
-                    <td>${input.reqParam}</td>
-                `;
-                inputTbody.appendChild(tr);
-            });
-
-            // 출력 항목 tbody
-            const outputTbody = document.getElementById("outputTableBody");
-            outputTbody.innerHTML = ""; // 초기화
-            
-            // 1) 입력 리스트 
-            data.inputList.forEach(input => {
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-inputid", input.inputId);
-                tr.onclick = function() { setSelectedInputId(this); };
-                tr.innerHTML = `
-                    <td>${input.inputKey}</td>
-                    <td>${input.inputValue}</td>
-                    <td>${input.inputExplain}</td>
-                    <td>${input.reqParam}</td>
-                `;
-                outputTbody.appendChild(tr);
-            });
-
-            // 2) 출력 리스트 
-            data.outputList.forEach(output => {
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-outputid", output.outputId);
-                tr.onclick = function() { setSelectedOutputId(this); };
-                tr.innerHTML = `
-                    <td>${output.outputKey}</td>
-                    <td>${output.outputValue}</td>
-                    <td>${output.outputExplain}</td>
-                    <td>${output.reqParam}</td>
-                `;
-                outputTbody.appendChild(tr);
-            });
-        }) 
-        .catch(err => {
-            console.error('입출력 항목 로딩 실패:', err);
-            alert("입력/출력 항목 로딩에 실패했습니다.");
-        });
-} */
     document.querySelectorAll("#sourceTableBody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
 	
