@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}"
-      th:with="activePage='config'">
+      th:with="activePage='run'">
 
 <body>
 <div layout:fragment="content">
@@ -215,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    row.addEventListener("click", function () {
 	      // 기존 선택 제거
 	      rows.forEach(r => r.classList.remove("highlight"));
-
 	      // 현재 선택한 행에 하이라이트
 	      this.classList.add("highlight");
 

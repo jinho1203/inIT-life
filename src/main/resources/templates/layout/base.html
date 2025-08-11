@@ -31,11 +31,10 @@
     <div class="sidebar">
         <ul>
         	<li th:classappend="${activePage} == 'run' ? 'active'" onclick="location.href='/projectStart'">API 실행</li>
-        	<li th:classappend="${activePage} == 'result' ? 'active'" onclick="location.href='/projectStart'">API 실행 결과 조회</li>
+        	<li th:classappend="${activePage} == 'result' ? 'active'" onclick="location.href='/apistart'">API 실행 결과 조회</li>
         	<li class="thick-divider"></li> <!-- 굵은 구분선용 빈 li 추가 -->
             <li th:classappend="${activePage} == 'add' ? 'active'" onclick="location.href='/projectAdd'">프로젝트 추가</li>
             <li th:classappend="${activePage} == 'config' ? 'active'" onclick="location.href='/projectConfig'">프로젝트 설정</li>
-            <li></li>
         </ul>
     </div>
 
@@ -43,6 +42,7 @@
     <div class="content" layout:fragment="content"></div>
 </div>
 
+<!-- 
 <script>
 function switchTab(element, targetId) {
     const sidebarItems = document.querySelectorAll(".sidebar li");
@@ -53,9 +53,8 @@ function switchTab(element, targetId) {
     allSections.forEach(section => section.style.display = "none");
     document.getElementById(targetId).style.display = "block";
 }
-
 </script>
-
+ -->
 </body>
 </html>
  

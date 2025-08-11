@@ -24,15 +24,12 @@
                   <input id="projectId" type="text" class="text" style="width:100px; margin-left:10px; text-align:center;" th:value="${param.projectId}" disabled>
                   <input type="hidden" id="projectIdHidden" name="projectId" th:value="${param.projectId}">
                   <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" th:value="${param.projectName}" disabled>
+                   <button type="button" class="btn-darkgray" onclick="openPopup2()" style="margin-left:5px;">...</button>
+                  
                 </div>
 			    <!-- 버튼 영역 -->
   				</div>
 				</div>
-             <!-- 버튼 영역 -->
-             <div style="display: flex; gap: 8px;">
-               <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-               <button id="btn-start"type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-             </div>
             </td>
           </tr>
        </tbody>
@@ -161,7 +158,36 @@
         </div>
       </div> <!-- io-wrapper -->
     </div> <!-- config-section -->
-
+ 
+   <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
+	<div id="popup2">
+	  <div class="popup2-header">
+	    프로젝트 선택
+	    <span class="popup2-close" onclick="closePopup2()">×</span>
+	  </div>
+	
+	  <div class="popup2-body">
+	    <table id="projectTablelist" class="project-table">
+	      <thead>
+	        <tr>
+	          <th>프로젝트ID</th>
+	          <th>프로젝트명</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	         <tr th:each="project : ${projectList}">
+	         <td th:text="'P'+${project.projectId}"></td>
+	         <td th:text="${project.projectName}"></td>
+	      </tr>
+	      </tbody>
+	    </table>
+	    <div class="popup2-buttons">
+	      <button type="button" class="btn btn-secondary" onclick="confirmSelection()">확인</button>
+	      <button type="button" class="btn btn-outline-secondary" onclick="closePopup2()">닫기</button>
+	    </div>
+	  </div>
+	</div> 
+	
    
    <!-- 팝업3 /API 등록-->
    <div id="popup3">
@@ -254,10 +280,17 @@
                <input type="checkbox" id="isRequiredOutput" />
             </td>
          </tr>
+  <!--        
+         <tr>
+		  <td class="label required">출력값<span class="asterisk">(*)</span></td>
+		  <td><input type="text" id="outputValue" placeholder="Ex.value1" /></td>
+		</tr> -->
+		
          <tr>
            <td class="label required">항목키<span class="asterisk">(*)</span></td>
            <td><input type="text" id="outputKey" placeholder="Ex.obj1" /></td>
          </tr>
+         
          <tr>
          <td class="label">설명</td>
            <td>
@@ -278,10 +311,62 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
+//테이블 행 클릭 시
+let selectedProject = null;
+
+document.addEventListener("DOMContentLoaded", function () {
+  const projectTable = document.getElementById("projectTablelist");
+  const rows = projectTable.querySelectorAll("tbody tr");
+
+  rows.forEach(row => {
+    row.addEventListener("click", function () {
+      // 기존 선택 제거
+      rows.forEach(r => r.classList.remove("highlight"));
+
+      // 현재 선택한 행에 하이라이트
+      this.classList.add("highlight");
+
+      // 선택된 프로젝트 값 저장
+      const cells = this.getElementsByTagName("td");
+      // 첫 번째 칸에 P 붙은 프로젝트ID니까 0번 셀로 수정
+      const rawProjectId = cells[0].innerText.trim();  // "P4"
+      const numericProjectId = rawProjectId.replace(/\D/g, '');  // "4" (숫자만)
+      const projectName = cells[1].innerText.trim(); // 두 번째 칸: 프로젝트 이름
+
+      selectedProject = {
+        projectId: numericProjectId,
+        projectName: projectName
+      };
+    });
+  });
+});
+  
+function confirmSelection() {
+	  if (!selectedProject) {
+	    alert("프로젝트를 선택해주세요.");
+	    return;
+	  }
+
+	  window.location.href = `/projectConfig?projectId=${encodeURIComponent(selectedProject.projectId)}&projectName=${encodeURIComponent(selectedProject.projectName)}`;
+	}
+ 
 let selectedInputId = null;
 let selectedOutputId = null;
 let selectedSourceId = null;
 
+function openPopup2() {
+    document.getElementById("popup2").style.display = "block";
+  }
+//팝업 닫기
+function closePopup2() {
+document.getElementById("popup2").style.display = "none";
+selectedProject = null;
+
+// 강조 해제
+document.querySelectorAll(".project-table tbody tr").forEach(row => {
+  row.classList.remove("highlight");
+});
+}
 function setSelectedInputId(row) {
     document.querySelectorAll("#inputTable tbody tr").forEach(r => r.classList.remove("highlight"));
     row.classList.add("highlight");
@@ -502,7 +587,9 @@ function saveInput() {
 }
 function saveOutput(){
    const key = document.querySelector("#outputKey").value.trim();
-   const value = document.querySelector("#outputValue").value.trim();
+   const valueEl = document.querySelector("#outputValue");
+   const value = valueEl ? valueEl.value.trim() : "";  // 없으면 빈 문자열 처리
+   /* const value = document.querySelector("#outputValue").value.trim(); */
    const explain = document.getElementById("outputExplain").value;
    const isChecked = document.querySelector("#isRequiredOutput").checked;
    const reqParam = isChecked ? "Y" : "N";
