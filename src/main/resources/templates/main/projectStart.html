@@ -27,15 +27,7 @@
               <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
               <button type="button" class="btn-darkgray" onclick="openPopup2()" style="margin-left:5px;">...</button>
             </div>
-
-            <!-- 우측 설정/실행 버튼 -->
-            <div style="display: flex; gap: 8px;">
-              <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-              <button id="btn-start" type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-            </div>
-
           </div>
-
         </div>
       </td>
     </tr>
@@ -147,7 +139,8 @@
 	    </div>
 		</div>
 </div>	
-		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button>
+<!-- 		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행 </button> -->
+		<button type="button" onclick="onRunButtonClick()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">실행</button>
 		</div>
 </div>
 
@@ -248,7 +241,92 @@ function closePopup2() {
     row.classList.remove("highlight");
   });
 }
-function openPopup5() {
+
+function openPopup5(jsonData) {
+	  if (!jsonData) {
+	    alert("데이터가 없습니다.");
+	    return;
+	  }
+
+	  // 응답 구조에 따라 배열 위치 확인
+	  let dataArray;
+	  if (Array.isArray(jsonData)) {
+	    dataArray = jsonData; // 바로 배열인 경우
+	  } else if (jsonData.list && Array.isArray(jsonData.list)) {
+	    dataArray = jsonData.list; // "list" 키 아래에 있는 경우
+	  } else {
+	    console.error("데이터 형식이 예상과 다릅니다:", jsonData);
+	    alert("데이터 형식 오류");
+	    return;
+	  }
+
+	  const rowKey = 'C1_NM';   // 행 키 (지역명)
+	  const colKey = 'PRD_DE';  // 열 키 (년도)
+	  const valKey = 'DT';      // 값 키
+
+	  const rows = [...new Set(dataArray.map(item => item[rowKey]))];
+	  const cols = [...new Set(dataArray.map(item => item[colKey]))].sort();
+
+	  let html = '<table border="1" style="border-collapse: collapse; width: 100%;">';
+	  html += '<thead><tr><th>' + rowKey + '</th>';
+	  cols.forEach(col => { html += `<th>${col}</th>`; });
+	  html += '</tr></thead><tbody>';
+
+	  rows.forEach(rowVal => {
+	    html += `<tr><td>${rowVal}</td>`;
+	    cols.forEach(colVal => {
+	      const cell = dataArray.find(d => d[rowKey] === rowVal && d[colKey] === colVal);
+	      if (cell) {
+	        const valInWon = Number(cell[valKey]);
+	        html += `<td>${valInWon.toLocaleString()}</td>`;
+	      } else {
+	        html += `<td></td>`;
+	      }
+	    });
+	    html += '</tr>';
+	  });
+
+	  html += '</tbody></table>';
+
+	  document.getElementById("apiDataPreview").innerHTML = html;
+	  document.getElementById("popup5").style.display = "block";
+}
+
+// 실행 버튼 클릭 시 API 데이터 fetch 후 openPopup5 호출
+function onRunButtonClick() {
+	const sourceId = document.getElementById("sourceId").value;
+	if (!sourceId) {
+	  Swal.fire({
+	    title: 'API 선택',
+	    text: 'API를 먼저 선택해주세요.',
+	    icon: 'warning',
+	    confirmButtonText: '확인'
+	  });
+	  return;
+	}
+	
+	fetch(`/projectStart/customFullUrl`, {
+	  method: "POST",
+	  headers: { "Content-Type": "application/json" },
+	  body: JSON.stringify({ sourceId: sourceId })
+	})
+	.then(res => {
+	  if (!res.ok) throw new Error('URL 저장 실패');
+	  return fetch(`/projectStart/getData?sourceId=${sourceId}`);
+	})
+	.then(res => {
+	  if (!res.ok) throw new Error('API 데이터 호출 실패');
+	  return res.json();
+	})
+	.then(jsonData => {
+	  openPopup5(jsonData);
+	})
+	.catch(err => {
+	  console.error(err);
+	  alert(err.message || "오류가 발생했습니다.");
+	});
+}	
+	
 	
 	/*	JSON 형식의 데이터 출력하는 법
 	const sourceId = document.getElementById("sourceId").value;
@@ -304,7 +382,6 @@ function openPopup5() {
 	  alert(err.message || "오류가 발생했습니다.");
 	});
 	*/
-}
 	
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
