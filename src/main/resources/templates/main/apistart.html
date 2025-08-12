@@ -12,14 +12,9 @@
 	<div class="config-wrapper" style="position: relative;">
 		<div class="section-wrapper start-section active">
 	  		<div class="filters" aria-label="검색 필터">
-			    <div>
-			      <h3>프로젝트</h3>
-			      <select id="projectSelect" disabled>
-			        <option value="">전체</option>
-			        <option value="1" selected>관광API</option>
-			        <option value="2">인구통계</option>
-	      		  </select>
-	    		</div>
+			      <h4>API 실행 결과 조회</h4>
+  				  <div id="resultTable">데이터 로딩 중...</div>
+
 			</div>
 		</div>
 	</div>
@@ -27,7 +22,175 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
+const jsonData = {
+		  "0": {
+		      "C1_OBJ_NM": "시도별",
+		      "C2_NM": "지역내총생산(시장가격)",
+		      "DT": "2224179729",
+		      "C2": "Z10",
+		      "C1": "00",
+		      "PRD_SE": "A",
+		      "UNIT_NM_ENG": "million won %p",
+		      "ITM_ID": "T1",
+		      "TBL_ID": "INH_1C91",
+		      "ITM_NM": "명목",
+		      "TBL_NM": "GRDP(시도)",
+		      "PRD_DE": "2021",
+		      "LST_CHN_DE": "2024-09-03",
+		      "C1_NM_ENG": "Whole country",
+		      "C1_NM": "전국",
+		      "UNIT_NM": "백만원 %p",
+		      "ITM_NM_ENG": "At current prices",
+		      "C2_OBJ_NM_ENG": "By economic activity",
+		      "C2_NM_ENG": "GRDP at market prices",
+		      "ORG_ID": "101",
+		      "C1_OBJ_NM_ENG": "By province",
+		      "C2_OBJ_NM": "경제활동별"
+		  },
+"1": {
+	    "C1_OBJ_NM": "시도별",
+	    "C2_NM": "지역내총생산(시장가격)",
+	    "DT": "2327595674",
+	    "C2": "Z10",
+	    "C1": "00",
+	    "PRD_SE": "A",
+	    "UNIT_NM_ENG": "million won %p",
+	    "ITM_ID": "T1",
+	    "TBL_ID": "INH_1C91",
+	    "ITM_NM": "명목",
+	    "TBL_NM": "GRDP(시도)",
+	    "PRD_DE": "2022",
+	    "LST_CHN_DE": "2024-09-03",
+	    "C1_NM_ENG": "Whole country",
+	    "C1_NM": "전국",
+	    "UNIT_NM": "백만원 %p",
+	    "ITM_NM_ENG": "At current prices",
+	    "C2_OBJ_NM_ENG": "By economic activity",
+	    "C2_NM_ENG": "GRDP at market prices",
+	    "ORG_ID": "101",
+	    "C1_OBJ_NM_ENG": "By province",
+	    "C2_OBJ_NM": "경제활동별"
+	  },
+	  "2": {
+	    "C1_OBJ_NM": "시도별",
+	    "C2_NM": "지역내총생산(시장가격)",
+	    "DT": "2404190710",
+	    "C2": "Z10",
+	    "C1": "00",
+	    "PRD_SE": "A",
+	    "UNIT_NM_ENG": "million won %p",
+	    "ITM_ID": "T1",
+	    "TBL_ID": "INH_1C91",
+	    "ITM_NM": "명목",
+	    "TBL_NM": "GRDP(시도)",
+	    "PRD_DE": "2023",
+	    "LST_CHN_DE": "2024-12-16",
+	    "C1_NM_ENG": "Whole country",
+	    "C1_NM": "전국",
+	    "UNIT_NM": "백만원 %p",
+	    "ITM_NM_ENG": "At current prices",
+	    "C2_OBJ_NM_ENG": "By economic activity",
+	    "C2_NM_ENG": "GRDP at market prices",
+	    "ORG_ID": "101",
+	    "C1_OBJ_NM_ENG": "By province",
+	    "C2_OBJ_NM": "경제활동별"
+	  },
+	  "3": {
+	    "C1_OBJ_NM": "시도별",
+	    "C2_NM": "지역내총생산(시장가격)",
+	    "DT": "2155993359",
+	    "C2": "Z10",
+	    "C1": "00",
+	    "PRD_SE": "A",
+	    "UNIT_NM_ENG": "million won %p",
+	    "ITM_ID": "T2",
+	    "TBL_ID": "INH_1C91",
+	    "ITM_NM": "실질",
+	    "TBL_NM": "GRDP(시도)",
+	    "PRD_DE": "2021",
+	    "LST_CHN_DE": "2024-09-03",
+	    "C1_NM_ENG": "Whole country",
+	    "C1_NM": "전국",
+	    "UNIT_NM": "백만원 %p",
+	    "ITM_NM_ENG": "At chained 2020 year prices",
+	    "C2_OBJ_NM_ENG": "By economic activity",
+	    "C2_NM_ENG": "GRDP at market prices",
+	    "ORG_ID": "101",
+	    "C1_OBJ_NM_ENG": "By province",
+	    "C2_OBJ_NM": "경제활동별"
+	  },
+	  "4": {
+	    "C1_OBJ_NM": "시도별",
+	    "C2_NM": "지역내총생산(시장가격)",
+	    "DT": "2214910682",
+	    "C2": "Z10",
+	    "C1": "00",
+	    "PRD_SE": "A",
+	    "UNIT_NM_ENG": "million won %p",
+	    "ITM_ID": "T2",
+	    "TBL_ID": "INH_1C91",
+	    "ITM_NM": "실질",
+	    "TBL_NM": "GRDP(시도)",
+	    "PRD_DE": "2022",
+	    "LST_CHN_DE": "2024-09-03",
+	    "C1_NM_ENG": "Whole country",
+	    "C1_NM": "전국",
+	    "UNIT_NM": "백만원 %p",
+	    "ITM_NM_ENG": "At chained 2020 year prices",
+	    "C2_OBJ_NM_ENG": "By economic activity",
+	    "C2_NM_ENG": "GRDP at market prices",
+	    "ORG_ID": "101",
+	    "C1_OBJ_NM_ENG": "By province",
+	    "C2_OBJ_NM": "경제활동별"
+	  }
+};
+function jsonToTable(json) {
+	  const table = document.createElement('table');
+	  table.style.borderCollapse = 'collapse';
+	  table.style.width = '100%';
 
+	  const thead = document.createElement('thead');
+	  const headerRow = document.createElement('tr');
+
+	  const rows = Object.values(json);
+	  if (rows.length === 0) return document.createTextNode('데이터가 없습니다.');
+
+	  // 보여주고 싶은 컬럼만 명시
+	  const columns = ["PRD_DE", "ITM_NM", "DT", "UNIT_NM", "C1_NM"];
+
+	  columns.forEach(col => {
+	    const th = document.createElement('th');
+	    th.textContent = col;
+	    th.style.border = "1px solid #ccc";
+	    th.style.padding = "6px";
+	    th.style.backgroundColor = "#eee";
+	    headerRow.appendChild(th);
+	  });
+	  thead.appendChild(headerRow);
+	  table.appendChild(thead);
+
+	  const tbody = document.createElement('tbody');
+
+	  rows.forEach(row => {
+	    const tr = document.createElement('tr');
+	    columns.forEach(col => {
+	      const td = document.createElement('td');
+	      td.textContent = row[col] ?? '';
+	      td.style.border = "1px solid #ccc";
+	      td.style.padding = "4px";
+	      tr.appendChild(td);
+	    });
+	    tbody.appendChild(tr);
+	  });
+	  table.appendChild(tbody);
+
+	  return table;
+	}
+window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('resultTable');
+    container.innerHTML = '';
+    container.appendChild(jsonToTable(jsonData));
+  });
 </script>
 </th:block>
 </body>

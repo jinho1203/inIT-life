@@ -91,8 +91,15 @@ public class ProjectStartController {
 	@ResponseBody
 	public String createCustomFullUrl(@RequestBody CustomVO customVO) {
 		
+		System.out.println("received sourceId: " + customVO.getSourceId());
+		System.out.println("received selectedData: " + customVO.getSelectedData());
+		System.out.println("받은 선택 데이터: " + customVO.getSelectedData());
+		  // TODO: customVO.getSelectedData()를 DB 저장이나 처리 로직에 반영
+	    customService.saveSelectedData(customVO);
+	    
 		String customFullUrl = customService.createCustomFullUrl(customVO);
 		System.out.println("custom 최종 Url : " + customFullUrl);
+		
 		
 		return customFullUrl;
 	}

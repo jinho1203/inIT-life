@@ -27,15 +27,7 @@
               <input id="projectName" type="text" class="text" style="width:179px; margin-left:5px;" disabled>
               <button type="button" class="btn-darkgray" onclick="openPopup2()" style="margin-left:5px;">...</button>
             </div>
-
-            <!-- 우측 설정/실행 버튼 -->
-            <div style="display: flex; gap: 8px;">
-              <button id="btn-config" type="button" class="btn-config" onclick="location.href='/projectConfig'">⚙ 설정</button>
-              <button id="btn-start" type="button" class="btn-config" onclick="location.href='/projectStart'">▶ 실행</button>
-            </div>
-
           </div>
-
         </div>
       </td>
     </tr>
@@ -125,7 +117,7 @@
 	              <td th:text="${input.inputExplain}"></td>
 	              <td th:text="${input.reqParam}"></td>
 	              <td style="text-align:center;">
-			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}" onchange="highlightRow(this)">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
 			      </td>
 	          </tr>
 	         <!--  출력 항목 표시 -->
@@ -139,7 +131,7 @@
 	              <td th:text="${output.outputExplain}"></td>
 	              <td th:text="${output.reqParam}"></td>
 	               <td style="text-align:center;">
-			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}" onchange="highlightRow(this)">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
 			      </td>
 	          </tr>
 	        </tbody>
@@ -249,61 +241,77 @@ function closePopup2() {
   });
 }
 function openPopup5() {
-	
-	/*	JSON 형식의 데이터 출력하는 법
-	const sourceId = document.getElementById("sourceId").value;
-	console.log("sourceId -> ", sourceId)
-	
-	if(!sourceId) {
-		Swal.fire({
-			title: 'API 선택',
-			text: 'API를 먼저 선택해주세요.',
-			icon: 'warning',
-			confirmButtonText: '확인'
-		});
-		return;
-	}
-	
-	// 1. URL 저장 요청 (POST)
-	fetch("/projectStart/customFullUrl", {
-	  method: "POST",
-	  headers: { "Content-Type": "application/json" },
-	  body: JSON.stringify({ sourceId: sourceId })
-	})
-	.then(response => {
-	  if (!response.ok) throw new Error('URL 저장 실패');
-	  // 저장 성공하면 바로 데이터 요청 (GET)
-	  return fetch(`/projectStart/getData?sourceId=${sourceId}`);
-	})
-	.then(response => {
-	  if (!response.ok) throw new Error('API 데이터 호출 실패');
-	  return response.json();
-	})
+    const sourceId = document.getElementById("sourceId").value;
+    console.log("sourceId -> ", sourceId);
+
+    if (!sourceId) {
+        Swal.fire({
+            title: 'API 선택',
+            text: 'API를 먼저 선택해주세요.',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+ // 선택된 데이터 수집부 (문제없음)
+    const selectedData = {};
+    document.querySelectorAll('#outputTableBody tr').forEach(tr => {
+        const checkbox = tr.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.checked) {
+            const key = tr.dataset.key; // data-key 에서 꺼냄
+            const value = tr.querySelector('td:nth-child(2)').textContent.trim(); // 숨겨진 두번째 td 값
+            if (key) {
+                selectedData[key] = value;
+            }
+        }
+    });
+    const payload = {
+    	    sourceId: sourceId,
+    	    selectedData: Object.keys(selectedData).length > 0 ? selectedData : null
+    	};
+    
+    console.log("서버로 보낼 선택된 데이터:", selectedData);
+
+    // 서버로 전송부 (수정)
+    fetch("/projectStart/customFullUrl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            sourceId: sourceId,
+            selectedData: selectedData
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('URL 저장 실패');
+        return fetch(`/projectStart/getData?sourceId=${sourceId}`);
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('API 데이터 호출 실패');
+        return response.json();
+    })
 	.then(apiData => {
-	  // 일부 데이터만 예쁘게 출력
-	  let previewData;
-	  if (apiData.items && Array.isArray(apiData.items)) {
-	    previewData = {
-	      totalCount: apiData.items.length,
-	      first5Items: apiData.items.slice(0,5)
-	    };
-	  } else {
-	    previewData = {};
-	    const keys = Object.keys(apiData).slice(0,5);
-	    keys.forEach(key => previewData[key] = apiData[key]);
-	  }
-	
-	  const jsonStr = JSON.stringify(previewData, null, 2);
-	  document.getElementById("apiDataPreview").textContent = jsonStr;
-	
-	  // 팝업 열기
-	  document.getElementById("popup5").style.display = "block";
-	})
-	.catch(err => {
-	  console.error(err);
-	  alert(err.message || "오류가 발생했습니다.");
-	});
-	*/
+	    // 그냥 전체 데이터 보여주기
+	    let previewData;
+
+	    if (Array.isArray(apiData)) {
+	        previewData = apiData;
+	    } else if (Array.isArray(apiData.items)) {
+	        previewData = apiData.items;
+	    } else {
+	        previewData = [apiData];
+	    }
+
+	    console.log("previewData 최종 값:", previewData);
+    // 나머지 코드 그대로 유지
+    const jsonStr = JSON.stringify(previewData, null, 2);
+    document.getElementById("apiDataPreview").textContent = jsonStr;
+    document.getElementById("popup5").style.display = "block";
+    })
+    .catch(err => {
+        console.error(err);
+        alert(err.message || "오류가 발생했습니다.");
+    });
 }
 	
 function closePopup5() {
@@ -404,14 +412,17 @@ function setSelectedSourceId(row) {
             // 1) 입력 리스트 
             data.inputList.forEach(input => {
                 const tr = document.createElement("tr");
+                
+                tr.setAttribute("data-key", input.inputKey);
                 tr.setAttribute("data-inputid", input.inputId);
+                
                 tr.innerHTML = `
                     <td>${input.inputKey}</td>
                     <td style="display:none">${input.inputValue}</td>
                     <td>${input.inputExplain}</td>
                     <td style="text-align:center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
-                    <input type="checkbox" name="" value="${input.inputID}" onchange="highlightRow(this)">
+                    <input type="checkbox" name="" value="${input.inputId}" ${input.reqParam === 'Y' ? 'checked' : ''}>
                     </td>
                     
                 `;
@@ -422,6 +433,7 @@ function setSelectedSourceId(row) {
             data.outputList.forEach(output => {
                 const tr = document.createElement("tr");
                 tr.setAttribute("data-outputid", output.outputId);
+                tr.setAttribute("data-key", output.outputKey); // ✅ 여기 추가
                 tr.onclick = function() { setSelectedOutputId(this); };
                 tr.innerHTML = `
                     <td>${output.outputKey}</td>
@@ -429,7 +441,7 @@ function setSelectedSourceId(row) {
                     <td>${output.outputExplain}</td>
                     <td style="text-align: center;">${output.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
-                    <input type="checkbox" name="" value="${output.outputId}" onchange="highlightRow(this)">
+                    <input type="checkbox" name="" value="${output.outputId}" ${output.reqParam === 'Y' ? 'checked' : ''}>
                     </td>
                 `;
                 outputTbody.appendChild(tr);
