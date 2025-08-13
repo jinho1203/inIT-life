@@ -30,4 +30,10 @@
 		WHERE sourceId = #{sourceId}
 	</select>
 	
+	<!-- 입력값 수정 -->
+	<update id="updateInputValue" parameterType="egovframework.example.vo.InputVO">
+	    UPDATE test.input
+	    SET inputValue = #{inputValue}
+	    WHERE inputId = #{inputId} AND isDeleted = false
+	</update>
 </mapper>

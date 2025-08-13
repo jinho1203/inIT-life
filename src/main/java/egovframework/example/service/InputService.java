@@ -13,4 +13,6 @@ public interface InputService {
 	int deleteInput(Long inputId);			// 입력항목 삭제
 	
 	List<InputVO> findBySourceId(Long sourceId);			// Input 테이블 sourceId를 통해 파라미터를 가져온다.
+	
+	int updateInputValue(InputVO inputVO);  // 입력값 수정
 }

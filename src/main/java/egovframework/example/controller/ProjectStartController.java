@@ -124,4 +124,20 @@ public class ProjectStartController {
 		// 공공 API에서 받은 데이터를 클라이언트에 그대로 전달
 	    return ResponseEntity.ok(response.getBody());
 	}
+	
+	@PostMapping("/updateInputValues")
+	@ResponseBody
+	public Map<String, Object> updateInputValues(@RequestBody List<InputVO> updatedInputs) {
+	    Map<String, Object> result = new HashMap<>();
+	    try {
+	        for(InputVO input : updatedInputs) {
+	            inputService.updateInputValue(input); // service에서 DB 업데이트
+	        }
+	        result.put("success", true);
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	    }
+	    return result;
+	}
 }

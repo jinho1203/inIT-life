@@ -34,4 +34,8 @@ public class InputServiceImpl implements InputService {
 	public List<InputVO> findBySourceId(Long sourceId) {
 		return inputMapper.findBySourceId(sourceId);
 	}
+    @Override
+    public int updateInputValue(InputVO inputVO) {
+        return inputMapper.updateInputValue(inputVO); // 
+    }
 }
