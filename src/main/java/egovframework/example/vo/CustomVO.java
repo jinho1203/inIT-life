@@ -1,6 +1,7 @@
 package egovframework.example.vo;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -13,7 +14,7 @@ public class CustomVO {
 	private String customFullUrl;
 	private LocalDate createdAt;
 	/* 추가 */ 
-	private Map<String, String> selectedData;
+	private Map<String, List<String>> selectedData;
 
 	private String baseUrl;
 }

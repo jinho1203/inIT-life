@@ -1,20 +1,14 @@
 package egovframework.example.service.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.example.mapper.CustomMapper;
-import egovframework.example.mapper.InputMapper;
-import egovframework.example.mapper.OutputMapper;
 import egovframework.example.service.CustomService;
 import egovframework.example.vo.CustomVO;
-import egovframework.example.vo.InputVO;
-import egovframework.example.vo.OutputVO;
-import egovframework.example.vo.SourceVO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -22,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 public class CustomServiceImpl implements CustomService {
 	
 	private final CustomMapper customMapper;
-	private final InputMapper inputMapper;
-	private final OutputMapper outputMapper;
 
 	@Override
 	public CustomVO getBaseUrl(Long sourceId) {
@@ -39,17 +31,23 @@ public class CustomServiceImpl implements CustomService {
 
 	    customVO.setBaseUrl(baseUrl);
 
-	    Map<String, String> selectedData = customVO.getSelectedData();
+	    Map<String, List<String>> selectedData = customVO.getSelectedData();
 
 	    StringBuilder fullUrlBuilder = new StringBuilder(baseUrl);
 	    if (selectedData != null && !selectedData.isEmpty()) {
 	        fullUrlBuilder.append("?");
 	        List<String> paramString = new ArrayList<>();
 
-	        for (Map.Entry<String, String> entry : selectedData.entrySet()) {
+	        for (Map.Entry<String, List<String>> entry : selectedData.entrySet()) {
 	            String key = entry.getKey();
-	            String value = entry.getValue();
-	            paramString.add(key + "=" + value);
+	            String combinedValue = String.join("+", entry.getValue());
+	            
+	            // API가 마지막 +를 요구하는 key라면 수동 추가
+	            if(key.equals("outputFields") || key.equals("itmId")) {
+	                combinedValue += "+";
+	            }
+	            
+	            paramString.add(key + "=" + combinedValue);
 	        }
 
 	        fullUrlBuilder.append(String.join("&", paramString));
@@ -70,7 +68,7 @@ public class CustomServiceImpl implements CustomService {
 	
 	@Override
 	public void saveSelectedData(CustomVO customVO) {
-	    Map<String, String> selectedData = customVO.getSelectedData();
+		Map<String, List<String>> selectedData = customVO.getSelectedData();
 	    Long sourceId = customVO.getSourceId();
 
 	    // 선택된 데이터가 없으면 저장 안 함 or 기본 처리
@@ -84,4 +82,5 @@ public class CustomServiceImpl implements CustomService {
 	    // 만약 저장 로직이 없으면 아래와 같이 로그 확인용 출력도 가능
 	    System.out.println("선택된 데이터 DB 저장: sourceId=" + sourceId + ", params=" + selectedData);
 	}
+	
 }
