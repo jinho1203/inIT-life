@@ -139,8 +139,8 @@
 	    </div>
 		</div>
 </div>	
-		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">JSON </button>
-		<button type="button" onclick="" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1264px;margin-top: 24px;">테스트</button>
+		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1171px;margin-top: 24px;">JSON </button>
+		<button type="button" onclick="goToApiStart()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1241px;margin-top: -63px;">테스트</button>
 		</div>
 </div>
 
@@ -218,6 +218,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	    });
 	  });
 	});
+function goToApiStart() {
+    const projectId = document.getElementById("projectId").value;
+    const projectName = document.getElementById("projectName").value;
+
+    if (!projectId || !projectName) {
+        Swal.fire({
+            title: '프로젝트 선택 필요',
+            text: '먼저 프로젝트를 선택해주세요.',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    // URL 파라미터 붙여서 이동
+    location.href = `/apistart?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
+}
+
 function testConnection(button) {
     // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
     const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
@@ -399,7 +417,11 @@ function setSelectedSourceId(row) {
                 tr.setAttribute("data-inputid", input.inputId);
                 tr.innerHTML = `
                     <td>${input.inputKey}</td>
-                    <td>${input.inputValue}</td>
+                    <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                        title="${input.inputValue}"
+                        data-hidden-value="${input.inputValue}">
+                        ${input.inputValue}
+                    </td>
                     <td>${input.inputExplain}</td>
                     <td style="text-align: center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
                 `;
