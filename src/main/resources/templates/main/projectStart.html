@@ -114,34 +114,34 @@
                       style="display:none;" 
                       title="[[${input.inputValue}]]">
                   </td>
-                 <td th:text="${input.inputExplain}"></td>
-                 <td th:text="${input.reqParam}"></td>
-                 <td style="text-align:center;">
-                   <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
-               </td>
-             </tr>
-            <!--  출력 항목 표시 -->
-             <tr th:each="output : ${outputList}" 
-                 th:attr="data-outputid=${output.outputId}" 
-                 onclick="setSelectedOutputId(this)">
-                 <td th:text="${output.outputKey}"></td>
-                 <td th:text="${output.outputValue}" 
-                     style="display:none;" 
-                     title="[[${output.outputValue}]]"></td>
-                 <td th:text="${output.outputExplain}"></td>
-                 <td th:text="${output.reqParam}"></td>
-                  <td style="text-align:center;">
-                   <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
-               </td>
-             </tr>
-           </tbody>
-       </table>
-       </div>
-      </div>
-</div>   
-      <button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1171px;margin-top: 24px;">JSON </button>
-      <button type="button" onclick="apiResult()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1241px;margin-top: -63px;">테스트</button>
-      </div>
+	              <td th:text="${input.inputExplain}"></td>
+	              <td th:text="${input.reqParam}"></td>
+	              <td style="text-align:center;">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
+			      </td>
+	          </tr>
+	         <!--  출력 항목 표시 -->
+	          <tr th:each="output : ${outputList}" 
+	              th:attr="data-outputid=${output.outputId}" 
+	              onclick="setSelectedOutputId(this)">
+	              <td th:text="${output.outputKey}"></td>
+	              <td th:text="${output.outputValue}" 
+	                  style="display:none;" 
+	                  title="[[${output.outputValue}]]"></td>
+	              <td th:text="${output.outputExplain}"></td>
+	              <td th:text="${output.reqParam}"></td>
+	               <td style="text-align:center;">
+			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
+			      </td>
+	          </tr>
+	        </tbody>
+	    </table>
+	    </div>
+		</div>
+</div>	
+		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1171px;margin-top: 24px;">JSON </button>
+		<button type="button" onclick="goToApiStart()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1241px;margin-top: -63px;">테스트</button>
+		</div>
 </div>
 
    <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
@@ -188,8 +188,8 @@
                 <div class="buttons">
                     <button id="" class="btn btn-success" style="margin-top: -27px; margin-left:431px">Excel 다운로드</button>
                 </div> -->
-        </div>
-     </div>
+		  </div>
+	  </div>
 </div>
 
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
@@ -209,15 +209,33 @@ document.addEventListener("DOMContentLoaded", function () {
          // 현재 선택한 행에 하이라이트
          this.classList.add("highlight");
 
-         // ✅ 여기 수정함
-         const cells = this.getElementsByTagName("td");
-         selectedProject = {
-           projectId: parseInt(cells[0].innerText.trim().replace(/^P/, ''), 10),
-           projectName: cells[1].innerText.trim()
-         };
-       });
-     });
-   });
+	      // ✅ 여기 수정함
+	      const cells = this.getElementsByTagName("td");
+	      selectedProject = {
+	        projectId: parseInt(cells[0].innerText.trim().replace(/^P/, ''), 10),
+	        projectName: cells[1].innerText.trim()
+	      };
+	    });
+	  });
+	});
+function goToApiStart() {
+    const projectId = document.getElementById("projectId").value;
+    const projectName = document.getElementById("projectName").value;
+
+    if (!projectId || !projectName) {
+        Swal.fire({
+            title: '프로젝트 선택 필요',
+            text: '먼저 프로젝트를 선택해주세요.',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    // URL 파라미터 붙여서 이동
+    location.href = `/apistart?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
+}
+
 function testConnection(button) {
     // 여기에 실제 연결 테스트 로직 또는 API 호출을 넣을 수도 있음
     const success = Math.random() > 0.5; // 임시로 성공/실패 무작위 처리
@@ -398,28 +416,28 @@ function confirmSelection() {
                   row.setAttribute("data-sourceid", source.sourceId);
                   row.setAttribute("onclick", "setSelectedSourceId(this)");
 
-                  row.innerHTML = `
-                    <td>S${source.sourceId}</td>
-                    <td>${source.sourceName}</td>
-                    <td>${source.baseUrl}</td>
-                    <td style="text-align: center;">JSON</td>
-                  `;
-                  tbody.appendChild(row);
-                });
-              })
-              .catch(error => console.error('API 목록 로딩 실패:', error));
+		            row.innerHTML = `
+		              <td>S${source.sourceId}</td>
+		              <td>${source.sourceName}</td>
+		              <td>${source.baseUrl}</td>
+		              <td style="text-align: center;">JSON</td>
+		            `;
+		            tbody.appendChild(row);
+		          });
+		        })
+		        .catch(error => console.error('API 목록 로딩 실패:', error));
 
-            closePopup2(); // 팝업 닫기
-          });
-        } else {
-          Swal.fire({
-            title: '선택된 항목 없음',
-            text: '먼저 프로젝트를 선택해주세요.',
-            icon: 'warning',
-            confirmButtonText: '확인'
-          });
-        }
-      }
+		      closePopup2(); // 팝업 닫기
+		    });
+		  } else {
+		    Swal.fire({
+		      title: '선택된 항목 없음',
+		      text: '먼저 프로젝트를 선택해주세요.',
+		      icon: 'warning',
+		      confirmButtonText: '확인'
+		    });
+		  }
+		}
 function setSelectedSourceId(row) {
     console.log("setSelectedSourceId 호출됨");
     
@@ -447,21 +465,21 @@ function setSelectedSourceId(row) {
          const inputTbody = document.getElementById("inputTableBody");
          inputTbody.innerHTML = ""; // 초기화    
 
-         data.inputList.forEach(input => {
-             const tr = document.createElement("tr");
-             tr.setAttribute("data-inputid", input.inputId);
-             tr.innerHTML = `
-                 <td>${input.inputKey}</td>
-                 <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                     title="${input.inputValue}"
-                     data-hidden-value="${input.inputValue}">
-                     ${input.inputValue}
-                 </td>
-                 <td>${input.inputExplain}</td>
-                 <td style="text-align: center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
-             `;
-             inputTbody.appendChild(tr);
-         });
+            data.inputList.forEach(input => {
+                const tr = document.createElement("tr");
+                tr.setAttribute("data-inputid", input.inputId);
+                tr.innerHTML = `
+                    <td>${input.inputKey}</td>
+                    <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                        title="${input.inputValue}"
+                        data-hidden-value="${input.inputValue}">
+                        ${input.inputValue}
+                    </td>
+                    <td>${input.inputExplain}</td>
+                    <td style="text-align: center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
+                `;
+                inputTbody.appendChild(tr);
+            });
 
             // 출력 항목 tbody
             const outputTbody = document.getElementById("outputTableBody");

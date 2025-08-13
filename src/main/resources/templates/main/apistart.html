@@ -25,6 +25,11 @@
 <th:block layout:fragment="pageScript">
 <script>
 
+window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('resultTable');
+    container.innerHTML = '';
+    container.appendChild(jsonToTable(jsonData));
+  });
 </script>
 </th:block>
 </body>
