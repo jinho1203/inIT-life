@@ -218,10 +218,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	    });
 	  });
 	});
+	
 function goToApiStart() {
     const projectId = document.getElementById("projectId").value;
     const projectName = document.getElementById("projectName").value;
-
+	const sourceId = document.getElementById("sourceId").value;
+    
     if (!projectId || !projectName) {
         Swal.fire({
             title: '프로젝트 선택 필요',
@@ -231,9 +233,48 @@ function goToApiStart() {
         });
         return;
     }
+    
+    // 선택된 데이터 가져오기 (openPopup5와 동일 로직)
+    const selectedData = {};
+    document.querySelectorAll('#outputTableBody tr').forEach(tr => {
+        const checkbox = tr.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.checked) {
+            const key = tr.dataset.key;
+            const value = tr.querySelector('td:nth-child(2)').textContent.trim();
+            if (key) selectedData[key] = value;
+        }
+    });    
+    
+    // 서버에서 실제 데이터 가져오기
+    fetch(`/projectStart/getData?sourceId=${sourceId}`)
+        .then(response => {
+            if (!response.ok) throw new Error('API 데이터 호출 실패');
+            return response.json();
+        })
+        .then(apiData => {
+            // 표 변환을 위해 배열 형태로 변환
+            let previewData;
+            if (Array.isArray(apiData)) {
+                previewData = apiData;
+            } else if (Array.isArray(apiData.items)) {
+                previewData = apiData.items;
+            } else {
+                previewData = [apiData];
+            }
 
+            // 브라우저에 임시 저장
+            sessionStorage.setItem("apiPreviewData", JSON.stringify(previewData));
+
+            // /apistart로 이동
+            window.location.href = "/apistart";
+        })
+        .catch(err => {
+            console.error(err);
+            alert(err.message || "오류가 발생했습니다.");
+        });
+    
     // URL 파라미터 붙여서 이동
-    location.href = `/apistart?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
+	//location.href = `/apistart?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
 }
 
 function testConnection(button) {

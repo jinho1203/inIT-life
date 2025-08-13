@@ -24,12 +24,41 @@
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
 <th:block layout:fragment="pageScript">
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const rawData = sessionStorage.getItem("apiPreviewData");
+    if (!rawData) {
+        document.getElementById("tableContainer").innerText = "데이터가 없습니다.";
+        return;
+    }
 
-window.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('resultTable');
-    container.innerHTML = '';
-    container.appendChild(jsonToTable(jsonData));
-  });
+    const data = JSON.parse(rawData);
+    if (!Array.isArray(data) || data.length === 0) {
+        document.getElementById("tableContainer").innerText = "표시할 데이터가 없습니다.";
+        return;
+    }
+
+    // Pivot 형태: 첫 번째 row의 key를 헤더로 사용
+    const headers = Object.keys(data[0]);
+    let html = "<table border='1' style='border-collapse:collapse; width:100%'><thead><tr>";
+    headers.forEach(h => html += `<th>${h}</th>`);
+    html += "</tr></thead><tbody>";
+    data.forEach(row => {
+        html += "<tr>";
+        headers.forEach(h => html += `<td>${row[h] !== undefined ? row[h] : ''}</td>`);
+        html += "</tr>";
+    });
+    html += "</tbody></table>";
+
+    document.getElementById("tableContainer").innerHTML = html;
+
+    // 엑셀 다운로드 기능
+    document.getElementById("downloadExcel").addEventListener("click", () => {
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "API Data");
+        XLSX.writeFile(wb, "api_data.xlsx");
+    });
+});
 </script>
 </th:block>
 </body>
