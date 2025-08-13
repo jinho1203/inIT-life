@@ -16,4 +16,6 @@ public interface InputMapper {
 	int deleteInput(Long inputId);
 	
 	List<InputVO> findBySourceId(Long sourceId);			// Input 테이블 sourceId를 통해 파라미터를 가져온다.
+	
+	int updateInputValue(InputVO inputVO); 
 }
