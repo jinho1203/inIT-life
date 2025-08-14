@@ -4,6 +4,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}"
       th:with="activePage='run'">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
 
 <body>
 <div layout:fragment="content">
@@ -185,6 +188,7 @@
 	    <!-- 표 표시 영역 -->
 	    <div id="apiDataPreview" style="max-height: 300px; overflow:auto;"></div>
 	  </div>
+	  <button class="btn btn-success" onclick="downloadExcel()" style="margin-bottom:20px; margin-left:20px;">Excel Download</button>
 	</div>
 </div>
 
@@ -391,6 +395,20 @@ function openPopup5() {
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
    }
+
+function downloadExcel(){
+	const table = document.querySelector("#apiDataPreview table");
+	
+    // HTML Table → SheetJS 워크시트로 변환
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.table_to_sheet(table);
+
+    // 워크북에 시트 추가
+    XLSX.utils.book_append_sheet(wb, ws, "API 데이터");
+
+    // 엑셀 파일 저장
+    XLSX.writeFile(wb, "api_data.xlsx");	
+}
 
 function apiResult(){
    const sourceId = document.getElementById("sourceId").value;
