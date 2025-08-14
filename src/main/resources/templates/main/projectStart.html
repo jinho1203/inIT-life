@@ -105,8 +105,8 @@
                <tr>
                   <th style="text-align:center;">항목키</th>
                    <th style="text-align:center;">설명</th>
-                   <th style="text-align:center;">출력여부</th>
-                   <th style="width: 40px;"></th>
+                   <th style="text-align:center; width:80px">출력여부</th>
+                   <!-- <th style="width: 40px;"></th> -->
                </tr>
            </thead>
           <tbody id="outputTableBody">
@@ -120,7 +120,6 @@
                       title="[[${input.inputValue}]]">
                   </td>
 	              <td th:text="${input.inputExplain}"></td>
-	              <td th:text="${input.reqParam}"></td>
 	              <td style="text-align:center;">
 			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
 			      </td>
@@ -134,7 +133,6 @@
 	                  style="display:none;" 
 	                  title="[[${output.outputValue}]]"></td>
 	              <td th:text="${output.outputExplain}"></td>
-	              <td th:text="${output.reqParam}"></td>
 	               <td style="text-align:center;">
 			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
 			      </td>
@@ -144,8 +142,8 @@
 	    </div>
 		</div>
 </div>	
-		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1168px;margin-top: -3px;">실행 </button>
-		<button type="button" onclick="goToApiStart()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1231px;margin-top: -65px;">테스트</button>
+		<button type="button" onclick="goToApiStart()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1186px;margin-top: -3px;">URL</button>
+		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1245px;margin-top: -65px;">실행</button>
 		</div>
 </div>
 
@@ -568,7 +566,6 @@ function setSelectedSourceId(row) {
                     <td>${input.inputKey}</td>
                     <td style="display:none">${input.inputValue}</td>
                     <td>${input.inputExplain}</td>
-                    <td style="text-align:center;">${input.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
                     <input type="checkbox" name="" value="${input.inputId}" ${input.reqParam === 'Y' ? 'checked' : ''}>
                     </td>
@@ -587,7 +584,6 @@ function setSelectedSourceId(row) {
                     <td>${output.outputKey}</td>
                     <td style="display:none">${output.outputValue}</td>
                     <td>${output.outputExplain}</td>
-                    <td style="text-align: center;">${output.reqParam === 'Y' ? '필수' : '선택'}</td>
                     <td style="text-align:center;">
                     <input type="checkbox" name="" value="${output.outputId}" ${output.reqParam === 'Y' ? 'checked' : ''}>
                     </td>
