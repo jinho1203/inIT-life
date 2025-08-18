@@ -110,41 +110,27 @@
                </tr>
            </thead>
           <tbody id="outputTableBody">
-           <!--  입력 항목도 같이 보이게 함 -->
-             <tr th:each="input : ${inputList}" 
-                 th:attr="data-inputid=${input.inputId}" 
-                 onclick="setSelectedInputId(this)">
-                 <td th:text="${input.inputKey}"></td>
-                 <td th:text="${input.inputValue}" 
-                      style="display:none;" 
-                      title="[[${input.inputValue}]]">
-                  </td>
-	              <td th:text="${input.inputExplain}"></td>
-	              <td style="text-align:center;">
-			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
-			      </td>
-	          </tr>
-	         <!--  출력 항목 표시 -->
-	          <tr th:each="output : ${outputList}" 
-	              th:attr="data-outputid=${output.outputId}" 
-	              onclick="setSelectedOutputId(this)">
-	              <td th:text="${output.outputKey}"></td>
-	              <td th:text="${output.outputValue}" 
-	                  style="display:none;" 
-	                  title="[[${output.outputValue}]]"></td>
-	              <td th:text="${output.outputExplain}"></td>
-	               <td style="text-align:center;">
-			          <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
-			      </td>
-	          </tr>
-	        </tbody>
-	    </table>
-	    </div>
-		</div>
-</div>	
-		<button type="button" onclick="goToApiStart()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1186px;margin-top: -3px;">URL</button>
-		<button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1245px;margin-top: -65px;">실행</button>
-		</div>
+            <!--  출력 항목 표시 -->
+             <tr th:each="output : ${outputList}" 
+                 th:attr="data-outputid=${output.outputId}" 
+                 onclick="setSelectedOutputId(this)">
+                 <td th:text="${output.outputKey}"></td>
+                 <td th:text="${output.outputValue}" 
+                     style="display:none;" 
+                     title="[[${output.outputValue}]]"></td>
+                 <td th:text="${output.outputExplain}"></td>
+                  <td style="text-align:center;">
+                   <input type="checkbox" name="projectCheckbox" th:value="${output.outputId}">
+               </td>
+             </tr>
+           </tbody>
+       </table>
+       </div>
+      </div>
+</div>   
+      <button type="button" onclick="copyUrl()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1186px;margin-top: -3px;">URL</button>
+      <button type="button" onclick="openPopup5()" class="btn btn-outline-primary" style="font-size: 15px;margin-left: 1245px;margin-top: -65px;">실행</button>
+      </div>
 </div>
 
    <!-- popup2 (...실행시 프로젝트 리스트 나오는 설정칸 ) -->
@@ -177,17 +163,30 @@
    </div>
 
    <!-- popup5 (실행칸 데이터가 나오도록 해야함) -->
-	<div id="popup5">
-	  <div class="popup2-header">
-	    데이터 확인
-	    <span class="popup2-close" onclick="closePopup5()">×</span>
-	  </div>
-	  <div class="popup2-body">
-	    <!-- 표 표시 영역 -->
-	    <div id="apiDataPreview" style="max-height: 300px; overflow:auto;"></div>
-	  </div>
-	  <button class="btn btn-success" onclick="downloadExcel()" style="margin-bottom:20px; margin-left:20px;">Excel Download</button>
-	</div>
+   <div id="popup5">
+     <div class="popup2-header">
+       데이터 확인
+       <span class="popup2-close" onclick="closePopup5()">×</span>
+     </div>
+     <div class="popup2-body">
+       <!-- 표 표시 영역 -->
+       <div id="apiDataPreview" style="max-height: 300px; overflow:auto;"></div>
+     </div>
+     <button class="btn btn-success" onclick="downloadExcel()" style="margin-bottom:20px; margin-left:20px;">Excel Download</button>
+   </div>
+   
+   <!-- urlPopup (팝업창에 url 주소 보여줌) -->
+   <div id="urlPopup" style="display: none;">
+     <div class="popup2-header">
+       URL 확인
+       <span class="popup2-close" onclick="closeUrlPopup()">×</span>
+     </div>
+  		<div class="popup2-body">
+        <!-- 텍스트 영역 -->
+	  	<div class="mb-3">
+	    	<textarea id="totalUrl" rows="4" style="width: 100%; resize: vertical;"></textarea>
+	    </div>
+   </div>
 </div>
 
 <!-- pageScript 프래그먼트로 스크립트 채우기 -->
@@ -300,7 +299,6 @@ function closePopup2() {
   });
 }
 function openPopup5() {
-	
     const sourceId = document.getElementById("sourceId").value;
     console.log("sourceId -> ", sourceId);
 
@@ -314,27 +312,20 @@ function openPopup5() {
         return;
     }
 
- // 선택된 데이터 수집부 (문제없음)
-	const selectedData = {};
-	document.querySelectorAll('#outputTableBody tr').forEach(tr => {
-	    const checkbox = tr.querySelector('input[type="checkbox"]');
-	    if (checkbox && checkbox.checked) {
-	        const key = tr.dataset.key;
-	        const value = tr.querySelector('td:nth-child(2)').textContent.trim();
-	        if (key) {
-	            if (!selectedData[key]) selectedData[key] = [];
-	            selectedData[key].push(value);
-	        }
-	    }
-	});
-    const payload = {
-           sourceId: sourceId,
-           selectedData: Object.keys(selectedData).length > 0 ? selectedData : null
-       };
-    
+    // ✅ 입력 테이블만 참조하여 selectedData 구성
+    const selectedData = {};
+    document.querySelectorAll('#inputTableBody tr').forEach(tr => {
+        const key = tr.querySelector('td:first-child').textContent.trim(); // inputKey
+        const value = tr.querySelector('td:nth-child(2)').textContent.trim();
+        if (key) {
+            if (!selectedData[key]) selectedData[key] = [];
+            selectedData[key].push(value);
+        }
+    });
+
     console.log("서버로 보낼 선택된 데이터:", selectedData);
 
-    // 서버로 전송부 (수정)
+    // 서버 전송
     fetch("/projectStart/customFullUrl", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -351,52 +342,73 @@ function openPopup5() {
         if (!response.ok) throw new Error('API 데이터 호출 실패');
         return response.json();
     })
-	.then(apiData => {
-	    let previewData;
-	
-	    if (Array.isArray(apiData)) {
-	        previewData = apiData;
-	    } else if (Array.isArray(apiData.items)) {
-	        previewData = apiData.items;
-	    } else {
-	        previewData = [apiData];
-	    }
-	
-	    console.log("previewData 최종 값:", previewData);
-	    // 표 생성
-	    if (previewData.length > 0) {
-	        const headers = Object.keys(previewData[0]); // 첫 번째 객체의 key들을 헤더로 사용
-	        let tableHtml = "<table border='1' style='border-collapse:collapse; width:100%'><thead><tr>";
-	        headers.forEach(h => {
-	            tableHtml += `<th style="padding:4px; background:#f0f0f0;">${h}</th>`;
-	        });
-	        tableHtml += "</tr></thead><tbody>";
-	
-	        previewData.forEach(row => {
-	            tableHtml += "<tr>";
-	            headers.forEach(h => {
-	                tableHtml += `<td style="padding:4px;">${row[h] !== undefined ? row[h] : ''}</td>`;
-	            });
-	            tableHtml += "</tr>";
-	        });
-	
-	        tableHtml += "</tbody></table>";
-	        document.getElementById("apiDataPreview").innerHTML = tableHtml;
-	    } else {
-	        document.getElementById("apiDataPreview").innerHTML = "데이터가 없습니다.";
-	    }
-	
-	    document.getElementById("popup5").style.display = "block";
-	})
+    .then(apiData => {
+        let previewData;
+
+        if (Array.isArray(apiData)) {
+            previewData = apiData;
+        } else if (Array.isArray(apiData.items)) {
+            previewData = apiData.items;
+        } else {
+            previewData = [apiData];
+        }
+
+        console.log("previewData 최종 값:", previewData);
+
+        // 체크된 출력 항목만 가져오기
+        const checkedKeys = Array.from(document.querySelectorAll('#outputTableBody input[type="checkbox"]:checked'))
+            .map(chk => chk.closest("tr").getAttribute("data-key"));
+
+        console.log("선택된 출력 Key:", checkedKeys);
+
+        // 체크가 없으면 전체 key, 있으면 선택 key만
+        let headers;
+        if (checkedKeys.length === 0) {
+            headers = Object.keys(previewData[0]); // 전체 key
+        } else {
+            headers = checkedKeys; // 선택된 key만
+        }
+        
+        // 표 생성
+        if (previewData.length > 0) {
+            let tableHtml = "<table border='1' style='border-collapse:collapse; width:100%'><thead><tr>";
+            
+            headers.forEach(h => {
+                tableHtml += `<th style="padding:4px; background:#f0f0f0;">${h}</th>`;
+            });
+            tableHtml += "</tr></thead><tbody>";
+
+            previewData.forEach(row => {
+                tableHtml += "<tr>";
+                headers.forEach(h => {
+                    tableHtml += `<td style="padding:4px;">${row[h] !== undefined ? row[h] : ''}</td>`;
+                });
+                tableHtml += "</tr>";
+            });
+
+            tableHtml += "</tbody></table>";
+            document.getElementById("apiDataPreview").innerHTML = tableHtml;
+        } else {
+            document.getElementById("apiDataPreview").innerHTML = "데이터가 없습니다.";
+        }
+
+        document.getElementById("popup5").style.display = "block";
+    })
+    .catch(err => {
+        console.error(err);
+        alert(err.message || "오류가 발생했습니다.");
+    });
 }
+
    
 function closePopup5() {
     document.getElementById("popup5").style.display = "none";
    }
 
+
 function downloadExcel(){
-	const table = document.querySelector("#apiDataPreview table");
-	
+   const table = document.querySelector("#apiDataPreview table");
+   
     // HTML Table → SheetJS 워크시트로 변환
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.table_to_sheet(table);
@@ -405,7 +417,7 @@ function downloadExcel(){
     XLSX.utils.book_append_sheet(wb, ws, "API 데이터");
 
     // 엑셀 파일 저장
-    XLSX.writeFile(wb, "api_data.xlsx");	
+    XLSX.writeFile(wb, "api_data.xlsx");   
 }
 
 function apiResult(){
@@ -554,25 +566,6 @@ function setSelectedSourceId(row) {
             // 출력 항목 tbody
             const outputTbody = document.getElementById("outputTableBody");
             outputTbody.innerHTML = ""; // 초기화
-            
-            // 1) 입력 리스트 
-            data.inputList.forEach(input => {
-                const tr = document.createElement("tr");
-                
-                tr.setAttribute("data-key", input.inputKey);
-                tr.setAttribute("data-inputid", input.inputId);
-                
-                tr.innerHTML = `
-                    <td>${input.inputKey}</td>
-                    <td style="display:none">${input.inputValue}</td>
-                    <td>${input.inputExplain}</td>
-                    <td style="text-align:center;">
-                    <input type="checkbox" name="" value="${input.inputId}" ${input.reqParam === 'Y' ? 'checked' : ''}>
-                    </td>
-                    
-                `;
-                outputTbody.appendChild(tr);
-            });
 
             // 2) 출력 리스트 
             data.outputList.forEach(output => {
@@ -596,6 +589,66 @@ function setSelectedSourceId(row) {
             alert("입력/출력 항목 로딩에 실패했습니다.");
         });
 }
+
+function copyUrl () {
+	const sourceId = document.getElementById("sourceId").value;
+	console.log("sourceId -> ", sourceId)
+	
+	if(!sourceId) {
+		Swal.fire({
+			title: 'API 선택',
+			text: 'API를 먼저 선택해주세요.',
+			icon: 'warning',
+			confirmButtonText: '확인'
+		});
+		return;
+	}
+
+    const selectedData = {};
+    document.querySelectorAll('#inputTableBody tr').forEach(tr => {
+        const key = tr.querySelector('td:first-child').textContent.trim(); // inputKey
+        const value = tr.querySelector('td:nth-child(2)').textContent.trim();
+        if (key) {
+            if (!selectedData[key]) selectedData[key] = [];
+            selectedData[key].push(value);
+        }
+    });
+    
+    console.log("선택된 데이터:", selectedData);
+	
+    // 서버에 URL 생성 요청
+    fetch("/projectStart/customFullUrl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+        	sourceId: sourceId, 
+        	selectedData: selectedData
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("URL 생성 실패");
+        return response.text(); // 서버에서 생성된 URL 반환
+    })
+    .then(url => {
+        console.log("생성된 URL:", url);
+        document.getElementById("totalUrl").value = url; // textarea에 URL 표시
+        document.getElementById("urlPopup").style.display = "block"; // popup 열기
+    })
+    .catch(error => {
+        console.error("URL 생성 중 오류:", error);
+        Swal.fire({
+            title: '오류',
+            text: 'URL 생성 중 오류가 발생했습니다.',
+            icon: 'error',
+            confirmButtonText: '확인'
+        });
+    });
+}
+
+function closeUrlPopup(){
+	document.getElementById("urlPopup").style.display = "none";	
+}
+
 
 function fetchProjectDetails(projectId) {
     fetch(`/projectStart/projectDetails?projectId=${projectId}`)
@@ -763,3 +816,4 @@ function toggleEdit(button) {
 </script>
 </body>
 </html>
+

@@ -444,6 +444,21 @@ td.label .asterisk {
   margin: auto;
   border-collapse: collapse;
 }
+
+/* URL 팝업 */
+#urlPopup {
+  display: none; 
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 700px; /* ✅ 기존 너비 유지 */
+  background: white;
+  border: 2px solid #ffbb33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow: hidden; 
+}
+
 /* 체크박스 그리드 스타일 */
 .checkbox-grid {
   display: grid;

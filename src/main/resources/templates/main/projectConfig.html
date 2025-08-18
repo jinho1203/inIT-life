@@ -127,17 +127,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="input : ${inputList}" 
-                    th:attr="data-inputid=${input.inputId}" 
-                    onclick="setSelectedInputId(this)">
-                  <td th:text="${input.inputKey}"></td>
-                  <td th:text="${input.inputValue}" 
-                      style="display:none;" 
-                      title="[[${input.inputValue}]]">
-                  </td>
-                  <td th:text="${input.inputExplain}"></td>
-                  <td style="text-align: center;" th:text="${input.reqParam == 'Y' ? '필수' : '선택'}"></td>
-                </tr>
                 <tr th:each="output : ${outputList}" 
                     th:attr="data-outputid=${output.outputId}" 
                     onclick="setSelectedOutputId(this)">
@@ -192,7 +181,7 @@
    <!-- 팝업3 /API 등록-->
    <div id="popup3">
        <div class="popup-header">
-           소스 속성정보
+            API 등록
            <span class="popup-close" onclick="closePopup()"></span>
        </div>
        <div class="popup-body">
